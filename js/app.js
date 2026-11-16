@@ -18,8 +18,8 @@
     el.innerHTML = '';
     el.appendChild(h('a', { href: '#/', class: 'marke' }, ekgSvg(), h('span', { class: 'marke__text mono' }, 'NACHTSCHICHT')));
     el.appendChild(h('a', { href: '#/einstellungen', class: 'schild', 'aria-label': 'Namensschild und Einstellungen' },
-      h('span', { class: 'schild__name' }, d.name || 'Praktikant'),
-      h('span', { class: 'schild__rang' }, rang.titel)));
+      h('span', { class: 'schild__name' }, d.name || rang.titel),
+      h('span', { class: 'schild__rang' }, d.name ? rang.titel : 'Namensschild')));
   }
 
   function nav(aktiv) {

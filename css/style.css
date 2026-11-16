@@ -372,3 +372,33 @@ table.tab--kreuzung .allel { font-family: var(--mono); font-size: 1.1rem; text-a
 .pruef-loesungen { padding-bottom: 8px; }
 .auswertung { text-align: center; }
 .nowrap { white-space: nowrap; }
+
+/* ---------- Labor (interaktive Stücke) ---------- */
+.demo-box { margin: 16px 0; padding: 14px; border: 1px solid rgba(59, 227, 139, .35); border-radius: var(--r); background: linear-gradient(180deg, rgba(59, 227, 139, .06), transparent 60%); }
+.demo-box__titel { margin: 0 0 4px; font-size: .74rem; letter-spacing: .12em; color: var(--vital); }
+.demo-kopfzeile { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin: 8px 0; }
+.demo-knoepfe { display: grid; grid-template-columns: repeat(auto-fit, minmax(70px, 1fr)); gap: 8px; margin: 8px 0; }
+.demo-meldung { margin: 8px 0; min-height: 1.5em; }
+.demo-frage { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line); }
+.falsch-text { color: #ff8a80; }
+.naepfe { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 10px 0; }
+.napf-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.napf { width: 100%; max-width: 96px; height: auto; }
+.napf__rand { fill: #e8edf5; stroke: #93a3bf; stroke-width: 3; }
+.napf__name { font-size: .8rem; color: var(--muted); }
+.hotspot { fill: rgba(59, 227, 139, .06); stroke: var(--vital); stroke-width: 1.5; stroke-dasharray: 4 4; cursor: pointer; }
+.hotspot:hover, .hotspot:focus { fill: rgba(59, 227, 139, .18); outline: none; }
+.blutzelle { pointer-events: none; }
+.blutzelle--arm { fill: var(--blau); stroke: #fff; stroke-width: 2; }
+.blutzelle--reich { fill: var(--rot); stroke: #fff; stroke-width: 2; }
+.glocke { fill: rgba(147, 163, 191, .08); stroke: #93a3bf; stroke-width: 2.5; }
+.regler { width: 100%; accent-color: var(--vital); height: 32px; }
+.regler-zeile { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; margin: 6px 0; }
+.diff-luft { fill: rgba(147, 163, 191, .10); }
+.diff-blut { fill: rgba(239, 83, 80, .14); }
+.diff-wand { stroke: #c9d3e6; stroke-width: 3; stroke-linecap: round; }
+.diff-o2 { fill: #7fd8ff; }
+.diff-co2 { fill: var(--amber); }
+.muskel { fill: rgba(239, 120, 140, .35); stroke: #e98ca0; stroke-width: 2; transition: rx .25s, cx .25s; }
+.kurve-punkt { fill: var(--text); stroke: var(--bg); stroke-width: 2; }
+
