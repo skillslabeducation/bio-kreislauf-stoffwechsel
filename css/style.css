@@ -356,3 +356,19 @@ table.tab--kreuzung .allel { font-family: var(--mono); font-size: 1.1rem; text-a
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* ---------- Prüfung ---------- */
+.pruef-leiste { position: sticky; top: calc(env(safe-area-inset-top) + 65px); z-index: 12; display: flex; align-items: center; gap: 10px; padding: 8px 12px; margin: 0 0 12px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); box-shadow: 0 6px 18px rgba(0, 0, 0, .35); }
+.pruef-uhr { font-size: 1.3rem; color: var(--text); flex: 1; }
+.pruef-uhr--knapp { color: var(--amber); }
+.btn--klein { min-height: 44px; padding: 6px 14px; }
+.pruef-aufgabe { margin: 18px 0 26px; }
+.pruef-aufgabe h2 { font-size: 1.05rem; }
+.pruef-teil { margin: 14px 0 6px; }
+.pruef-teilbox { margin-bottom: 10px; }
+.erkl__text--klein { min-height: 110px; }
+.pruef-wahl strong { font-weight: 600; }
+.pruef-bewertung { margin: 14px 0; }
+.pruef-loesungen { padding-bottom: 8px; }
+.auswertung { text-align: center; }
+.nowrap { white-space: nowrap; }

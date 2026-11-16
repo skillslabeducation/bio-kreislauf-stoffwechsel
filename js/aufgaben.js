@@ -192,7 +192,7 @@
 
   var R = {};
 
-  R.wahl = function (item, mehr) {
+  R.wahl = function (item, ctx, mehr) {
     var reihenfolge = item.fest ? item.optionen.map(function (o, i) { return i; }) : W.shuffle(item.optionen.map(function (o, i) { return i; }));
     var gew = mehr ? [] : null;
     var knoepfe = [];
@@ -234,7 +234,7 @@
       }
     };
   };
-  R.mehrfach = function (item) { return R.wahl(item, true); };
+  R.mehrfach = function (item, ctx) { return R.wahl(item, ctx, true); };
 
   R.luecke = function (item) {
     var werte = [], sels = [];
