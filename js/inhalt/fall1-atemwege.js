@@ -19,7 +19,8 @@
         titel: 'Der Weg der Luft',
         abb: 'atemwege', abbOpts: { beschriftet: true },
         text: '<p>Die Luft gelangt durch die <strong>Nase</strong> in die <strong>Nasenhöhle</strong> oder durch den Mund in die <strong>Mundhöhle</strong>. Beide Wege treffen sich im <strong>Rachen</strong>. Danach strömt die Luft durch den <strong>Kehlkopf</strong> in die <strong>Luftröhre</strong>.</p><p>Die Luftröhre teilt sich in zwei <strong>Bronchien</strong>, je eine für jeden <strong>Lungenflügel</strong>. In der Lunge verzweigen sich die Bronchien immer feiner in <strong>Bronchiolen</strong>. Am Ende jeder Verzweigung sitzen winzige <strong>Lungenbläschen</strong>.</p>',
-        merk: 'Weg der Luft: Nase → Nasenhöhle → Rachen → Kehlkopf → Luftröhre → Bronchien → Bronchiolen → Lungenbläschen.'
+        merk: 'Weg der Luft: Nase → Nasenhöhle → Rachen → Kehlkopf → Luftröhre → Bronchien → Bronchiolen → Lungenbläschen.',
+        achtung: '<strong>Achtung, Falle</strong>Zeigt eine Linie auf einen feinen Ast in der Lunge, sind die Bronchiolen gemeint. Zeigt sie auf die ganze Lungenhälfte, ist es der Lungenflügel.'
       },
       {
         titel: 'Luftröhre und Bronchien',
@@ -30,9 +31,9 @@
         titel: 'Einatmen mit dem Zwerchfell',
         abb: 'atemwege', abbOpts: { beschriftet: true, nur: ['zwerchfell', 'lungenfluegel'], hervorheben: ['zwerchfell'] },
         demo: 'atemmodell',
-        text: '<p>Das <strong>Zwerchfell</strong> ist ein flacher Muskel unter der Lunge. Es trennt den Brustraum vom Bauchraum. In Ruhe ist es nach oben gewölbt, wie eine Kuppel.</p><p><strong>Einatmen:</strong> Das Zwerchfell zieht sich zusammen und flacht ab. Dadurch wird der Brustraum größer. Die Lunge liegt eng am Brustraum an und dehnt sich mit. In der Lunge sinkt der Druck, und Luft strömt von außen ein.</p><p><strong>Ausatmen:</strong> Das Zwerchfell erschlafft und wölbt sich wieder nach oben. Der Brustraum wird kleiner, die Luft strömt aus.</p>',
+        text: '<p>Das <strong>Zwerchfell</strong> ist ein dünner, kuppelförmiger Muskel unter der Lunge. Es trennt den Brustraum vom Bauchraum. In Ruhe ist es nach oben gewölbt, wie eine Kuppel.</p><p><strong>Einatmen:</strong> Das Zwerchfell zieht sich zusammen und flacht ab. Dadurch wird der Brustraum größer. Die Lunge liegt eng am Brustraum an und dehnt sich mit. In der Lunge sinkt der Druck, und Luft strömt von außen ein.</p><p><strong>Ausatmen:</strong> Das Zwerchfell erschlafft und wölbt sich wieder nach oben. Der Brustraum wird kleiner, die Luft strömt aus.</p>',
         merk: 'Beim Einatmen zieht sich das Zwerchfell zusammen und flacht ab. Der Brustraum wird größer, die Lunge dehnt sich mit, Luft strömt ein.',
-        achtung: '<strong>Achtung, Falle</strong>Die Lunge bläst sich nicht selbst auf, sie hat keine Muskeln. Erst wird der Brustraum größer, dann strömt die Luft ein, nicht umgekehrt.'
+        achtung: '<strong>Achtung, Falle</strong>Die Lunge bläst sich nicht selbst auf, sie hat keine Muskeln, mit denen sie sich ausdehnen könnte. Erst wird der Brustraum größer, dann strömt die Luft ein, nicht umgekehrt.'
       },
       {
         titel: 'Die Nase: Filter und Klimaanlage',
@@ -58,16 +59,16 @@
     ],
     ueben: [
       { id: 'atemwege-u1', typ: 'beschriften', frage: 'Benenne die nummerierten Bestandteile der Atemwege.', abb: 'atemwege', strukturen: ['nasenhoehle', 'mundhoehle', 'luftroehre', 'bronchien', 'lungenfluegel', 'zwerchfell'] },
-      { id: 'atemwege-u2', typ: 'beschriften', frage: 'Jetzt alle acht: Benenne die nummerierten Teile.', abb: 'atemwege', strukturen: ['nasenhoehle', 'mundhoehle', 'rachen', 'kehlkopf', 'luftroehre', 'bronchien', 'lungenfluegel', 'zwerchfell'] },
+      { id: 'atemwege-u2', typ: 'beschriften', frage: 'Jetzt alle neun: Benenne die nummerierten Teile.', abb: 'atemwege', strukturen: ['nasenhoehle', 'mundhoehle', 'rachen', 'kehlkopf', 'luftroehre', 'bronchien', 'bronchiolen', 'lungenfluegel', 'zwerchfell'] },
       { id: 'atemwege-u3', typ: 'reihenfolge', frage: 'Bring den Weg der eingeatmeten Luft in die richtige Reihenfolge.', schritte: ['Nasenhöhle', 'Rachen', 'Kehlkopf', 'Luftröhre', 'Bronchien', 'Bronchiolen', 'Lungenbläschen'] },
       { id: 'atemwege-u4', typ: 'wahl', frage: 'Was macht das Zwerchfell beim <strong>Einatmen</strong>?', optionen: ['Es zieht sich zusammen und flacht ab.', 'Es erschlafft und wölbt sich nach oben.', 'Es bläst die Lunge von innen auf.', 'Es verschließt die Luftröhre.'], richtig: 0, erkl: 'Das Zwerchfell ist ein Muskel. Beim Einatmen zieht es sich zusammen, flacht ab und vergrößert so den Brustraum.' },
       { id: 'atemwege-u5', typ: 'luecke', text: 'Beim Einatmen {zieht sich das Zwerchfell zusammen|erschlafft das Zwerchfell}. Dadurch wird der Brustraum {größer|kleiner}. Die Lunge {dehnt sich mit aus|zieht sich zusammen}, und Luft strömt {ein|aus}.' },
       { id: 'atemwege-u6', typ: 'luecke', text: 'Beim Ausatmen {erschlafft|kontrahiert} das Zwerchfell und wölbt sich {nach oben|nach unten}. Der Brustraum wird {kleiner|größer}, und die Luft strömt {aus|ein}.' },
-      { id: 'atemwege-u7', typ: 'wahl', frage: 'Warum kann sich die Lunge nicht selbst aufblasen?', optionen: ['Sie hat keine eigenen Muskeln.', 'Sie ist dafür zu klein.', 'Sie besteht aus Knorpel.', 'Sie ist mit Wasser gefüllt.'], richtig: 0, erkl: 'Die Lunge folgt dem Brustraum. Zwerchfell und Zwischenrippenmuskeln machen die Arbeit.' },
+      { id: 'atemwege-u7', typ: 'wahl', frage: 'Warum kann sich die Lunge nicht selbst aufblasen?', optionen: ['Sie hat keine Muskeln, mit denen sie sich ausdehnen könnte.', 'Sie ist dafür zu klein.', 'Sie besteht aus Knorpel.', 'Sie ist mit Wasser gefüllt.'], richtig: 0, erkl: 'Die Lunge folgt dem Brustraum. Zwerchfell und Zwischenrippenmuskeln machen die Arbeit.' },
       { id: 'atemwege-u8', typ: 'wahl', frage: 'Warum fällt die Luftröhre beim Einatmen nicht zusammen?', optionen: ['Knorpelspangen halten sie offen.', 'Sie ist immer mit Luft gefüllt.', 'Muskeln spannen sie dauerhaft an.', 'Sie ist mit dem Zwerchfell verwachsen.'], richtig: 0 },
       { id: 'atemwege-u9', typ: 'zuordnen', frage: 'Ordne jedem Teil seine Aufgabe zu.', paare: [['Luftröhre', 'leitet die Luft zu den Bronchien'], ['Bronchien', 'verzweigen sich in den Lungenflügeln'], ['Lungenbläschen', 'Ort des Gasaustauschs'], ['Zwerchfell', 'wichtigster Atemmuskel'], ['Nasenhöhle', 'erwärmt, befeuchtet und reinigt die Luft']] },
       { id: 'atemwege-u10', typ: 'eingabe', frage: 'Wie heißt der Muskel, der den Brustraum vom Bauchraum trennt?', akzeptiert: ['Zwerchfell', 'Diaphragma'] },
-      { id: 'atemwege-u11', typ: 'eingabe', frage: 'Wie heißen die feinsten Verzweigungen der Bronchien?', akzeptiert: ['Bronchiolen', 'Bronchiole'] },
+      { id: 'atemwege-u11', typ: 'eingabe', frage: 'Wie heißen die feinsten Verzweigungen der Bronchien?', akzeptiert: ['Bronchiolen', 'Bronchiole'], nicht: ['Bronchien', 'Bronchie', 'Bronchus'] },
       { id: 'atemwege-u12', typ: 'behauptung', aussage: 'Beim Einatmen bläst die einströmende Luft die Lunge auf. Dadurch wird der Brustraum größer.', stimmt: false, gruende: ['Die Luft dehnt zuerst die Lunge, die dann den Brustraum vergrößert.', 'Es ist umgekehrt: Erst vergrößert das Zwerchfell den Brustraum, dann dehnt sich die Lunge mit und Luft strömt ein.', 'Luft strömt nur beim Ausatmen, nicht beim Einatmen.'], richtig: 1 },
       { id: 'atemwege-u13', typ: 'wahl', frage: 'Wo findet der Gasaustausch statt?', optionen: ['in den Lungenbläschen', 'in der Luftröhre', 'in den Bronchien', 'in der Nasenhöhle'], richtig: 0, erkl: 'Nur die Lungenbläschen haben die dünne Wand und das Netz aus Blutkapillaren für den Gasaustausch.' },
       { id: 'atemwege-u14', typ: 'wahl', frage: 'Was transportieren die Flimmerhärchen in der Luftröhre?', optionen: ['Schleim mit Staub nach oben zum Rachen', 'Sauerstoff nach unten in die Lunge', 'Blut zu den Lungenbläschen', 'Nahrung in die Speiseröhre'], richtig: 0 },
@@ -108,7 +109,7 @@
           { text: 'Dadurch wird der Brustraum größer.', p: 1 },
           { text: 'Die Lunge dehnt sich mit, der Druck sinkt, Luft strömt ein.', p: 1 }
         ],
-        muster: 'Beim Einatmen zieht sich das Zwerchfell zusammen und flacht dabei ab. Dadurch wird der Brustraum größer. Die Lunge liegt eng am Brustraum an und dehnt sich mit, denn sie hat selbst keine Muskeln. In der Lunge sinkt der Druck, und Luft strömt von außen ein.'
+        muster: 'Beim Einatmen zieht sich das Zwerchfell zusammen und flacht dabei ab. Dadurch wird der Brustraum größer. Die Lunge liegt eng am Brustraum an und dehnt sich mit, denn sie kann sich nicht selbst ausdehnen. In der Lunge sinkt der Druck, und Luft strömt von außen ein.'
       },
       {
         id: 'atemwege-e3', plus: true,

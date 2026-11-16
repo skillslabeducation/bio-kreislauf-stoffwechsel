@@ -21,7 +21,7 @@ test('200 Varianten je Teil: 50 bzw. 60 Punkte, alles lösbar, Schlüssel eindeu
       const keys = teile(a).map((t) => t.key);
       eq(new Set(keys).size, keys.length, 'Schlüssel doppelt');
       teile(a).forEach((t) => {
-        ok(/^p[12]-\d[a-e]+$/.test(t.key), 'Schlüssel ' + t.key);
+        ok(/^p[12]-\d[a-e]+\d?$/.test(t.key), 'Schlüssel ' + t.key);
         ok(!!t.item !== !!t.erkl, t.key + ': genau item oder erkl');
         if (t.item) {
           eq(t.item.id, t.key);
@@ -95,6 +95,14 @@ test('auswerten: Teilpunkte auf halbe Punkte abgerundet', () => {
   ids.forEach((id, i) => { halb[id] = i < 5 ? id : ids[(i + 1) % ids.length]; });
   const r = P.auswerten(a, { 'p1-6a': halb }, {});
   eq(r.aufgaben[5].teile[0].erreicht, 2.5);
+});
+
+test('Wie im Blatt frei zu schreiben: Teilgebiete, Gleichungen, Rechenweg', () => {
+  const t1 = teile(P.erzeugen(1, 9)), t2 = teile(P.erzeugen(2, 9));
+  ['p1-1b'].forEach((k) => ok(t1.find((t) => t.key === k).erkl, k + ' soll Erklär-Aufgabe sein'));
+  ['p2-6c', 'p2-6d', 'p2-7d', 'p2-2c2'].forEach((k) => { const x = t2.find((t) => t.key === k); ok(x && x.erkl, k + ' soll Erklär-Aufgabe sein'); });
+  eq(t2.find((t) => t.key === 'p2-2c').punkte, 1);
+  ok(P.erklNachId('p2-2c2'), 'Rechenweg über ID auffindbar');
 });
 
 fertig('pruefung');

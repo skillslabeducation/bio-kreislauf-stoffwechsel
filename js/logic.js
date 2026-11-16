@@ -26,7 +26,7 @@
   var TEIL2 = ['box:5', 'box:6', 'box:7', 'box:8', 'box:9', 'pruefung', 'wv'];
   var LETZT = ['kitteltasche', 'triage'];
   var LISTE = [
-    { tag: 'Mo-Abend und Di', text: 'Fälle 0 bis 4: Atmung, Gasaustausch, Herz und Gefäße (Teil 1 des Blatts)', ziele: TEIL1 },
+    { tag: 'Mo-Abend und Di', text: 'Fälle 0 bis 4: Atmung, Gasaustausch, Herz und Gefäße (Teil 1 des Blatts). Die Sport-Transferaufgabe aus Teil 1 steckt in Box 6.', ziele: TEIL1 },
     { tag: 'Mi', text: 'Fälle 5 bis 9: Energie, Zellatmung, Enzyme, Blutgruppen, Vererbung (Teil 2). Danach eine Facharztprüfung und die Wiedervorlage.', ziele: TEIL2 },
     { tag: 'Do früh', text: 'Kitteltasche durchlesen, eine Runde Triage. Dann los.', ziele: LETZT }
   ];

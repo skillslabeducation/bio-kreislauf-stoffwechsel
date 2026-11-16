@@ -18,12 +18,15 @@
   function mmss(s) { s = Math.max(0, s); return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); }
   function pText(p) { return String(p).replace('.', ','); }
   function karte() { return W.ansichten.karte.apply(null, arguments); }
+  /** Anzeige des Teils: „a)“, „b, c)“, „c) Rechenweg“. */
+  function bLabel(t) { return t.buchst.replace(/\d$/, '').split('').join(', ') + ')' + (t.zusatz ? ' ' + t.zusatz : ''); }
 
   /* ---------- Start ---------- */
   function startseite(host) {
     var best = W.state.data.pruefung.best || {};
     var laeufe = (W.state.data.pruefung.laeufe || []).slice(-6).reverse();
     function starten(teil) {
+      if (!window.confirm('Prüfung starten? Der Timer läuft sofort.')) return;
       var dauer = teil === 'beide' ? 105 : W.pruefung.DAUER[teil];
       W.state.pruefungStarten(teil, Math.floor(Math.random() * 1e9), dauer);
       location.hash = '#/pruefung/laeuft';
@@ -87,7 +90,7 @@
           h('h2', null, h('span', { class: 'mono' }, a.nr + ' | '), a.titel, h('span', { class: 'hinweis-klein' }, ' (' + pText(sum) + ' P.)')),
           a.text ? h('p', null, a.text) : null);
         a.teile.forEach(function (t) {
-          var kopf = h('p', { class: 'pruef-teil' }, h('strong', null, t.buchst.split('').join(', ') + ')'), ' ', h('span', { class: 'hinweis-klein' }, '(' + pText(t.punkte) + ' P.)'));
+          var kopf = h('p', { class: 'pruef-teil' }, h('strong', null, bLabel(t)), ' ', h('span', { class: 'hinweis-klein' }, '(' + pText(t.punkte) + ' P.)'));
           if (t.item) {
             var r = W.aufgaben.render(t.item, { wert: antworten[t.key] });
             var speichern = function () { setTimeout(function () { W.state.pruefungAntwort(t.key, r.antwort()); }, 0); };
@@ -151,7 +154,7 @@
           neu();
           var text = antworten[t.key];
           seite.appendChild(h('section', { class: 'erkl pruef-bewertung' },
-            h('p', { class: 'horizont__titel' }, 'Teil ' + b.teil + ' · Aufgabe ' + a.nr + t.buchst + ')', anzeige),
+            h('p', { class: 'horizont__titel' }, 'Teil ' + b.teil + ' · Aufgabe ' + a.nr + ' ' + bLabel(t), anzeige),
             h('p', { class: 'frage', html: t.erkl.frage }),
             text && String(text).trim() ? h('blockquote', { class: 'erkl__eigen' }, text) : h('p', { class: 'hinweis-klein' }, '(auf Papier geschrieben)'),
             liste,
@@ -219,7 +222,7 @@
           r.zeige();
           var ok = W.aufgaben.richtig(t.item, antworten[t.key]);
           loes.appendChild(h('div', { class: 'pruef-teilbox' },
-            h('p', { class: 'pruef-teil' }, h('strong', null, 'Teil ' + e.teil + ' · ' + a.nr + t.buchst + ')'), ' ', ok ? h('span', { class: 'ok-text' }, '✓') : h('span', { class: 'hinweis-klein' }, 'Richtig: ' + W.aufgaben.loesungText(t.item, t.item.nummern))),
+            h('p', { class: 'pruef-teil' }, h('strong', null, 'Teil ' + e.teil + ' · ' + a.nr + ' ' + bLabel(t)), ' ', ok ? h('span', { class: 'ok-text' }, '✓') : h('span', { class: 'hinweis-klein' }, 'Richtig: ' + W.aufgaben.loesungText(t.item, t.item.nummern))),
             r.el));
         });
       });

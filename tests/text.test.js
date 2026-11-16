@@ -79,4 +79,30 @@ test('parseZahl: Komma und Punkt, Einheit wird ignoriert', () => {
   ok(isNaN(T.parseZahl('abc')));
 });
 
+test('parseZahl: nimmt die letzte Zahl (ca., Rechenweg)', () => {
+  eq(T.parseZahl('ca. 192'), 192);
+  eq(T.parseZahl('ca.197,4 kcal'), 197.4);
+  eq(T.parseZahl('25*4+8*9+5*4=192'), 192);
+  eq(T.parseZahl('= 310 kcal'), 310);
+  eq(T.parseZahl('-3'), -3);
+});
+
+test('passt: Sperrliste geht vor der Tippfehler-Toleranz', () => {
+  ok(!T.passt('Bronchien', ['Bronchiolen', 'Bronchiole'], ['Bronchien', 'Bronchie']));
+  ok(!T.passt('Bronchie', ['Bronchiolen', 'Bronchiole'], ['Bronchien', 'Bronchie']));
+  ok(T.passt('Bronchiolen', ['Bronchiolen', 'Bronchiole'], ['Bronchien', 'Bronchie']));
+  ok(T.passt('Bronchiolem', ['Bronchiolen'], ['Bronchien']));
+});
+
+test('passt: C02 und H20 mit Null statt O', () => {
+  ok(T.passt('C02', ['CO2']));
+  ok(T.passt('H20', ['H2O', 'Wasser']));
+});
+
+test('radar: kurze Muster nur am Wortanfang (o2 nicht in co2)', () => {
+  const b = [{ name: 'Sauerstoff', muster: ['sauerstoff', 'o2'] }];
+  eq(T.radar('Das CO2 wird ausgeatmet.', b)[0].gefunden, false);
+  eq(T.radar('O2 geht ins Blut.', b)[0].gefunden, true);
+});
+
 fertig('text');

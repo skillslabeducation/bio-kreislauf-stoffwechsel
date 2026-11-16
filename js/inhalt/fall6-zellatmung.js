@@ -91,6 +91,23 @@
     ],
     erklaeren: [
       {
+        id: 'zellatmung-e5',
+        frage: 'Schreibe die Wortgleichung und die Reaktionsgleichung mit Summenformeln der Zellatmung aus dem Kopf auf.',
+        tipp: 'Erst die Wörter, dann die Formeln, zum Schluss die Zahlen davor. Am besten auf Papier, so wie in der Arbeit.',
+        begriffe: [
+          { name: 'Glucose', muster: ['glucose', 'glukose', 'traubenzucker'] }, { name: 'Sauerstoff', muster: ['sauerstoff'] },
+          { name: 'Kohlenstoffdioxid', muster: ['kohlenstoffdioxid', 'kohlendioxid'] }, { name: 'Wasser', muster: ['wasser'] },
+          { name: 'C₆H₁₂O₆', muster: ['c6h12o6'] }, { name: '6 O₂', muster: ['6 o2'] }
+        ],
+        punkte: [
+          { text: 'Wortgleichung, linke Seite: Glucose + Sauerstoff', p: 1 },
+          { text: 'Wortgleichung, rechte Seite: Kohlenstoffdioxid + Wasser (+ Energie)', p: 1 },
+          { text: 'Summenformeln richtig: C₆H₁₂O₆, O₂, CO₂, H₂O', p: 1 },
+          { text: 'Koeffizienten richtig: C₆H₁₂O₆ + 6 O₂ → 6 CO₂ + 6 H₂O', p: 1 }
+        ],
+        muster: 'Wortgleichung: Glucose + Sauerstoff → Kohlenstoffdioxid + Wasser (+ Energie). Reaktionsgleichung: C₆H₁₂O₆ + 6 O₂ → 6 CO₂ + 6 H₂O (+ Energie).'
+      },
+      {
         id: 'zellatmung-e1',
         frage: 'Ein Schüler läuft 1000 Meter im Sportunterricht. Danach schlägt sein Herz schneller, und er atmet deutlich schneller als zuvor. Erkläre, warum die Atemfrequenz während des Laufens steigt.',
         tipp: 'Beginne bei den Muskeln: Was brauchen sie mehr, und was folgt daraus für die Zellatmung?',

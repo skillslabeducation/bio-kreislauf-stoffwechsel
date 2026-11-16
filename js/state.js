@@ -8,17 +8,28 @@
   function fresh() {
     return {
       v: 1, name: '', ton: false, begruesst: false,
-      items: {}, erkl: {}, abschluss: {}, karten: {}, wv: {},
+      items: {}, erkl: {}, abschluss: {}, karten: {}, wv: {}, entwurf: {},
       pruefung: { laeufe: [], best: {}, laufend: null },
       triage: { best: 0 }
     };
   }
 
+  function objekt(x) { return x !== null && typeof x === 'object' && !Array.isArray(x); }
+
+  /** Gespeicherten Stand übernehmen; alles mit falschem Typ wird durch den Grundwert ersetzt. */
   function zusammen(d) {
     var f = fresh();
-    Object.keys(f).forEach(function (k) { if (d[k] !== undefined) f[k] = d[k]; });
-    f.pruefung = Object.assign(fresh().pruefung, d.pruefung || {});
-    f.triage = Object.assign(fresh().triage, d.triage || {});
+    Object.keys(f).forEach(function (k) {
+      if (d[k] === undefined) return;
+      if (objekt(f[k]) ? objekt(d[k]) : typeof d[k] === typeof f[k]) f[k] = d[k];
+    });
+    var p = objekt(d.pruefung) ? d.pruefung : {};
+    f.pruefung = {
+      laeufe: Array.isArray(p.laeufe) ? p.laeufe : [],
+      best: objekt(p.best) ? p.best : {},
+      laufend: objekt(p.laufend) && objekt(p.laufend.antworten) ? p.laufend : null
+    };
+    f.triage = { best: objekt(d.triage) && typeof d.triage.best === 'number' ? d.triage.best : 0 };
     return f;
   }
 
@@ -59,10 +70,18 @@
       var prev = S.data.erkl[id] || { best: 0 };
       var p = Math.max(0, Math.min(1, +r.prozent || 0));
       S.data.erkl[id] = { text: r.text || '', haken: (r.haken || []).slice(), prozent: p, best: Math.max(prev.best || 0, p) };
+      delete S.data.entwurf[id];
       var k = 'e:' + id;
       if (p < W.logic.ERKL_OK) S.data.wv[k] = 0;
       else if (p >= 0.8 && k in S.data.wv) delete S.data.wv[k];
       S.save();
+    },
+
+    /** Entwurf einer Erklärung bei jeder Eingabe sichern, ohne die Bewertung zu ändern. */
+    erklEntwurf: function (id, text) { S.data.entwurf[id] = String(text || ''); W.store.set(KEY, S.data); },
+    erklText: function (id) {
+      if (S.data.entwurf[id] != null) return S.data.entwurf[id];
+      return S.data.erkl[id] ? S.data.erkl[id].text || '' : '';
     },
 
     abschlussSetzen: function (fallId) { S.data.abschluss[fallId] = true; S.save(); },
@@ -71,6 +90,7 @@
       if (idx > bisher) { S.data.karten[fallId] = idx; S.save(); }
     },
     wvListe: function () { return Object.keys(S.data.wv); },
+    wvEntfernen: function (id) { if (id in S.data.wv) { delete S.data.wv[id]; S.save(); } },
 
     /* Facharztprüfung: laufende Prüfung wird gespeichert und übersteht Neuladen. */
     pruefungStarten: function (teil, seed, dauerMin) {

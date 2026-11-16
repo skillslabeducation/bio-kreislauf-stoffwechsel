@@ -13,7 +13,8 @@
       .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss')
       .replace(/[^a-z0-9]+/g, ' ')
       .replace(/\s+/g, ' ')
-      .trim();
+      .trim()
+      .replace(/\bc02\b/g, 'co2').replace(/\bh20\b/g, 'h2o');
   }
 
   function levenshtein(a, b) {
@@ -48,9 +49,11 @@
   }
 
   /** Passt die Eingabe zu einem der akzeptierten Begriffe? */
-  function passt(eingabe, akzeptiert) {
+  function passt(eingabe, akzeptiert, nicht) {
     var e = norm(eingabe).replace(ARTIKEL, '');
     if (!e) return false;
+    // Sperrliste: typische Verwechslungen (z. B. Bronchien statt Bronchiolen) zählen nie als Tippfehler.
+    if ((nicht || []).some(function (n) { var x = norm(n); return x === e || stamm(x) === stamm(e); })) return false;
     return (akzeptiert || []).some(function (a) { return passtEins(e, norm(a).replace(ARTIKEL, '')); });
   }
 
@@ -76,17 +79,20 @@
         name: b.name,
         gefunden: b.muster.some(function (m) {
           // Mehrere Wörter: Jedes muss vorkommen, die Reihenfolge ist egal („zieht sich das Zwerchfell zusammen“).
-          return norm(m).split(' ').every(function (w) { return t.indexOf(w) >= 0; });
+          return norm(m).split(' ').every(function (w) {
+            // Kurze Muster (o2, 00) nur am Wortanfang, sonst passt o2 auch in co2.
+            return w.length <= 3 ? t.indexOf(' ' + w) >= 0 : t.indexOf(w) >= 0;
+          });
         })
       };
     });
   }
 
+  /** Die letzte Zahl im Text: „ca. 192“, „25*4+8*9+5*4=192“, „197,4 kcal“. */
   function parseZahl(s) {
-    var t = String(s == null ? '' : s).trim().replace(/[^\d,.\-]/g, '');
-    if (!t || !/\d/.test(t)) return NaN;
-    t = t.replace(',', '.');
-    var n = parseFloat(t);
+    var m = String(s == null ? '' : s).match(/-?\d+(?:[.,]\d+)?/g);
+    if (!m) return NaN;
+    var n = parseFloat(m[m.length - 1].replace(',', '.'));
     return isNaN(n) ? NaN : n;
   }
 

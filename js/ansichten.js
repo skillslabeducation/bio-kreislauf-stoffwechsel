@@ -73,7 +73,9 @@
     var entl = alle.filter(function (f) { return status(f).status === 'entlassen'; }).length;
     var wv = W.state.wvListe().length;
     var plan = W.logic.planFuer(W.logic.heuteISO());
-    if (plan && plan.tage === 0) return 'Heute ist die Arbeit. Kitteltasche lesen, ruhig bleiben, sauber schreiben.';
+    if (!plan) return 'Die Arbeit ist geschrieben. Die Fälle bleiben offen, falls du etwas nachschlagen willst.';
+    if (plan.tage === 0) return 'Heute ist die Arbeit. Kitteltasche lesen, ruhig bleiben, sauber schreiben.';
+    if (plan.tage === 1 && entl < alle.length) return 'Morgen ist die Arbeit. Heute Box 5 bis 9, danach eine Facharztprüfung.';
     if (!entl && !Object.keys(d.items).length) return 'Zehn Boxen, eine Arbeit am Donnerstag. Fang bei Box 0 an, die ist kurz.';
     if (wv >= 8) return wv + ' Fälle in der Wiedervorlage. Die arbeiten wir ab, bevor neue reinkommen.';
     if (entl === alle.length) return 'Alle Patienten entlassen. Jetzt die Facharztprüfung unter Zeitdruck.';
@@ -87,9 +89,11 @@
     var plan = W.logic.planFuer(W.logic.heuteISO());
     var rang = W.logic.rang(W.state.data, alle);
     var next = naechsterFall();
-    var wv = W.state.wvListe().length;
+    var wv = wvAnzahl();
     var best = W.state.data.pruefung.best || {};
 
+    var laufend = W.state.pruefungLaufend();
+    var pruefHinweis = laufend && !laufend.abgegeben ? h('a', { href: '#/pruefung', class: 'karte pruef-hinweis' }, h('strong', null, 'Prüfung läuft'), ' · weiter zur Facharztprüfung →') : null;
     var countdown = plan ? karte('countdown',
       h('div', { class: 'countdown__zahl mono' }, plan.tage === 0 ? 'HEUTE' : 'T−' + plan.tage),
       h('div', null,
@@ -101,6 +105,7 @@
     var stufen = rang.entlassen + ' von ' + alle.length + ' Patienten entlassen';
     host.appendChild(h('div', { class: 'seite' },
       h('p', { class: 'funk' }, h('span', { class: 'funk__wer' }, 'Dr. Brandt, Oberärztin'), spruch()),
+      pruefHinweis,
       countdown,
       karte('rang', h('div', { class: 'rang__kopf' }, h('span', { class: 'rang__titel' }, rang.titel), h('span', { class: 'mono hinweis-klein' }, stufen)),
         h('div', { class: 'balken' }, h('span', { style: { width: Math.round(100 * rang.entlassen / Math.max(1, alle.length)) + '%' } })),
@@ -134,9 +139,11 @@
     return f.length ? h('div', { class: 'monitor' }, f) : null;
   }
 
-  function fehltListe(st) {
+  function fehltListe(st, f) {
     if (st.status === 'entlassen') return h('p', { class: 'ok-text' }, '✓ Patient entlassen.');
-    return h('div', { class: 'fehlt' }, h('p', { class: 'fehlt__titel' }, 'Bis zur Entlassung fehlt:'), h('ul', null, st.fehlt.map(function (t) { return h('li', null, t); })));
+    function ziel(t) { return /Übung/.test(t) ? 'ueben' : /Erklärung/.test(t) ? 'erklaeren' : 'abschluss'; }
+    return h('div', { class: 'fehlt' }, h('p', { class: 'fehlt__titel' }, 'Bis zur Entlassung fehlt:'),
+      h('ul', null, st.fehlt.map(function (t) { return h('li', null, h('a', { href: '#/fall/' + f.id + '/' + ziel(t) }, t)); })));
   }
 
   function fall(host, id, tab) {
@@ -163,12 +170,13 @@
       karte('aufnahme', h('p', { class: 'aufnahme__kopf mono' }, 'BOX ' + f.box + ' · ' + f.symptom.toUpperCase()), monitor(a.werte), h('div', { html: a.text })),
       h('p', { class: 'funk' }, h('span', { class: 'funk__wer' }, 'Dr. Brandt'), a.oberaerztin),
       karte('leitfrage', h('p', { class: 'leitfrage__titel' }, 'Leitfrage'), h('p', null, a.leitfrage)),
-      fehltListe(st),
+      fehltListe(st, f),
       h('div', { class: 'aktionen' }, link('#/fall/' + f.id + '/verstehen', 'Fall übernehmen', 'btn btn--haupt'))));
   }
 
   function verstehen(host, f) {
-    var i = 0;
+    var gesehen = W.state.data.karten[f.id];
+    var i = gesehen == null || gesehen >= f.karten.length - 1 ? 0 : gesehen;
     function zeigen() {
       host.innerHTML = '';
       var k = f.karten[i];
@@ -194,7 +202,7 @@
   function ueben(host, f, st) {
     var d = W.state.data.items;
     var pflicht = f.ueben.filter(function (u) { return !u.plus; });
-    var offen = f.ueben.filter(function (u) { return !(d[u.id] && d[u.id].ok); });
+    var offen = pflicht.filter(function (u) { return !(d[u.id] && d[u.id].ok); });
     var plus = f.ueben.length - pflicht.length;
     function los(items, titel) {
       host.innerHTML = '';
@@ -210,7 +218,8 @@
       h('div', { class: 'aktionen aktionen--stapel' },
         offen.length ? h('button', { type: 'button', class: 'btn btn--haupt', onclick: function () { los(offen, 'Offene Aufgaben'); } }, 'Offene üben (' + offen.length + ')') : null,
         h('button', { type: 'button', class: 'btn' + (offen.length ? '' : ' btn--haupt'), onclick: function () { los(pflicht, 'Pflicht'); } }, 'Alle Pflichtaufgaben (' + pflicht.length + ')'),
-        plus ? h('button', { type: 'button', class: 'btn', onclick: function () { los(f.ueben.filter(function (u) { return u.plus; }), 'Plus'); } }, 'Nur Plus (' + plus + ')') : null)));
+        plus ? h('button', { type: 'button', class: 'btn', onclick: function () { los(f.ueben.filter(function (u) { return u.plus; }), 'Plus'); } }, 'Nur Plus (' + plus + ')') : null,
+        link('#/fall/' + f.id + '/erklaeren', 'Weiter: Erklären →', 'btn'))));
   }
 
   function erklaerenTab(host, f) {
@@ -227,7 +236,8 @@
             h('span', { class: 'erkl-zeile__frage', html: e.frage }),
             e.plus ? h('span', { class: 'tag tag--plus' }, 'Plus') : null,
             h('span', { class: 'mono erkl-zeile__p ' + (p == null ? '' : p >= 60 ? 'gut' : 'schwach') }, p == null ? 'offen' : p + ' %')));
-        }))));
+        })),
+        h('div', { class: 'aktionen' }, link('#/fall/' + f.id + '/abschluss', 'Weiter: Fallabschluss →', 'btn'))));
     }
     function oeffnen(e) {
       host.innerHTML = '';
@@ -243,7 +253,7 @@
       var neu = status(f);
       return h('div', null,
         karte('epikrise', h('p', { class: 'aufnahme__kopf mono' }, 'EPIKRISE · BOX ' + f.box), h('div', { html: f.epikrise })),
-        fehltListe(neu),
+        fehltListe(neu, f),
         h('div', { class: 'aktionen' }, link('#/', 'Zurück zum Board', 'btn btn--haupt')));
     }
     if (st.abschluss) {
@@ -277,7 +287,13 @@
   }
 
   /* ---------- Wiedervorlage ---------- */
+  function aufloesbar(id) { return id.indexOf('e:') === 0 ? !!erklNachId(id.slice(2)) : !!itemNachId(id); }
+  /** Einträge entfernen, deren Aufgabe es nicht mehr gibt (z. B. nach einer Inhaltsänderung). */
+  function aufraeumen() { W.state.wvListe().forEach(function (id) { if (!aufloesbar(id)) W.state.wvEntfernen(id); }); }
+  function wvAnzahl() { return W.state.wvListe().filter(aufloesbar).length; }
+
   function wiedervorlage(host) {
+    aufraeumen();
     var ids = W.state.wvListe();
     var items = ids.filter(function (id) { return id.indexOf('e:') !== 0; }).map(itemNachId).filter(Boolean);
     var erkl = ids.filter(function (id) { return id.indexOf('e:') === 0; }).map(function (id) { return erklNachId(id.slice(2)); }).filter(Boolean);
@@ -315,7 +331,7 @@
     var seite = h('div', { class: 'seite' }, h('h1', null, 'Plan bis zur Arbeit'));
     host.appendChild(seite);
     if (!plan) { seite.appendChild(karte('', h('p', null, 'Die Arbeit ist geschrieben. Die Fälle bleiben zum Wiederholen offen.'))); return; }
-    seite.appendChild(h('p', { class: 'hinweis-klein' }, 'Bioarbeit am ' + datumText(W.logic.ARBEIT) + '. ' + (plan.tage === 0 ? 'Heute.' : 'Noch ' + plan.tage + (plan.tage === 1 ? ' Tag.' : ' Tage.'))));
+    seite.appendChild(h('p', { class: 'hinweis-klein' }, 'Bioarbeit am ' + datumText(W.logic.ARBEIT) + ' · ' + (plan.tage === 0 ? 'heute' : 'noch ' + plan.tage + (plan.tage === 1 ? ' Tag' : ' Tage'))));
     plan.liste.forEach(function (tag) {
       var aktiv = tag.ziele.join() === plan.heute.join();
       seite.appendChild(karte('plan-tag' + (aktiv ? ' plan-tag--heute' : ''),
@@ -350,6 +366,7 @@
           } }, 'Code erzeugen'),
           h('button', { type: 'button', class: 'btn', onclick: function () {
             if (!code.value.trim()) { W.toast('Erst einen Code einfügen'); return; }
+            if (!window.confirm('Der Fortschritt auf diesem Gerät wird durch den Code ersetzt. Fortfahren?')) return;
             if (W.state.importCode(code.value)) { W.toast('Fortschritt übernommen', 'ok'); W.app.kopf(); } else W.toast('Code ungültig');
           } }, 'Code übernehmen')), code),
       karte('', h('h2', null, 'Neu anfangen'), h('p', { class: 'hinweis-klein' }, 'Löscht den gesamten Fortschritt auf diesem Gerät.'),
@@ -384,6 +401,6 @@
 
   W.ansichten = {
     board: board, fall: fall, wiedervorlage: wiedervorlage, plan: planAnsicht, einstellungen: einstellungen,
-    begruessung: begruessung, faelle: faelle, fallNachId: fallNachId, itemNachId: itemNachId, karte: karte, link: link, datumText: datumText
+    begruessung: begruessung, faelle: faelle, wvAnzahl: wvAnzahl, fallNachId: fallNachId, itemNachId: itemNachId, karte: karte, link: link, datumText: datumText
   };
 })();

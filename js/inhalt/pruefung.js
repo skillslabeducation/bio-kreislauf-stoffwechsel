@@ -29,11 +29,12 @@
         punkte: [P('Biologie ist die Wissenschaft (Lehre) vom Leben, von griechisch bios = Leben und logos = Lehre.', 1),
           P('Sie untersucht die Lebewesen: ihren Bau, ihre Funktionen, ihre Entwicklung und ihre Beziehungen zur Umwelt.', 1)],
         muster: 'Biologie ist die Wissenschaft vom Leben. Der Name kommt aus dem Griechischen: bios heißt Leben, logos heißt Lehre. Die Biologie untersucht alle Lebewesen, also Pflanzen, Tiere, Pilze, Mikroorganismen und den Menschen. Sie fragt, wie Lebewesen gebaut sind, wie sie funktionieren, wie sie sich entwickeln und wie sie mit ihrer Umwelt zusammenhängen.' } },
-      { b: 'b', p: 2, item: function () { return {
-        typ: 'liste', anzahl: 4, frage: 'Nenne vier Teilgebiete der Biologie (Fachbegriffe, je 0,5 P.).',
-        gruppen: [['Botanik', 'Pflanzenkunde'], ['Zoologie', 'Tierkunde'], ['Humanbiologie', 'Menschenkunde', 'Anthropologie'], ['Mikrobiologie'],
-          ['Genetik', 'Vererbungslehre'], ['Ökologie'], ['Zellbiologie', 'Cytologie', 'Zytologie'], ['Evolutionsbiologie', 'Evolutionslehre', 'Evolution'],
-          ['Verhaltensbiologie', 'Ethologie', 'Verhaltensforschung'], ['Physiologie'], ['Neurobiologie'], ['Anatomie'], ['Biochemie'], ['Immunbiologie', 'Immunologie']] }; } }
+      { b: 'b', p: 2, erkl: {
+        frage: 'Nenne vier Teilgebiete der Biologie und beschreibe kurz, womit sie sich beschäftigen.',
+        begriffe: [B('Botanik', ['botanik']), B('Zoologie', ['zoologie']), B('Genetik', ['genetik']), B('Ökologie', ['oekologie'])],
+        punkte: [P('Erstes Teilgebiet mit passender Beschreibung (z. B. Botanik: Pflanzen)', 0.5), P('Zweites Teilgebiet mit passender Beschreibung (z. B. Zoologie: Tiere)', 0.5),
+          P('Drittes Teilgebiet mit passender Beschreibung (z. B. Genetik: Vererbung)', 0.5), P('Viertes Teilgebiet mit passender Beschreibung (z. B. Ökologie: Beziehungen der Lebewesen zu ihrer Umwelt)', 0.5)],
+        muster: 'Die Botanik beschäftigt sich mit den Pflanzen. Die Zoologie untersucht die Tiere. Die Genetik erforscht die Vererbung. Die Ökologie untersucht die Beziehungen der Lebewesen untereinander und zu ihrer Umwelt. Auch richtig sind zum Beispiel Humanbiologie (Mensch), Mikrobiologie (Mikroorganismen) oder Zellbiologie (Zellen).' } }
     ] },
     { nr: 2, titel: 'Kennzeichen der Lebewesen', fall: 'leben', teile: [
       { b: 'a', p: 3, item: function () { return {
@@ -69,7 +70,7 @@
       ]); } }
     ] },
     { nr: 4, titel: 'Gasaustausch in der Lunge', fall: 'gasaustausch', teile: [
-      { b: 'a', p: 1, item: function () { return { typ: 'eingabe', frage: 'Wie lautet der Fachbegriff für Lungenbläschen?', akzeptiert: ['Alveolen', 'Alveole', 'Alveoli'] }; } },
+      { b: 'a', p: 1, item: function () { return { typ: 'eingabe', frage: 'Wie lautet der Fachbegriff für Lungenbläschen?', akzeptiert: ['Alveolen', 'Alveole', 'Alveoli', 'Alveolus'] }; } },
       { b: 'b', p: 2, item: function () { return {
         typ: 'tabelle', frage: 'Welche Gase werden durch die Pfeile A und B dargestellt?', abb: 'alveole', abbOpts: { pfeile: 'ab' },
         spalten: ['Pfeil', 'Gas'],
@@ -173,11 +174,16 @@
         var o = ['ca. 4 kcal', 'ca. 9 kcal', 'ca. 1 kcal', 'ca. 17 kcal'];
         return { typ: 'tabelle', frage: 'Ordne den Nährstoffen ihren Energiegehalt (kcal pro Gramm) zu.', spalten: ['Nährstoff', 'Energiegehalt pro Gramm'],
           zeilen: [{ kopf: 'Kohlenhydrate', zellen: [{ optionen: o, richtig: 0 }] }, { kopf: 'Fette', zellen: [{ optionen: o, richtig: 1 }] }, { kopf: 'Eiweiße', zellen: [{ optionen: o, richtig: 0 }] }] }; } },
-      { b: 'c', p: 2, item: function (rnd) {
+      { b: 'c', p: 1, item: function (rnd) {
         var kh = waehle(rnd, RIEGEL.kh), fett = waehle(rnd, RIEGEL.fett), ei = waehle(rnd, RIEGEL.eiweiss);
         var genau = Math.round(W.bio.kcal(kh, fett, ei, { kh: 4.1, fett: 9.3, eiweiss: 4.1 }) * 10) / 10;
         return { typ: 'zahl', einheit: 'kcal', tol: 0.5, antwort: W.bio.kcal(kh, fett, ei), auch: [genau],
-          frage: 'Ein Müsliriegel enthält ' + kh + ' g Kohlenhydrate, ' + fett + ' g Fett und ' + ei + ' g Eiweiß. Berechne seinen gesamten Energiegehalt in kcal. Den Rechenweg schreibst du auf Papier.' }; } },
+          frage: 'Ein Müsliriegel enthält ' + kh + ' g Kohlenhydrate, ' + fett + ' g Fett und ' + ei + ' g Eiweiß. Berechne seinen gesamten Energiegehalt in kcal (Ergebnis, 1 P.).' }; } },
+      { b: 'c2', p: 1, zusatz: 'Rechenweg', erkl: {
+        frage: 'Zeige deinen Rechenweg zum Müsliriegel aus c) (auf Papier oder hier).',
+        begriffe: [B('kcal', ['kcal']), B('addiert', ['addiert', 'summe'])],
+        punkte: [P('Je Nährstoff Masse in Gramm mal Energiegehalt gerechnet (× 4, × 9, × 4 kcal)', 0.5), P('Die drei Teilergebnisse addiert und die Einheit kcal angegeben', 0.5)],
+        muster: 'Kohlenhydrate: Masse in g mal 4 kcal. Fett: Masse in g mal 9 kcal. Eiweiß: Masse in g mal 4 kcal. Die drei Teilergebnisse werden addiert. Beispiel 25 g, 8 g, 5 g: 100 kcal + 72 kcal + 20 kcal = 192 kcal.' } },
       { b: 'd', p: 1, item: function () { return { typ: 'wahl', frage: 'Warum benötigt der Körper auch im Schlaf Energie?', optionen: ['Für lebenswichtige Vorgänge wie Herzschlag, Atmung, Gehirntätigkeit und das Halten der Körpertemperatur (Grundumsatz).', 'Weil die Verdauung nur nachts arbeitet.', 'Weil im Schlaf die Muskeln besonders viel arbeiten.', 'Er benötigt im Schlaf keine Energie.'], richtig: 0 }; } }
     ] },
     { nr: 3, titel: 'Blutgruppen', fall: 'blutgruppen', teile: [
@@ -238,8 +244,16 @@
     { nr: 6, titel: 'Atmung, Zellatmung und Verdauung', fall: 'zellatmung', teile: [
       { b: 'a', p: 2, item: function () { return { typ: 'beschriften', frage: 'Benenne die Stoffe A, B, C und D (A = 1, B = 2, C = 3, D = 4).', abb: 'zellatmung', strukturen: ['stoff-a', 'stoff-b', 'stoff-c', 'stoff-d'], nummern: { 'stoff-a': 1, 'stoff-b': 2, 'stoff-c': 3, 'stoff-d': 4 } }; } },
       { b: 'b', p: 1, item: function () { return { typ: 'eingabe', frage: 'In welchem Zellorganell findet der größte Teil der aeroben Zellatmung statt?', akzeptiert: ['Mitochondrien', 'Mitochondrium', 'Mitochondrion'] }; } },
-      { b: 'c', p: 2, item: function () { return { typ: 'luecke', frage: 'Vervollständige die Wortgleichung der Zellatmung.', text: 'Glucose + {Sauerstoff|Stickstoff|Wasser} → {Kohlenstoffdioxid|Glucose|Stickstoff} + {Wasser|Milchsäure|Sauerstoff} (+ Energie)' }; } },
-      { b: 'd', p: 2, item: function () { return { typ: 'luecke', frage: 'Ergänze die Reaktionsgleichung mit Summenformeln.', text: 'C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> + {6|1|2|12} O<sub>2</sub> → {6|1|2|12} CO<sub>2</sub> + {6|1|2|12} H<sub>2</sub>O (+ Energie)' }; } },
+      { b: 'c', p: 2, erkl: {
+        frage: 'Formuliere die Wortgleichung der Zellatmung.',
+        begriffe: [B('Glucose', ['glucose', 'glukose', 'traubenzucker']), B('Sauerstoff', ['sauerstoff']), B('Kohlenstoffdioxid', ['kohlenstoffdioxid', 'kohlendioxid']), B('Wasser', ['wasser'])],
+        punkte: [P('Ausgangsstoffe: Glucose + Sauerstoff', 1), P('Produkte: Kohlenstoffdioxid + Wasser (+ Energie)', 1)],
+        muster: 'Glucose + Sauerstoff → Kohlenstoffdioxid + Wasser (+ Energie)' } },
+      { b: 'd', p: 2, erkl: {
+        frage: 'Stelle die vollständige chemische Reaktionsgleichung der Zellatmung mit Summenformeln auf.',
+        begriffe: [B('C₆H₁₂O₆', ['c6h12o6']), B('6 O₂', ['6 o2']), B('6 CO₂', ['6 co2']), B('6 H₂O', ['6 h2o'])],
+        punkte: [P('Alle Summenformeln richtig: C₆H₁₂O₆, O₂, CO₂, H₂O', 1), P('Alle Koeffizienten richtig: C₆H₁₂O₆ + 6 O₂ → 6 CO₂ + 6 H₂O', 1)],
+        muster: 'C₆H₁₂O₆ + 6 O₂ → 6 CO₂ + 6 H₂O (+ Energie)' } },
       { b: 'e', p: 3, erkl: {
         frage: 'Erkläre den Zusammenhang zwischen Verdauung, Atmung, Blutkreislauf und Zellatmung in einem zusammenhängenden Text.',
         begriffe: [B('Verdauung', ['verdau']), B('Glucose', ['glucose', 'glukose', 'traubenzucker']), B('Sauerstoff', ['sauerstoff']), B('Blut', ['blut']), B('Mitochondrien', ['mitochondri']), B('Energie', ['energie'])],
@@ -263,7 +277,11 @@
           P('Das Substrat wird gespalten, die Produkte werden frei, und das Enzym bleibt unverändert und kann erneut arbeiten.', 1)],
         muster: 'Phase 1: Das Substrat passt mit seiner Form genau in das aktive Zentrum des Enzyms, so wie ein Schlüssel in ein Schloss. Phase 2: Das Substrat bindet im aktiven Zentrum, es entsteht ein Enzym-Substrat-Komplex, und das Substrat wird gespalten. Phase 3: Die Produkte lösen sich vom Enzym. Das Enzym ist unverändert und kann das nächste Substrat umsetzen.' } },
       { b: 'c', p: 2, item: function () { return { typ: 'zuordnen', frage: 'Ordne Amylase, Protease, Lipase und Lactase jeweils ihr Substrat zu.', paare: [['Amylase', 'Stärke'], ['Protease', 'Eiweiße'], ['Lipase', 'Fette'], ['Lactase', 'Milchzucker (Lactose)']] }; } },
-      { b: 'd', p: 1, item: function () { return { typ: 'luecke', frage: 'Formuliere die Wortgleichung für die Spaltung von Milchzucker durch Lactase.', text: 'Milchzucker (Lactose) + Wasser → {Traubenzucker (Glucose)|Malzzucker (Maltose)|Fruchtzucker (Fructose)} + {Schleimzucker (Galactose)|Stärke|Milchsäure}' }; } },
+      { b: 'd', p: 1, erkl: {
+        frage: 'Formuliere die Wortgleichung für die Spaltung von Milchzucker durch Lactase.',
+        begriffe: [B('Milchzucker', ['milchzucker', 'lactose', 'laktose']), B('Traubenzucker', ['traubenzucker', 'glucose', 'glukose']), B('Schleimzucker', ['schleimzucker', 'galactose', 'galaktose'])],
+        punkte: [P('Links Milchzucker (Lactose), Wasser darf dabeistehen', 0.5), P('Rechts Traubenzucker (Glucose) + Schleimzucker (Galactose)', 0.5)],
+        muster: 'Milchzucker (Lactose) + Wasser → Traubenzucker (Glucose) + Schleimzucker (Galactose). Die Lactase steht über dem Pfeil, sie wird nicht verbraucht.' } },
       { b: 'e', p: 1, item: function () { return { typ: 'wahl', frage: 'Warum verlieren viele menschliche Enzyme bei sehr hohen Temperaturen ihre Funktion?', optionen: ['Enzyme sind Eiweiße. Bei hoher Temperatur wird ihre Struktur zerstört (Denaturierung), das aktive Zentrum verformt sich, und das Substrat passt nicht mehr.', 'Bei Hitze werden Enzyme schneller verbraucht.', 'Hohe Temperaturen machen das Substrat zu groß.', 'Enzyme schmelzen bei Hitze und werden zu Fett.'], richtig: 0 }; } }
     ] }
   ];
@@ -280,7 +298,7 @@
         nr: a.nr, titel: a.titel, fall: a.fall, text: a.text || null,
         teile: a.teile.map(function (t) {
           var key = 'p' + teil + '-' + a.nr + t.b;
-          var out = { key: key, buchst: t.b, punkte: t.p };
+          var out = { key: key, buchst: t.b, punkte: t.p, zusatz: t.zusatz || null };
           if (t.item) out.item = Object.assign(t.item(rnd), { id: key });
           else out.erkl = Object.assign({}, typeof t.erkl === 'function' ? t.erkl(rnd) : t.erkl, { id: key });
           return out;
@@ -290,7 +308,7 @@
   }
 
   function teilFinden(id) {
-    var m = /^p([12])-(\d)([a-e]+)$/.exec(id || '');
+    var m = /^p([12])-(\d)([a-e]+\d?)$/.exec(id || '');
     if (!m) return null;
     var a = erzeugen(+m[1], Math.floor(Math.random() * 1e9));
     var gef = null;

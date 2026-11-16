@@ -144,9 +144,9 @@
         punkte: [
           { text: 'Familie Krüger (AB × AB) hat kein 0-Allel, ihre Kinder können nur A, AB oder B haben. Baby 1 (0) ist bei ihnen ausgeschlossen.', p: 1 },
           { text: 'Familie Yilmaz: Sind Mutter A0 und Vater B0, kann ein Kind den Genotyp 00 haben (25 %). Baby 1 gehört zu Familie Yilmaz.', p: 1 },
-          { text: 'Baby 2 (AB) ist bei Familie Krüger möglich (50 %) und gehört deshalb zu ihr.', p: 1 }
+          { text: 'Baby 2 (AB) bleibt damit für Familie Krüger, bei der AB möglich ist (AB × AB: 50 %). Allein hätte Baby 2 nichts entschieden, weil AB auch bei Familie Yilmaz möglich ist.', p: 1 }
         ],
-        muster: 'Bei Familie Krüger haben beide Eltern den Genotyp AB. Sie besitzen kein 0-Allel und können deshalb nur Kinder mit AA, AB oder BB bekommen. Baby 1 mit Blutgruppe 0 ist bei ihnen ausgeschlossen. Bei Familie Yilmaz kann die Mutter den Genotyp A0 und der Vater den Genotyp B0 haben. Dann bekommt ein Kind mit 25 % Wahrscheinlichkeit von beiden ein 0-Allel und hat Blutgruppe 0. Baby 1 gehört also zu Familie Yilmaz. Baby 2 mit Blutgruppe AB ist bei Familie Krüger mit 50 % möglich und gehört deshalb zu ihnen.'
+        muster: 'Bei Familie Krüger haben beide Eltern den Genotyp AB. Sie besitzen kein 0-Allel und können deshalb nur Kinder mit AA, AB oder BB bekommen. Baby 1 mit Blutgruppe 0 ist bei ihnen ausgeschlossen. Bei Familie Yilmaz kann die Mutter den Genotyp A0 und der Vater den Genotyp B0 haben. Dann bekommt ein Kind mit 25 % Wahrscheinlichkeit von beiden ein 0-Allel und hat Blutgruppe 0. Baby 1 gehört also zu Familie Yilmaz. Baby 2 mit Blutgruppe AB bleibt damit für Familie Krüger, bei der AB mit 50 % möglich ist. Allein hätte Baby 2 nichts entschieden, denn AB ist auch bei Familie Yilmaz möglich.'
       }
     ],
     abschluss: [

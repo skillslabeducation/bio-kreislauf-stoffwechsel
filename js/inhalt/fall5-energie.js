@@ -22,7 +22,7 @@
       },
       {
         titel: 'Wie viel Energie steckt in einem Gramm?',
-        text: '<p>Die Energie in der Nahrung misst man in <strong>Kilokalorien</strong> (kcal) oder <strong>Kilojoule</strong> (kJ). Ein Gramm liefert ungefähr:</p><p>Kohlenhydrate: ca. <strong>4 kcal</strong> (17 kJ)<br>Fette: ca. <strong>9 kcal</strong> (39 kJ)<br>Eiweiße: ca. <strong>4 kcal</strong> (17 kJ)</p><p>Fett liefert pro Gramm also mehr als doppelt so viel Energie wie Kohlenhydrate oder Eiweiße.</p>',
+        text: '<p>Die Energie in der Nahrung misst man in <strong>Kilokalorien</strong> (kcal) oder <strong>Kilojoule</strong> (kJ). Ein Gramm liefert ungefähr:</p><p>Kohlenhydrate: ca. <strong>4 kcal</strong> (17 kJ)<br>Fette: ca. <strong>9 kcal</strong> (genauer 9,3 kcal, rund 39 kJ)<br>Eiweiße: ca. <strong>4 kcal</strong> (17 kJ)</p><p>Fett liefert pro Gramm also mehr als doppelt so viel Energie wie Kohlenhydrate oder Eiweiße.</p>',
         merk: 'Pro Gramm: Kohlenhydrate ca. 4 kcal, Fette ca. 9 kcal, Eiweiße ca. 4 kcal.',
         achtung: '<strong>Achtung, Falle</strong>Eiweiß liefert nicht mehr Energie als Kohlenhydrate. Beide liegen bei etwa 4 kcal pro Gramm. Nur Fett fällt mit etwa 9 kcal aus der Reihe.'
       },

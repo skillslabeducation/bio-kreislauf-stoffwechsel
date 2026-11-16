@@ -36,6 +36,15 @@
     return out;
   }
 
+  /** Prozentfeld lesen. Leer zählt als 0 %, sobald mindestens ein Feld ausgefüllt ist. */
+  function prozentWert(prozent, gr) {
+    prozent = prozent || {};
+    var irgendwas = Object.keys(prozent).some(function (k) { return String(prozent[k] == null ? '' : prozent[k]).trim() !== ''; });
+    var roh = String(prozent[gr] == null ? '' : prozent[gr]).trim();
+    if (!roh) return irgendwas ? 0 : NaN;
+    return W.text.parseZahl(roh);
+  }
+
   function zahlPasst(item, wert) {
     var z = W.text.parseZahl(wert);
     if (isNaN(z)) return false;
@@ -54,7 +63,7 @@
           var l = luecken(item);
           return anteil(l.filter(function (s, i) { return a[i] === s.optionen[0]; }).length, l.length);
         }
-        case 'eingabe': return W.text.passt(a, item.akzeptiert) ? 1 : 0;
+        case 'eingabe': return W.text.passt(a, item.akzeptiert, item.nicht) ? 1 : 0;
         case 'liste': return anteil(W.text.liste(a, item.gruppen, item.anzahl).treffer, item.anzahl);
         case 'zuordnen': return anteil(item.paare.filter(function (p, i) { return a[i] === i; }).length, item.paare.length);
         case 'reihenfolge':
@@ -79,7 +88,7 @@
             var v = W.bio.verteilung(item.mutter, item.vater);
             W.bio.GRUPPEN.forEach(function (gr) {
               gesamt++;
-              var z = a.prozent ? W.text.parseZahl(a.prozent[gr]) : NaN;
+              var z = prozentWert(a.prozent, gr);
               if (!isNaN(z) && Math.abs(z - v[gr]) < 0.01) treffer++;
             });
           }
@@ -107,6 +116,8 @@
       return nichts(x);
     }
     if (item.typ === 'wahl') return a === null;
+    if (item.typ === 'behauptung') return a.stimmt == null;
+    if (item.typ === 'reihenfolge' && item.startFest) return !a || a.length <= 1;
     return tief(a);
   }
 
@@ -264,7 +275,7 @@
     return {
       el: inp, antwort: function () { return inp.value; },
       setze: function (w) { inp.value = w || ''; },
-      zeige: function () { inp.disabled = true; inp.classList.add(W.text.passt(inp.value, item.akzeptiert) ? 'richtig' : 'falsch'); }
+      zeige: function () { inp.disabled = true; inp.classList.add(W.text.passt(inp.value, item.akzeptiert, item.nicht) ? 'richtig' : 'falsch'); }
     };
   };
 
@@ -438,9 +449,9 @@
       })));
     var pf = {};
     var prozentEl = item.mitWahrscheinlichkeit ? h('div', { class: 'prozente' },
-      h('p', { class: 'hinweis-klein' }, 'Mit welcher Wahrscheinlichkeit hat ein Kind diese Blutgruppe?'),
+      h('p', { class: 'hinweis-klein' }, 'Mit welcher Wahrscheinlichkeit hat ein Kind diese Blutgruppe? Leere Felder zählen als 0 %.'),
       W.bio.GRUPPEN.map(function (g) {
-        var inp = h('input', { type: 'text', inputmode: 'decimal', class: 'eingabe eingabe--zahl', placeholder: '0', oninput: function () { prozent[g] = inp.value; } });
+        var inp = h('input', { type: 'text', inputmode: 'decimal', class: 'eingabe eingabe--zahl', placeholder: '–', oninput: function () { prozent[g] = inp.value; } });
         pf[g] = inp;
         return h('label', { class: 'prozent' }, h('span', null, g), inp, h('span', null, '%'));
       })) : null;
@@ -457,7 +468,7 @@
         sels.forEach(function (s) { s.sel.disabled = true; s.sel.classList.add(felder[s.i][s.j] === soll[s.i][s.j] ? 'richtig' : 'falsch'); });
         if (item.mitWahrscheinlichkeit) {
           var vt = W.bio.verteilung(item.mutter, item.vater);
-          Object.keys(pf).forEach(function (g) { pf[g].disabled = true; pf[g].classList.add(Math.abs(W.text.parseZahl(pf[g].value) - vt[g]) < 0.01 ? 'richtig' : 'falsch'); });
+          Object.keys(pf).forEach(function (g) { pf[g].disabled = true; pf[g].classList.add(Math.abs(prozentWert(prozent, g) - vt[g]) < 0.01 ? 'richtig' : 'falsch'); });
         }
       }
     };
@@ -568,7 +579,7 @@
         h('div', { class: 'spiel__kopf' }, h('span', null, opts.titel || ''), h('span', { class: 'mono' }, (i + 1) + ' / ' + folge.length)),
         h('div', { class: 'fortschritt' }, h('span', { style: { width: Math.round(100 * i / folge.length) + '%' } })),
         r.el, fb, h('div', { class: 'aktionen' }, weiter)));
-      if (opts.scrollen !== false) host.scrollIntoView({ block: 'start', behavior: 'auto' });
+      if (opts.scrollen !== false && host.lastChild) host.lastChild.scrollIntoView({ block: 'start', behavior: 'auto' });
     }
     function ende() {
       host.innerHTML = '';

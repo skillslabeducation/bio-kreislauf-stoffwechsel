@@ -198,9 +198,9 @@ sub { font-size: .72em; line-height: 0; }
 .fall__titelzeile { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .fall__titelzeile h1 { margin: 4px 0; flex: 1; min-width: 0; }
 .fall__thema { color: var(--muted); margin: 0 0 8px; font-size: .92rem; }
-.tabs { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; margin: 8px -16px 12px; padding: 6px 16px 8px; position: sticky; top: calc(env(safe-area-inset-top) + 65px); z-index: 10; background: var(--bg); }
+.tabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 3px; margin: 8px -16px 12px; padding: 6px 12px 8px; position: sticky; top: calc(env(safe-area-inset-top) + 65px); z-index: 10; background: var(--bg); }
 .tabs::-webkit-scrollbar { display: none; }
-.reiter { flex: none; padding: 10px 14px; min-height: 44px; border-radius: 10px; color: var(--muted); text-decoration: none; font-size: .9rem; border: 1px solid transparent; }
+.reiter { display: flex; align-items: center; justify-content: center; padding: 8px 2px; min-height: 44px; border-radius: 10px; color: var(--muted); text-decoration: none; font-size: .8rem; border: 1px solid transparent; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .reiter--an { color: var(--text); background: var(--panel); border-color: var(--line); }
 .aufnahme__kopf { font-size: .74rem; letter-spacing: .1em; color: var(--muted); margin: 0 0 8px; }
 .monitor { display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 8px; margin: 8px 0 12px; }
@@ -233,6 +233,11 @@ sub { font-size: .72em; line-height: 0; }
 .epikrise { border-color: rgba(59, 227, 139, .4); }
 
 /* ---------- Aufgaben ---------- */
+.spiel { scroll-margin-top: calc(env(safe-area-inset-top) + 130px); }
+.pruef-hinweis { display: block; text-decoration: none; color: var(--text); border-color: var(--amber); background: var(--amber-dim); }
+.pruef-hinweis strong { color: var(--amber); }
+.fehlt a { color: var(--muted); }
+@media (min-width: 500px) { .reiter { font-size: .9rem; } }
 .spiel__kopf { display: flex; justify-content: space-between; color: var(--muted); font-size: .85rem; }
 .fortschritt { height: 4px; background: var(--panel2); border-radius: 2px; margin: 8px 0 14px; overflow: hidden; }
 .fortschritt span { display: block; height: 100%; background: var(--vital); }
@@ -402,3 +407,45 @@ table.tab--kreuzung .allel { font-family: var(--mono); font-size: 1.1rem; text-a
 .muskel { fill: rgba(239, 120, 140, .35); stroke: #e98ca0; stroke-width: 2; transition: rx .25s, cx .25s; }
 .kurve-punkt { fill: var(--text); stroke: var(--bg); stroke-width: 2; }
 
+
+/* ---------- Triage ---------- */
+.triage__karte { min-height: 180px; display: grid; place-items: center; padding: 20px; margin: 12px 0; text-align: center; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; }
+.triage__aussage { font-size: 1.15rem; font-weight: 600; line-height: 1.45; margin: 0; }
+.triage__karte--ok { animation: blitz-ok .45s; }
+.triage__karte--falsch { animation: blitz-falsch .45s; }
+@keyframes blitz-ok { from { box-shadow: 0 0 0 3px var(--vital) inset; } to { box-shadow: 0 0 0 0 transparent inset; } }
+@keyframes blitz-falsch { from { box-shadow: 0 0 0 3px var(--rot) inset; } to { box-shadow: 0 0 0 0 transparent inset; } }
+.triage__knoepfe { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.triage__btn { min-height: 72px; font-size: 1.05rem; }
+.triage__btn--ja { border-color: rgba(59, 227, 139, .6); color: var(--vital); }
+.triage__btn--nein { border-color: rgba(239, 83, 80, .6); color: #ff8a80; }
+
+/* ---------- Kitteltasche ---------- */
+.kittel__kopf { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.kittel__abb { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+.kittel__spalten { columns: 2 300px; column-gap: 20px; }
+.kittel__abschnitt { break-inside: avoid; margin: 0 0 14px; }
+.kittel__abschnitt h2 { font-size: .95rem; margin: 10px 0 4px; color: var(--vital); }
+.kittel__abschnitt ul { margin: 0; padding-left: 18px; font-size: .92rem; }
+.kittel__abschnitt li { margin: 3px 0; }
+.kittel__abschnitt table { width: 100%; border-collapse: collapse; font-size: .85rem; margin: 6px 0; }
+.kittel__abschnitt th, .kittel__abschnitt td { border: 1px solid var(--line); padding: 3px 5px; text-align: left; }
+.kittel__abschnitt p { font-size: .92rem; margin: 4px 0; }
+
+@media print {
+  @page { size: A4; margin: 10mm; }
+  :root { --bg: #fff; --panel: #fff; --panel2: #f2f4f8; --line: #b8c0d0; --text: #111; --muted: #444; --vital: #0a7a40; --vital-dim: #e8f6ee; --rot: #c62828; --rot-dim: #fbe9e9; --blau: #1e5bd6; --blau-dim: #e7eefc; --amber: #9a6200; }
+  body { background: #fff; color: #111; font-size: 9.5pt; padding: 0; line-height: 1.35; }
+  .kopf, .nav, #toast, .nicht-drucken, .dialog { display: none !important; }
+  #inhalt { max-width: none; padding: 0; }
+  .kittel h1 { font-size: 15pt; margin: 0 0 4px; }
+  .kittel__abb { grid-template-columns: 1fr 1fr; gap: 6mm; }
+  .kittel__abb .abb { padding: 2mm; }
+  .kittel__abb .abb-svg { max-height: 62mm; }
+  .kittel__spalten { columns: 2; column-gap: 7mm; }
+  .kittel__abschnitt { margin-bottom: 2.5mm; }
+  .kittel__abschnitt h2 { font-size: 10pt; margin: 2mm 0 1mm; }
+  .kittel__abschnitt ul, .kittel__abschnitt p { font-size: 8.8pt; }
+  .kittel__abschnitt table { font-size: 8.2pt; }
+  .abb-label { stroke: #fff; }
+}

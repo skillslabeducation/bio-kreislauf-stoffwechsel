@@ -158,4 +158,28 @@ test('Fortschritt übertragen: Export und Import', () => {
   ok(b.W.state.data.items['f-u1'].ok);
 });
 
+test('Speicher: gültiges JSON mit falscher Struktur wird repariert', () => {
+  const a = neu();
+  a.ctx.localStorage.setItem('nachtschicht-v1', JSON.stringify({ v: 1, wv: null, items: 5, erkl: 'x', pruefung: null, triage: [] }));
+  a.W.state.load();
+  eq(typeof a.W.state.data.wv, 'object'); ok(a.W.state.data.wv !== null);
+  eq(a.W.state.wvListe(), []);
+  a.W.state.itemErgebnis('x', false);
+  eq(a.W.state.wvListe(), ['x']);
+  ok(a.W.state.data.pruefung.best && typeof a.W.state.data.pruefung.best === 'object');
+});
+
+test('Erklärung: Entwurf wird gespeichert, ohne die Bewertung zu ändern', () => {
+  const a = neu();
+  a.W.state.load();
+  a.W.state.erklEntwurf('e9', 'halber Satz');
+  eq(a.W.state.erklText('e9'), 'halber Satz');
+  eq(a.W.state.data.erkl.e9 && a.W.state.data.erkl.e9.best || 0, 0);
+  eq(a.W.state.wvListe(), []);
+  a.W.state.erklSpeichern('e9', { text: 'fertig', haken: [0], prozent: 0.7 });
+  a.W.state.erklEntwurf('e9', 'neuer Versuch');
+  eq(a.W.state.data.erkl.e9.best, 0.7);
+  eq(a.W.state.erklText('e9'), 'neuer Versuch');
+});
+
 fertig('logic');

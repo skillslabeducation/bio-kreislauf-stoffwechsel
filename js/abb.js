@@ -16,6 +16,7 @@
         kehlkopf: { label: 'Kehlkopf', x: 326, y: 140, tx: 216, ty: 160, a: 'end' },
         luftroehre: { label: 'Luftröhre', x: 326, y: 196, tx: 212, ty: 204, a: 'end' },
         bronchien: { label: 'Bronchien', x: 336, y: 250, tx: 246, ty: 262, a: 'end' },
+        bronchiolen: { label: 'Bronchiolen', x: 30, y: 248, tx: 132, ty: 283, a: 'start' },
         lungenfluegel: { label: 'Lungenflügel', x: 30, y: 292, tx: 118, ty: 292, a: 'start' },
         zwerchfell: { label: 'Zwerchfell', x: 330, y: 378, tx: 288, ty: 341, a: 'end' }
       }
@@ -25,7 +26,7 @@
       strukturen: {
         lungenblaeschen: { label: 'Lungenbläschen', x: 40, y: 40, tx: 128, ty: 88, a: 'start' },
         kapillare: { label: 'Blutkapillare', x: 346, y: 186, tx: 300, ty: 222, a: 'end' },
-        bronchiole: { label: 'Bronchiole', x: 300, y: 22, tx: 196, ty: 22, a: 'end' }
+        bronchiole: { label: 'Bronchiole', x: 300, y: 22, tx: 184, ty: 22, a: 'end' }
       }
     },
     kreislauf: {

@@ -12,9 +12,8 @@
   /** host: Element. erkl: Erkl-Objekt. opts: { onFertig(prozent), speichern: true, modus: 'ueben'|'pruefung', text } */
   function render(host, erkl, opts) {
     opts = opts || {};
-    var bisher = W.state.data.erkl[erkl.id] || {};
     var modus = null;
-    var text = opts.text != null ? opts.text : (bisher.text || '');
+    var text = opts.text != null ? opts.text : W.state.erklText(erkl.id);
 
     function kopf() {
       return h('div', { class: 'erkl__kopf' },
@@ -39,6 +38,7 @@
       host.innerHTML = '';
       var ta = h('textarea', { class: 'erkl__text', rows: '7', placeholder: 'Deine Erklärung …', spellcheck: 'true' });
       ta.value = text;
+      ta.addEventListener('input', function () { text = ta.value; if (opts.speichern !== false) W.state.erklEntwurf(erkl.id, ta.value); });
       host.appendChild(h('div', { class: 'erkl' }, kopf(), ta,
         h('div', { class: 'aktionen' },
           h('button', { type: 'button', class: 'btn btn--haupt', onclick: function () { text = ta.value; bewerten(); } }, 'Fertig, vergleichen'))));
@@ -50,7 +50,7 @@
       host.appendChild(h('div', { class: 'erkl' }, kopf(),
         h('div', { class: 'papier' }, h('p', null, 'Schreib deine Antwort jetzt auf ein Blatt. Erst wenn du fertig bist, vergleichst du mit dem Erwartungshorizont.')),
         h('div', { class: 'aktionen' },
-          h('button', { type: 'button', class: 'btn btn--haupt', onclick: function () { text = ''; bewerten(); } }, 'Fertig, vergleichen'))));
+          h('button', { type: 'button', class: 'btn btn--haupt', onclick: function () { bewerten(); } }, 'Fertig, vergleichen'))));
     }
 
     function bewerten() {

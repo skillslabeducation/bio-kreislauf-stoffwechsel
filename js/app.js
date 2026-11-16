@@ -25,7 +25,7 @@
   function nav(aktiv) {
     var el = document.getElementById('nav');
     if (!el) return;
-    var wv = W.state.wvListe().length;
+    var wv = W.ansichten.wvAnzahl();
     el.innerHTML = '';
     NAV.forEach(function (n) {
       el.appendChild(h('a', { href: n[0], class: 'nav__punkt' + (aktiv === n[2] ? ' nav__punkt--an' : ''), 'aria-current': aktiv === n[2] ? 'page' : null },
@@ -43,9 +43,9 @@
     var main = document.getElementById('inhalt');
     main.innerHTML = '';
     var aktiv = r.name === 'fall' ? 'board' : r.name;
-    kopf();
-    nav(aktiv);
     try {
+      kopf();
+      nav(aktiv);
       switch (r.name) {
         case 'fall': W.ansichten.fall(main, r.args[0], r.args[1]); break;
         case 'wv': W.ansichten.wiedervorlage(main); break;
@@ -85,7 +85,14 @@
   function start() {
     W.state.load();
     window.addEventListener('hashchange', zeige);
-    W.state.on(function () { kopf(); nav(route().name === 'fall' ? 'board' : route().name); });
+    // Kopf und Navigation nur neu bauen, wenn sich Name, Rang oder Wiedervorlage ändern (sonst springt das EKG bei jeder Antwort).
+    var signatur = '';
+    W.state.on(function () {
+      var s = [W.state.data.name, W.logic.rang(W.state.data, W.ansichten.faelle()).titel, W.ansichten.wvAnzahl()].join('|');
+      if (s === signatur) return;
+      signatur = s;
+      kopf(); nav(route().name === 'fall' ? 'board' : route().name);
+    });
     zeige();
     if (!W.state.data.begruesst) W.ansichten.begruessung(zeige);
   }

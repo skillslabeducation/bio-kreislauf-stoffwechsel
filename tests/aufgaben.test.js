@@ -96,4 +96,24 @@ test('luecke: Lösungstext setzt die richtigen Wörter ein', () => {
   eq(A.loesungText(BEISPIELE.luecke), 'Das Zwerchfell zieht sich zusammen.');
 });
 
+test('kreuzung: leere Prozentfelder zählen als 0, wenn etwas eingetragen ist', () => {
+  const ab = { id: 'k2', typ: 'kreuzung', mutter: 'AB', vater: 'AB', mitWahrscheinlichkeit: true };
+  ok(A.richtig(ab, { felder: [['AA', 'AB'], ['AB', 'BB']], prozent: { A: '25', B: '25', AB: '50' } }));
+  ok(!A.richtig(ab, { felder: [['AA', 'AB'], ['AB', 'BB']], prozent: {} }));
+});
+
+test('leer: Behauptung ohne Urteil ist leer, mit Urteil nicht; feste Reihenfolge ohne Auswahl ist leer', () => {
+  ok(A.leer(BEISPIELE.behauptung, { stimmt: null, grund: 1 }));
+  ok(!A.leer(BEISPIELE.behauptung, { stimmt: false, grund: null }));
+  const fest = Object.assign({}, BEISPIELE.reihenfolge, { startFest: true });
+  ok(A.leer(fest, [0]));
+  ok(!A.leer(fest, [0, 2]));
+});
+
+test('eingabe: Sperrliste des Items wird beachtet', () => {
+  const it = { id: 'e2', typ: 'eingabe', frage: 'q', akzeptiert: ['Bronchiolen'], nicht: ['Bronchien'] };
+  ok(!A.richtig(it, 'Bronchien'));
+  ok(A.richtig(it, 'Bronchiolen'));
+});
+
 fertig('aufgaben');

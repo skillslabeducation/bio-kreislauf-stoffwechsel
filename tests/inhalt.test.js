@@ -57,7 +57,7 @@ faelle.forEach((f) => {
     ok(f.aufnahme && f.aufnahme.text && f.aufnahme.oberaerztin && f.aufnahme.leitfrage, 'aufnahme unvollständig');
     ok(f.karten.length >= 3 && f.karten.length <= 8, 'Karten: ' + f.karten.length);
     ok(f.ueben.length >= 12 && f.ueben.length <= 22, 'Üben: ' + f.ueben.length);
-    ok(f.erklaeren.length >= 2 && f.erklaeren.length <= 4, 'Erklären: ' + f.erklaeren.length);
+    ok(f.erklaeren.length >= 2 && f.erklaeren.length <= 5, 'Erklären: ' + f.erklaeren.length);
     ok(f.abschluss.length >= 3 && f.abschluss.length <= 5, 'Abschluss: ' + f.abschluss.length);
     f.karten.forEach((k, i) => { ok(k.titel && k.text, 'Karte ' + i); if (k.abb) ok(W.abb.liste[k.abb], 'Karte ' + i + ': Abbildung ' + k.abb); });
   });
@@ -89,5 +89,36 @@ if (!process.env.NUR_FAELLE) test('Jeder Block des Übungsblatts ist einem Fall 
   const fehlt = soll.filter((b) => !da.has(b));
   eq(fehlt, []);
 });
+
+if (!process.env.NUR_FAELLE) {
+  test('Triage: mindestens 60 Aussagen, ausgewogen, jede mit Erklärung und gültigem Fall', () => {
+    ok(W.triage && Array.isArray(W.triage.pool), 'W.triage.pool fehlt');
+    const pool = W.triage.pool;
+    ok(pool.length >= 60, 'nur ' + pool.length);
+    const wahr = pool.filter((a) => a.stimmt === true).length / pool.length;
+    ok(wahr >= 0.4 && wahr <= 0.6, 'Anteil wahr: ' + wahr.toFixed(2));
+    const fallIds = faelle.map((f) => f.id);
+    pool.forEach((a, i) => {
+      ok(a.s && typeof a.stimmt === 'boolean' && a.erkl, 'Aussage ' + i + ' unvollständig');
+      ok(fallIds.indexOf(a.fall) >= 0, 'Aussage ' + i + ': Fall ' + a.fall);
+    });
+    eq(new Set(pool.map((a) => a.s)).size, pool.length, 'doppelte Aussagen');
+  });
+
+  test('Triage: Aussage als Wiedervorlage-Aufgabe auffindbar und lösbar', () => {
+    const it = W.triage.itemNachId('t-3');
+    eq(it.typ, 'wahl');
+    eq(it.id, 't-3');
+    ok(A.richtig(it, A.loesung(it)));
+    eq(W.triage.itemNachId('t-9999'), null);
+  });
+
+  test('Kitteltasche: Daten für alle Fälle vorhanden', () => {
+    ok(W.kitteltasche && typeof W.kitteltasche.abschnitte === 'function', 'W.kitteltasche fehlt');
+    const ab = W.kitteltasche.abschnitte(faelle);
+    ok(ab.length >= 10, 'Abschnitte: ' + ab.length);
+    ab.forEach((x) => ok(x.titel && (x.merk.length || x.extra), 'leerer Abschnitt ' + x.titel));
+  });
+}
 
 fertig('inhalt');
