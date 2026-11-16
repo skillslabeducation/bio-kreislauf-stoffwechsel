@@ -97,6 +97,19 @@
 
   function richtig(item, a) { return score(item, a) >= 1 - 1e-9; }
 
+  /** Wurde gar nicht geantwortet? Dann zählt „Prüfen“ nicht als Fehler. */
+  function leer(item, a) {
+    if (a == null) return true;
+    function nichts(x) { return x == null || x === '' || x === false || (typeof x === 'string' && !x.trim()); }
+    function tief(x) {
+      if (Array.isArray(x)) return x.every(tief);
+      if (x && typeof x === 'object') return Object.keys(x).every(function (k) { return tief(x[k]); });
+      return nichts(x);
+    }
+    if (item.typ === 'wahl') return a === null;
+    return tief(a);
+  }
+
   /** Die Musterlösung im Antwortformat des Typs. */
   function loesung(item) {
     switch (item.typ) {
@@ -492,8 +505,9 @@
       var geprueft = false;
       weiter.addEventListener('click', function () {
         if (!geprueft) {
-          geprueft = true;
           var a = r.antwort();
+          if (leer(item, a)) { W.toast('Erst antworten, dann prüfen.'); return; }
+          geprueft = true;
           var sc = score(item, a);
           var ok = sc >= 1 - 1e-9;
           r.zeige();
@@ -534,7 +548,7 @@
   }
 
   W.aufgaben = {
-    score: score, richtig: richtig, loesung: loesung, loesungText: loesungText,
+    score: score, richtig: richtig, leer: leer, loesung: loesung, loesungText: loesungText,
     render: render, spiele: spiele, nummernFuer: nummernFuer, parseLuecke: parseLuecke, ohneTags: ohneTags, TYPEN: Object.keys(R)
   };
 })();

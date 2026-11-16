@@ -76,6 +76,22 @@ test('liste: Synonyme und doppelte Nennung', () => {
   eq(A.score(BEISPIELE.liste, ['Fette', 'Fett']), 0.5);
 });
 
+test('leer: keine Antwort wird erkannt, eine Teilantwort nicht', () => {
+  ok(A.leer(BEISPIELE.wahl, null));
+  ok(A.leer(BEISPIELE.mehrfach, []));
+  ok(A.leer(BEISPIELE.eingabe, '   '));
+  ok(A.leer(BEISPIELE.luecke, [null, null]));
+  ok(!A.leer(BEISPIELE.luecke, [null, 'zusammen']));
+  ok(A.leer(BEISPIELE.beschriften, {}));
+  ok(A.leer(BEISPIELE.matrix, [[false, false], [false, false]]));
+  ok(A.leer(BEISPIELE.behauptung, { stimmt: null, grund: null }));
+  ok(A.leer(BEISPIELE.reihenfolge, []));
+  ok(A.leer(BEISPIELE.kreuzung, { felder: [[null, null], [null, null]], prozent: {} }));
+  ok(!A.leer(BEISPIELE.wahl, 0));
+  ok(!A.leer(BEISPIELE.zahl, '12'));
+  ok(!A.leer(BEISPIELE.tabelle, [[0, null], [null, null]]));
+});
+
 test('luecke: Lösungstext setzt die richtigen Wörter ein', () => {
   eq(A.loesungText(BEISPIELE.luecke), 'Das Zwerchfell zieht sich zusammen.');
 });
