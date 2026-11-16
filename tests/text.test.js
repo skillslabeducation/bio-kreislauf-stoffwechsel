@@ -42,6 +42,14 @@ test('passt: falsche Begriffe werden nicht akzeptiert', () => {
   ok(!T.passt('Amylase', ['Lipase']));
 });
 
+test('passt: Enzym und Substrat (-ase/-ose) sind kein Tippfehler', () => {
+  ok(!T.passt('Lactose', ['Lactase']));
+  ok(!T.passt('Lactase', ['Lactose', 'Milchzucker']));
+  ok(!T.passt('Maltase', ['Maltose']));
+  ok(T.passt('Laktase', ['Lactase']));
+  ok(T.passt('Laktose', ['Lactose']));
+});
+
 test('liste: jede Gruppe zählt nur einmal', () => {
   const g = [['Wachstum', 'wachsen'], ['Bewegung', 'bewegen'], ['Stoffwechsel']];
   eq(T.liste(['wachstum', 'bewegung', 'Wachstum'], g, 3).treffer, 2);

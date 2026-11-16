@@ -41,6 +41,8 @@
     if (e === a) return true;
     var se = stamm(e), sa = stamm(a);
     if (se.length >= 4 && se === sa) return true;
+    // Enzym (-ase) und Substrat (-ose) unterscheiden sich oft nur in einem Buchstaben: das ist kein Tippfehler.
+    if (/ase$/.test(e) !== /ase$/.test(a) && (/ose$/.test(e) || /ose$/.test(a))) return false;
     var erlaubt = a.length >= 10 ? 2 : a.length >= 5 ? 1 : 0;
     return erlaubt > 0 && levenshtein(e, a) <= erlaubt;
   }

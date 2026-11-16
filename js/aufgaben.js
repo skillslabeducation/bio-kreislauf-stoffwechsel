@@ -215,6 +215,14 @@
     return {
       el: h('div', null, mehr ? h('p', { class: 'hinweis-klein' }, 'Mehrere Antworten können richtig sein.') : null, el),
       antwort: function () { return mehr ? gew.slice() : gew; },
+      setze: function (w) {
+        gew = mehr ? (w || []).slice() : w;
+        knoepfe.forEach(function (k) {
+          var an = mehr ? gew.indexOf(k.i) >= 0 : gew === k.i;
+          k.b.classList.toggle('gewaehlt', an);
+          if (mehr) k.b.setAttribute('aria-pressed', an ? 'true' : 'false');
+        });
+      },
       zeige: function () {
         el.classList.add('fertig');
         var soll = mehr ? item.richtig : [item.richtig];
@@ -242,6 +250,7 @@
     }));
     return {
       el: el, antwort: function () { return werte.slice(); },
+      setze: function (w) { sels.forEach(function (s, i) { if (w[i] != null) { s.sel.value = w[i]; werte[i] = w[i]; } }); },
       zeige: function () { sels.forEach(function (s, i) { s.sel.disabled = true; s.sel.classList.add(werte[i] === s.soll ? 'richtig' : 'falsch'); }); }
     };
   };
@@ -254,6 +263,7 @@
     var inp = textfeld('Fachbegriff');
     return {
       el: inp, antwort: function () { return inp.value; },
+      setze: function (w) { inp.value = w || ''; },
       zeige: function () { inp.disabled = true; inp.classList.add(W.text.passt(inp.value, item.akzeptiert) ? 'richtig' : 'falsch'); }
     };
   };
@@ -264,6 +274,7 @@
     return {
       el: h('div', { class: 'liste' }, felder),
       antwort: function () { return felder.map(function (f) { return f.value; }); },
+      setze: function (w) { felder.forEach(function (f, i) { f.value = (w && w[i]) || ''; }); },
       zeige: function () {
         var z = W.text.liste(felder.map(function (f) { return f.value; }), item.gruppen, item.anzahl).zuordnung;
         felder.forEach(function (f, i) { f.disabled = true; f.classList.add(z[i] >= 0 ? 'richtig' : 'falsch'); });
@@ -282,6 +293,7 @@
     }));
     return {
       el: el, antwort: function () { return werte.slice(); },
+      setze: function (w) { sels.forEach(function (s, i) { if (w[i] != null) { s.value = String(w[i]); werte[i] = w[i]; } }); },
       zeige: function () { sels.forEach(function (s, i) { s.disabled = true; s.classList.add(werte[i] === i ? 'richtig' : 'falsch'); }); }
     };
   };
@@ -309,6 +321,7 @@
     return {
       el: h('div', { class: 'reihenfolge' }, h('p', { class: 'hinweis-klein' }, 'Tippe die Stationen in der richtigen Reihenfolge an. Antippen in der Liste nimmt sie wieder heraus.'), reihe, pool),
       antwort: function () { return start.concat(gewaehlt); },
+      setze: function (w) { gewaehlt = (w || []).filter(function (i) { return start.indexOf(i) < 0; }); zeichnen(); },
       zeige: function () {
         reihe.classList.add('fertig');
         Array.prototype.forEach.call(reihe.querySelectorAll('button'), function (b, pos) {
@@ -343,6 +356,7 @@
       el: h('div', null, figur(item.abb, { nummern: nummern }), liste),
       nummern: nummern,
       antwort: function () { return Object.assign({}, werte); },
+      setze: function (w) { Object.keys(w || {}).forEach(function (id) { if (sels[id] && w[id] != null) { sels[id].value = w[id]; werte[id] = w[id]; } }); },
       zeige: function () { Object.keys(sels).forEach(function (id) { sels[id].disabled = true; sels[id].classList.add(werte[id] === id ? 'richtig' : 'falsch'); }); }
     };
   };
@@ -363,6 +377,7 @@
     return {
       el: h('div', { class: 'tab-wrap' }, tab),
       antwort: function () { return werte.map(function (z) { return z.slice(); }); },
+      setze: function (w) { sels.forEach(function (s) { var v = w && w[s.zi] ? w[s.zi][s.ci] : null; if (v != null) { s.sel.value = String(v); werte[s.zi][s.ci] = v; } }); },
       zeige: function () { sels.forEach(function (s) { s.sel.disabled = true; s.sel.classList.add(werte[s.zi][s.ci] === s.soll ? 'richtig' : 'falsch'); }); }
     };
   };
@@ -387,6 +402,14 @@
     return {
       el: h('div', { class: 'tab-wrap' }, tab),
       antwort: function () { return werte.map(function (z) { return z.slice(); }); },
+      setze: function (w) {
+        knoepfe.forEach(function (k) {
+          var v = !!(w && w[k.i] && w[k.i][k.j]);
+          werte[k.i][k.j] = v;
+          k.b.textContent = v ? '✕' : '';
+          k.b.setAttribute('aria-pressed', v ? 'true' : 'false');
+        });
+      },
       zeige: function () {
         knoepfe.forEach(function (k) {
           k.b.disabled = true;
@@ -424,6 +447,11 @@
     return {
       el: h('div', null, h('p', { class: 'hinweis-klein' }, 'Mutter: ' + item.mutter + ' · Vater: ' + item.vater), h('div', { class: 'tab-wrap' }, tab), prozentEl),
       antwort: function () { return { felder: felder.map(function (z) { return z.slice(); }), prozent: Object.assign({}, prozent) }; },
+      setze: function (w) {
+        if (!w) return;
+        sels.forEach(function (s) { var g = w.felder && w.felder[s.i] ? w.felder[s.i][s.j] : null; if (g) { s.sel.value = g; felder[s.i][s.j] = g; } });
+        Object.keys(pf).forEach(function (g) { if (w.prozent && w.prozent[g] != null) { pf[g].value = w.prozent[g]; prozent[g] = w.prozent[g]; } });
+      },
       zeige: function () {
         var soll = W.bio.kreuzung(item.mutter, item.vater);
         sels.forEach(function (s) { s.sel.disabled = true; s.sel.classList.add(felder[s.i][s.j] === soll[s.i][s.j] ? 'richtig' : 'falsch'); });
@@ -440,6 +468,7 @@
     return {
       el: h('label', { class: 'zahl' }, inp, item.einheit ? h('span', null, item.einheit) : null),
       antwort: function () { return inp.value; },
+      setze: function (w) { inp.value = w || ''; },
       zeige: function () { inp.disabled = true; inp.classList.add(zahlPasst(item, inp.value) ? 'richtig' : 'falsch'); }
     };
   };
@@ -461,6 +490,14 @@
       el: h('div', null, h('blockquote', { class: 'aussage', html: '„' + item.aussage + '“' }),
         h('div', { class: 'urteil' }, ja, nein), h('p', { class: 'hinweis-klein' }, 'Und warum?'), gruende),
       antwort: function () { return { stimmt: urteil, grund: grund }; },
+      setze: function (w) {
+        if (!w) return;
+        urteil = w.stimmt == null ? null : w.stimmt;
+        grund = w.grund == null ? null : w.grund;
+        ja.classList.toggle('gewaehlt', urteil === true);
+        nein.classList.toggle('gewaehlt', urteil === false);
+        gk.forEach(function (k) { k.b.classList.toggle('gewaehlt', k.i === grund); });
+      },
       zeige: function () {
         [ja, nein].forEach(function (b) { b.disabled = true; });
         (item.stimmt ? ja : nein).classList.add('richtig');
@@ -478,6 +515,7 @@
     var r = R[item.typ];
     if (!r) throw new Error('Unbekannter Aufgabentyp: ' + item.typ);
     var api = r(item, ctx);
+    if (ctx && ctx.wert != null && api.setze) api.setze(ctx.wert);
     var kopf = item.typ === 'behauptung' ? h('p', { class: 'frage' }, item.frage ? h('span', { html: item.frage }) : 'Ein Mitschüler behauptet:')
       : item.typ === 'luecke' ? (item.frage ? h('p', { class: 'frage', html: item.frage }) : h('p', { class: 'frage' }, 'Wähle die passenden Wörter.'))
         : h('p', { class: 'frage', html: item.frage });
