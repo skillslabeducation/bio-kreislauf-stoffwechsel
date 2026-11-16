@@ -36,3 +36,62 @@ body {
 img, svg { max-width: 100%; }
 a { color: var(--vital); }
 button, input, select, textarea { font: inherit; color: inherit; }
+
+/* ---------- Abbildungen ---------- */
+.abb { margin: 12px 0; padding: 10px; background: var(--panel2); border: 1px solid var(--line); border-radius: var(--r); }
+.abb-svg { display: block; width: 100%; height: auto; max-height: 460px; font-family: var(--sans); }
+.abb-koerper { fill: #1d2a45; stroke: #3a4a6e; stroke-width: 2; }
+.abb-rumpf { fill: #16213a; stroke: #2e3d5f; stroke-width: 2; }
+.abb-hoehle { fill: #3a2f45; stroke: #8a6fa8; stroke-width: 1.5; }
+.abb-weg { fill: none; stroke: #8a6fa8; stroke-width: 8; stroke-linecap: round; opacity: .8; }
+.abb-lunge { fill: rgba(239, 120, 140, .30); stroke: #e98ca0; stroke-width: 2; }
+.abb-kehlkopf { fill: #5d7bb8; stroke: #9db6e8; stroke-width: 1.5; }
+.abb-luftroehre { fill: #5d7bb8; stroke: #9db6e8; stroke-width: 1.5; }
+.abb-ring { stroke: #c9d8f5; stroke-width: 1.5; }
+.abb-bronchus { fill: none; stroke: #9db6e8; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+.abb-zwerchfell { fill: none; stroke: #c0504d; stroke-width: 7; stroke-linecap: round; }
+.abb-alveole { fill: rgba(147, 163, 191, .16); stroke: #93a3bf; stroke-width: 2.5; }
+.abb-kapillare-blau { fill: none; stroke: var(--blau); stroke-width: 22; stroke-linecap: round; }
+.abb-kapillare-rot { fill: none; stroke: var(--rot); stroke-width: 22; stroke-linecap: round; }
+.abb-gaspfeil { stroke: var(--text); stroke-width: 3; }
+.abb-pfeilspitze { fill: var(--text); }
+.abb-buchst { fill: var(--text); }
+.abb-buchst-t { fill: var(--bg); font-weight: 700; font-size: 14px; }
+.abb-text { fill: var(--text); font-size: 15px; font-weight: 600; }
+.abb-klein { fill: var(--muted); font-size: 12px; }
+.abb-box { fill: var(--panel); stroke: var(--line); stroke-width: 2; }
+.abb-box--warm { fill: #2b2318; stroke: #6e5530; }
+.abb-box--rot { fill: var(--rot-dim); stroke: var(--rot); }
+.abb-ader-blau { fill: none; stroke: var(--blau); stroke-width: 7; stroke-linejoin: round; }
+.abb-ader-rot { fill: none; stroke: var(--rot); stroke-width: 7; stroke-linejoin: round; }
+.abb-ader-luecke { fill: none; stroke: var(--panel2); stroke-width: 15; }
+.abb-herz { fill: rgba(239, 83, 80, .07); stroke: #6b3440; stroke-width: 2; }
+.abb-kammer-blau { fill: var(--blau-dim); stroke: var(--blau); stroke-width: 2; }
+.abb-kammer-rot { fill: var(--rot-dim); stroke: var(--rot); stroke-width: 2; }
+.abb-innenpfeil { stroke: var(--blau); stroke-width: 3; }
+.abb-innenpfeil-r { stroke: var(--rot); stroke-width: 3; }
+.abb-arterie-wand { fill: #7a2f35; stroke: #c45a62; stroke-width: 2; }
+.abb-vene-wand { fill: #253a66; stroke: #4c6db0; stroke-width: 2; }
+.abb-lumen-rot { fill: #2a0f14; stroke: var(--rot); stroke-width: 1; }
+.abb-lumen-blau { fill: #0e1830; stroke: var(--blau); stroke-width: 1; }
+.abb-kap-wand { fill: #7a2f35; stroke: #c45a62; stroke-width: 1.5; }
+.abb-vene-laengs { fill: var(--blau-dim); stroke: var(--blau); stroke-width: 2; }
+.abb-klappe { fill: none; stroke: #9db6e8; stroke-width: 3; stroke-linecap: round; }
+.abb-fluss { fill: none; stroke: var(--muted); stroke-width: 2.5; }
+.abb-stoff rect { fill: var(--panel2); stroke: var(--muted); }
+.abb-stoff text { fill: var(--text); font-size: 12px; font-weight: 600; }
+.abb-enzym { fill: #2f4a7a; stroke: #7fa2e0; stroke-width: 2; }
+.abb-substrat { fill: #d08a4a; stroke: #f0b27a; stroke-width: 1.5; }
+.abb-pfeil-text { fill: var(--text); font-size: 26px; }
+.abb-band { fill: var(--vital-dim); }
+.abb-gitter { stroke: var(--line); stroke-width: 1; }
+.abb-achse { stroke: var(--muted); stroke-width: 1.5; }
+.abb-kurve { fill: none; stroke: var(--vital); stroke-width: 3; stroke-linejoin: round; }
+.abb-leiter { stroke: var(--text); stroke-width: 1.5; opacity: .75; }
+.abb-ziel { fill: var(--text); }
+.abb-nr circle { fill: var(--text); stroke: var(--bg); stroke-width: 2; }
+.abb-nr text { fill: var(--bg); font: 700 14px var(--mono); }
+.abb-label { fill: var(--text); font-size: 13px; font-weight: 600; paint-order: stroke; stroke: var(--panel2); stroke-width: 4px; stroke-linejoin: round; }
+.abb-marke--hv circle, circle.abb-marke--hv { fill: var(--vital); }
+text.abb-marke--hv { fill: var(--vital); }
+.abb-label--kurz { font-size: 11.5px; }
