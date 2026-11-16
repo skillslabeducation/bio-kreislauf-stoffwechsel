@@ -1,0 +1,68 @@
+/* Eingaben normalisieren und vergleichen, Fachbegriff-Radar. */
+const laden = require('./laden');
+const { test, ok, eq, fertig } = require('./mini');
+const W = laden(['js/util.js', 'js/text.js']);
+const T = W.text;
+
+test('norm: klein, Umlaute, ß, tiefgestellte Ziffern, Satzzeichen', () => {
+  eq(T.norm('  Lungenbläschen! '), 'lungenblaeschen');
+  eq(T.norm('Straße'), 'strasse');
+  eq(T.norm('CO₂'), 'co2');
+  eq(T.norm('Rechter   Vorhof.'), 'rechter vorhof');
+});
+
+test('passt: Singular und Plural', () => {
+  ok(T.passt('Alveole', ['Alveolen']));
+  ok(T.passt('Bronchie', ['Bronchien']));
+  ok(T.passt('Kapillaren', ['Kapillare']));
+});
+
+test('passt: Umlaut-Ersatz', () => {
+  ok(T.passt('lungenblaeschen', ['Lungenbläschen']));
+  ok(T.passt('Lungenblaschen', ['Lungenbläschen']));
+});
+
+test('passt: Synonyme aus der Liste', () => {
+  ok(T.passt('Kohlendioxid', ['Kohlenstoffdioxid', 'Kohlendioxid', 'CO2']));
+  ok(T.passt('co₂', ['CO2']));
+  ok(T.passt('Glukose', ['Glucose', 'Traubenzucker', 'Glukose']));
+});
+
+test('passt: ein Tippfehler bei mittellangen Wörtern', () => {
+  ok(T.passt('Mitochondrin', ['Mitochondrien']));
+  ok(T.passt('Zwerchfel', ['Zwerchfell']));
+  ok(T.passt('Hohlvenne', ['Hohlvene']));
+});
+
+test('passt: falsche Begriffe werden nicht akzeptiert', () => {
+  ok(!T.passt('Arterie', ['Aorta']));
+  ok(!T.passt('Vene', ['Venenklappe']));
+  ok(!T.passt('', ['Aorta']));
+  ok(!T.passt('Lipase', ['Lactase']));
+  ok(!T.passt('Amylase', ['Lipase']));
+});
+
+test('liste: jede Gruppe zählt nur einmal', () => {
+  const g = [['Wachstum', 'wachsen'], ['Bewegung', 'bewegen'], ['Stoffwechsel']];
+  eq(T.liste(['wachstum', 'bewegung', 'Wachstum'], g, 3).treffer, 2);
+  eq(T.liste(['Stoffwechsel', 'wächst', 'Bewegung'], g, 3).treffer, 2);
+  eq(T.liste(['Stoffwechsel', 'wachsen', 'Bewegung'], g, 3).treffer, 3);
+  eq(T.liste(['', '', ''], g, 3).treffer, 0);
+});
+
+test('radar: findet Wortstämme auch in zusammengesetzten Wörtern', () => {
+  const b = [{ name: 'Diffusion', muster: ['diffus'] }, { name: 'Konzentration', muster: ['konzentration'] }, { name: 'Kapillare', muster: ['kapillar'] }];
+  const r = T.radar('Durch Diffusion wandert O2 vom Ort hoher Sauerstoffkonzentration ins Blut.', b);
+  eq(r.map((x) => x.gefunden), [true, true, false]);
+  eq(r[0].name, 'Diffusion');
+});
+
+test('parseZahl: Komma und Punkt, Einheit wird ignoriert', () => {
+  eq(T.parseZahl('192'), 192);
+  eq(T.parseZahl('197,4 kcal'), 197.4);
+  eq(T.parseZahl('25.5'), 25.5);
+  ok(isNaN(T.parseZahl('')));
+  ok(isNaN(T.parseZahl('abc')));
+});
+
+fertig('text');
