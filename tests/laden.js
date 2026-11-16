@@ -29,6 +29,7 @@ module.exports = function laden(nur) {
   vm.createContext(ctx);
   const files = nur || skripte();
   files.forEach((f) => vm.runInContext(fs.readFileSync(path.join(ROOT, f), 'utf8'), ctx, { filename: f }));
+  module.exports.kontext = ctx;
   return ctx.W;
 };
 
