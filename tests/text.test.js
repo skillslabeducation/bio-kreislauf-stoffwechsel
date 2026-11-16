@@ -57,6 +57,12 @@ test('radar: findet Wortstämme auch in zusammengesetzten Wörtern', () => {
   eq(r[0].name, 'Diffusion');
 });
 
+test('radar: Muster aus mehreren Wörtern müssen nicht zusammenhängen', () => {
+  const b = [{ name: 'zieht sich zusammen', muster: ['zieht sich zusammen'] }];
+  eq(T.radar('Beim Einatmen zieht sich das Zwerchfell zusammen.', b)[0].gefunden, true);
+  eq(T.radar('Das Zwerchfell zieht nach unten.', b)[0].gefunden, false);
+});
+
 test('parseZahl: Komma und Punkt, Einheit wird ignoriert', () => {
   eq(T.parseZahl('192'), 192);
   eq(T.parseZahl('197,4 kcal'), 197.4);

@@ -2,7 +2,7 @@
    Erklärungen passen zu ihren Fachbegriffen, alle Blattblöcke abgedeckt, Prüfung ergibt 50/60 Punkte. */
 const laden = require('./laden');
 const { test, ok, eq, fertig } = require('./mini');
-const W = laden();
+const W = global.__dateien ? laden(global.__dateien) : laden();
 const A = W.aufgaben;
 const faelle = (W.faelle || []).slice().sort((a, b) => a.box - b.box);
 
@@ -46,7 +46,7 @@ function pruefeErkl(e) {
   ok(fehlend.length === 0, e.id + ': Musterantwort enthält Fachbegriffe nicht: ' + fehlend.join(', '));
 }
 
-test('Fälle: zehn Stück, Boxen 0 bis 9', () => {
+if (!process.env.NUR_FAELLE) test('Fälle: zehn Stück, Boxen 0 bis 9', () => {
   eq(faelle.map((f) => f.box), [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
 });
 
@@ -81,7 +81,7 @@ test('IDs sind über alle Fälle eindeutig', () => {
   eq(doppelt, []);
 });
 
-test('Jeder Block des Übungsblatts ist einem Fall zugeordnet', () => {
+if (!process.env.NUR_FAELLE) test('Jeder Block des Übungsblatts ist einem Fall zugeordnet', () => {
   const da = new Set();
   faelle.forEach((f) => String(f.blatt).split(/\s*,\s*/).forEach((b) => da.add(b.replace(/[a-e–-]+$/, ''))));
   const soll = [];

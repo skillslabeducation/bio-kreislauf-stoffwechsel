@@ -70,7 +70,13 @@
   function radar(text, begriffe) {
     var t = ' ' + norm(text) + ' ';
     return (begriffe || []).map(function (b) {
-      return { name: b.name, gefunden: b.muster.some(function (m) { return t.indexOf(norm(m)) >= 0; }) };
+      return {
+        name: b.name,
+        gefunden: b.muster.some(function (m) {
+          // Mehrere Wörter: Jedes muss vorkommen, die Reihenfolge ist egal („zieht sich das Zwerchfell zusammen“).
+          return norm(m).split(' ').every(function (w) { return t.indexOf(w) >= 0; });
+        })
+      };
     });
   }
 
