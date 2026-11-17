@@ -84,6 +84,8 @@
 
   function start() {
     W.state.load();
+    // Wer noch nichts geübt hat, braucht keinen Update-Hinweis.
+    if (!W.logic.updateHinweis(W.state.data) && W.state.data.stand < W.logic.STAND) W.state.set('stand', W.logic.STAND);
     window.addEventListener('hashchange', zeige);
     // Kopf und Navigation nur neu bauen, wenn sich Name, Rang oder Wiedervorlage ändern (sonst springt das EKG bei jeder Antwort).
     var signatur = '';

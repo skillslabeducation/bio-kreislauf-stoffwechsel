@@ -63,7 +63,7 @@
             if (!getropft) return;
             ergebnis.innerHTML = '';
             if (g === bg) {
-              ergebnis.appendChild(h('p', { class: 'ok-text' }, 'Richtig: Blutgruppe ' + bg + (/\+$/.test(p.bg) ? ', Rhesus-positiv (Anti-D verklumpt).' : ', Rhesus-negativ (Anti-D bleibt glatt).')));
+              ergebnis.appendChild(h('p', { class: 'ok-text' }, 'Richtig: Blutgruppe ' + bg + (/\+$/.test(p.bg) ? ', Rhesus-positiv (Anti-D verklumpt).' : ', Rhesus-negativ (Anti-D bleibt glatt). In der Klinik bekäme dieser Patient zusätzlich Rh−-Blut.')));
               konserve(ergebnis, p, bg);
             } else {
               ergebnis.appendChild(h('p', { class: 'falsch-text' }, 'Nicht ganz. Schau, welche Seren verklumpen: Anti-A verklumpt bei Antigen A, Anti-B bei Antigen B.'));
@@ -88,7 +88,7 @@
             antwort.innerHTML = '';
             var fremd = W.bio.antigene(k).filter(function (a) { return W.bio.antigene(bg).indexOf(a) < 0; });
             antwort.appendChild(h('p', { class: o[1] === soll ? 'ok-text' : 'falsch-text' }, (o[1] === soll ? 'Richtig. ' : 'Nein. ') +
-              (soll ? 'Die Konserve trägt kein Antigen, gegen das der Patient Antikörper hat.' : 'Die Konserve trägt Antigen ' + fremd.join(' und ') + '. Die Anti-' + fremd.join('/Anti-') + '-Antikörper des Patienten würden sie verklumpen (Agglutination).')));
+              (soll ? 'Die Konserve trägt kein Antigen, gegen das der Patient Antikörper hat.' : (fremd.length > 1 ? 'Die Konserve trägt die Antigene ' + fremd.join(' und ') + '. Die Anti-' + fremd.join('- und Anti-') : 'Die Konserve trägt das Antigen ' + fremd[0] + '. Die Anti-' + fremd[0]) + '-Antikörper des Patienten würden sie verklumpen (Agglutination).')));
           } }, o[0]);
         })), antwort));
     }
@@ -138,7 +138,7 @@
       if (id !== soll) {
         fehlversuche++;
         meldung.className = 'demo-meldung falsch-text';
-        meldung.textContent = 'Nicht ganz. Von ' + name(WEG[schritt]) + ' geht es nicht direkt dorthin.' + (fehlversuche >= 2 ? ' Tipp: ' + name(soll) + '.' : '');
+        meldung.textContent = 'Nicht ganz. Das ist nicht die nächste Station nach: ' + name(WEG[schritt]) + '.' + (fehlversuche >= 2 ? ' Tipp: ' + name(soll) + '.' : '');
         return;
       }
       fehlversuche = 0;
@@ -150,7 +150,7 @@
       var info = {
         'lunge': 'In der Lunge: CO₂ ab, O₂ auf. Das Blut ist jetzt sauerstoffreich.',
         'koerper': 'In den Kapillaren der Körperorgane: O₂ ab, CO₂ auf. Das Blut ist jetzt sauerstoffarm.'
-      }[id] || name(id) + '. Weiter.';
+      }[id] || 'Station: ' + name(id) + '. Weiter.';
       if (schritt === WEG.length - 1) {
         meldung.className = 'demo-meldung ok-text';
         meldung.textContent = 'Kreislauf geschlossen. Das Blut war zweimal im Herzen: einmal rechts, einmal links. Das ist der doppelte Kreislauf.';
@@ -174,6 +174,8 @@
     var pfeil = s('text', { x: 150, y: 24, 'text-anchor': 'middle', class: 'abb-text' });
     svg.appendChild(lunge1); svg.appendChild(lunge2); svg.appendChild(zwerchfell); svg.appendChild(pfeil);
     svg.appendChild(s('text', { x: 262, y: 120, class: 'abb-klein', 'text-anchor': 'end' }, 'Brustraum'));
+    svg.appendChild(s('text', { x: 164, y: 40, class: 'abb-klein' }, 'Luftröhre'));
+    svg.appendChild(s('text', { x: 112, y: 132, class: 'abb-klein', 'text-anchor': 'middle' }, 'Lunge'));
     svg.appendChild(s('text', { x: 150, y: 252, class: 'abb-klein', 'text-anchor': 'middle' }, 'Zwerchfell'));
     var regler = h('input', { type: 'range', min: '0', max: '100', value: '0', class: 'regler', 'aria-label': 'Zwerchfell' });
     var text = h('p', { class: 'demo-meldung', 'aria-live': 'polite' });
@@ -198,7 +200,7 @@
 
   /* ---------- Diffusion ---------- */
   function diffusion(host) {
-    var box = rahmen(host, 'DIFFUSION', 'Oben das Lungenbläschen, unten das Blut in der Kapillare. Die Teilchen bewegen sich zufällig. Die Wand hat Lücken.');
+    var box = rahmen(host, 'DIFFUSION', 'Oben das Lungenbläschen, unten das Blut in der Kapillare. Dazwischen liegt eine sehr dünne Wand aus einer Zellschicht. O₂ und CO₂ diffundieren durch sie hindurch (im Modell gestrichelt). Die Teilchen bewegen sich zufällig.');
     var B = 300, H = 200, WAND = 100;
     var svg = s('svg', { viewBox: '0 0 ' + B + ' ' + H, class: 'abb-svg diff-svg', role: 'img', 'aria-label': 'Diffusion von Sauerstoff und Kohlenstoffdioxid' });
     svg.appendChild(s('rect', { x: 0, y: 0, width: B, height: WAND, class: 'diff-luft' }));
@@ -206,6 +208,10 @@
     for (var x = 0; x < B; x += 30) svg.appendChild(s('line', { x1: x + 8, y1: WAND, x2: x + 22, y2: WAND, class: 'diff-wand' }));
     svg.appendChild(s('text', { x: 6, y: 14, class: 'abb-klein' }, 'Lungenbläschen'));
     svg.appendChild(s('text', { x: 6, y: H - 6, class: 'abb-klein' }, 'Blut in der Kapillare'));
+    svg.appendChild(s('circle', { cx: 214, cy: 10, r: 4, class: 'diff-o2' }));
+    svg.appendChild(s('text', { x: 222, y: 14, class: 'abb-klein' }, 'O₂'));
+    svg.appendChild(s('circle', { cx: 252, cy: 10, r: 4, class: 'diff-co2' }));
+    svg.appendChild(s('text', { x: 260, y: 14, class: 'abb-klein' }, 'CO₂'));
     var teile = [];
     function neu(art, oben) {
       var t = { art: art, x: Math.random() * B, y: oben ? 8 + Math.random() * (WAND - 16) : WAND + 8 + Math.random() * (H - WAND - 16) };
@@ -223,7 +229,7 @@
     var schalter = h('button', { type: 'button', class: 'btn btn--klein', onclick: function () {
       fluss = !fluss; schalter.textContent = fluss ? 'Blutfluss anhalten' : 'Blutfluss starten';
       erklaerung.textContent = fluss ? 'Das Blut fließt: Neues sauerstoffarmes Blut kommt nach. Das Gefälle bleibt, der Austausch läuft weiter.'
-        : 'Kein Blutfluss: Die Konzentrationen gleichen sich aus. Dann wandern gleich viele Teilchen hin wie her, der Austausch kommt zum Stillstand.';
+        : 'Kein Blutfluss und keine frische Luft: Die Konzentrationen gleichen sich aus. Dann wandern gleich viele Teilchen hin wie her, insgesamt gelangt kein zusätzlicher Sauerstoff mehr ins Blut.';
     } }, 'Blutfluss anhalten');
     var erklaerung = h('p', { class: 'hinweis-klein' }, 'Das Blut fließt: Neues sauerstoffarmes Blut kommt nach. Das Gefälle bleibt, der Austausch läuft weiter.');
     box.appendChild(h('figure', { class: 'abb' }, svg));
@@ -280,38 +286,47 @@
     var blut = s('g');
     [muskelL, muskelR, vene, blut, klappeO, klappeU].forEach(function (e) { svg.appendChild(e); });
     svg.appendChild(s('text', { x: 120, y: 14, 'text-anchor': 'middle', class: 'abb-klein' }, '↑ zum Herzen'));
+    /* Drei Abschnitte der Vene: unter der unteren Klappe (aus dem Bein), zwischen den Klappen (im Muskel), über der oberen Klappe (Richtung Herz). */
     var portionen = 0, defekt = false, gedrueckt = false;
-    var tropfen = [];
-    for (var i = 0; i < 6; i++) tropfen.push({ y: 230 - i * 12 });
+    var unten = 3, mitte = 3, oben = 0;
     function klappe(el, y, offen) {
       el.setAttribute('d', offen ? 'M104 ' + (y + 24) + ' L112 ' + (y - 2) + ' M136 ' + (y + 24) + ' L128 ' + (y - 2)
         : 'M104 ' + (y + 24) + ' L120 ' + y + ' M136 ' + (y + 24) + ' L120 ' + y);
     }
+    function punkte(n, y0, dy) { for (var k = 0; k < n; k++) blut.appendChild(s('circle', { cx: 120, cy: y0 + k * dy, r: 5, class: 'blutzelle--arm' })); }
     function zeichnen() {
       var quetsch = gedrueckt ? 10 : 0;
       muskelL.setAttribute('rx', 26 + quetsch); muskelR.setAttribute('rx', 26 + quetsch);
       muskelL.setAttribute('cx', 70 + quetsch * 0.6); muskelR.setAttribute('cx', 170 - quetsch * 0.6);
-      klappe(klappeO, 70, gedrueckt);
-      klappe(klappeU, 170, gedrueckt || (defekt && !gedrueckt));
+      klappe(klappeO, 70, gedrueckt || defekt);
+      klappe(klappeU, 170, !gedrueckt);
       blut.innerHTML = '';
-      tropfen.forEach(function (t) { blut.appendChild(s('circle', { cx: 120, cy: t.y, r: 5, class: 'blutzelle--arm' })); });
+      punkte(oben, 28, 14);
+      punkte(mitte, 106, 16);
+      punkte(unten, 206, 13);
     }
     var anzeige = h('p', { class: 'mono demo-meldung', 'aria-live': 'polite' }, 'Blut zum Herzen: 0');
     var info = h('p', { class: 'hinweis-klein' });
     function druecken() {
       gedrueckt = true;
-      tropfen.forEach(function (t) { t.y -= 40; });
-      tropfen = tropfen.filter(function (t) { if (t.y < 30) { portionen++; return false; } return true; });
-      while (tropfen.length < 6) tropfen.push({ y: 230 });
-      info.textContent = 'Der Muskel drückt die Vene zusammen. Die Klappen öffnen sich nach oben, Blut fließt Richtung Herz.';
+      portionen += oben;
+      oben = mitte;
+      mitte = 0;
+      info.textContent = 'Der Muskel drückt die Vene zusammen. Die untere Klappe schließt sich, die obere öffnet sich: Das Blut kann nur nach oben zum Herzen ausweichen.';
+      anzeige.textContent = 'Blut zum Herzen: ' + portionen;
       zeichnen();
     }
     function loslassen() {
       gedrueckt = false;
       if (defekt) {
-        tropfen.forEach(function (t) { t.y = Math.min(236, t.y + 30); });
-        info.textContent = 'Die Klappe schließt nicht: Blut sackt zurück und staut sich in den Beinen. So entstehen Krampfadern (Plus).';
-      } else info.textContent = 'Der Muskel entspannt sich. Das Blut will zurückfließen, die Klappen schließen sich. Es bleibt oben.';
+        mitte = Math.min(4, mitte + oben);
+        oben = 0;
+        info.textContent = 'Die obere Klappe schließt nicht: Das Blut sackt zurück und staut sich in den Beinvenen. Die Venen weiten sich, es entstehen Krampfadern (Plus).';
+      } else {
+        mitte = Math.min(4, mitte + unten);
+        unten = 3;
+        info.textContent = 'Der Muskel entspannt sich. Die obere Klappe schließt sich, das Blut darüber kann nicht zurück. Die untere öffnet sich, Blut aus dem Bein strömt nach.';
+      }
       anzeige.textContent = 'Blut zum Herzen: ' + portionen;
       zeichnen();
     }
@@ -320,7 +335,7 @@
     ['pointerup', 'pointerleave', 'pointercancel'].forEach(function (ev) { knopf.addEventListener(ev, function () { if (gedrueckt) loslassen(); }); });
     knopf.addEventListener('keydown', function (e) { if ((e.key === 'Enter' || e.key === ' ') && !gedrueckt) { e.preventDefault(); druecken(); } });
     knopf.addEventListener('keyup', function (e) { if ((e.key === 'Enter' || e.key === ' ') && gedrueckt) loslassen(); });
-    var defektSchalter = h('label', { class: 'schalter' }, h('input', { type: 'checkbox', onchange: function (e) { defekt = e.target.checked; zeichnen(); } }), h('span', null, 'Untere Klappe defekt (Plus: Krampfader)'));
+    var defektSchalter = h('label', { class: 'schalter' }, h('input', { type: 'checkbox', onchange: function (e) { defekt = e.target.checked; zeichnen(); } }), h('span', null, 'Obere Klappe defekt (Plus: Krampfader)'));
     zeichnen();
     box.appendChild(h('figure', { class: 'abb' }, svg));
     box.appendChild(h('div', { class: 'demo-kopfzeile' }, anzeige, knopf));
@@ -332,7 +347,7 @@
   function aktivitaet(temp, denaturiert) {
     if (denaturiert) return 0;
     if (temp <= 37) return 0.1 + 0.9 * Math.pow(temp / 37, 1.6);
-    return Math.max(0, 1 - (temp - 37) / 8);
+    return Math.max(0, 1 - (temp - 37) / 5);
   }
 
   function enzymlabor(host) {
@@ -362,10 +377,10 @@
       figur.innerHTML = '';
       figur.appendChild(W.abb.zeichne('enzym', { denaturiert: denaturiert }));
       punkt.setAttribute('cx', (20 + temp * 4.4).toFixed(1));
-      punkt.setAttribute('cy', (100 - 80 * aktivitaet(temp, denaturiert)).toFixed(1));
+      punkt.setAttribute('cy', (100 - 80 * a).toFixed(1));
       anzeige.textContent = temp + ' °C · Aktivität ' + Math.round(a * 100) + ' %';
       text.textContent = substrat === 'fett' ? 'Fett passt nicht ins aktive Zentrum der Amylase: keine Reaktion. Jedes Enzym ist substratspezifisch.'
-        : denaturiert ? 'Denaturiert: Ab etwa 42 °C wird das Eiweiß des Enzyms verformt. Das aktive Zentrum passt nicht mehr, auch nicht nach dem Abkühlen.'
+        : denaturiert ? 'Denaturiert: Bei zu hoher Temperatur (im Modell ab 42 °C) wird das Eiweiß des Enzyms verformt. Das aktive Zentrum passt nicht mehr, auch nicht nach dem Abkühlen.'
           : temp < 20 ? 'Kalt: Die Teilchen bewegen sich langsam, das Enzym arbeitet träge, ist aber nicht kaputt.'
             : temp <= 40 ? 'Um 37 °C, also bei Körpertemperatur, arbeitet die Amylase am schnellsten.' : 'Es wird zu warm. Die Struktur des Enzyms beginnt sich zu verändern.';
     }

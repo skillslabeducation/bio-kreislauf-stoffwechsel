@@ -43,7 +43,7 @@
     var gefunden = null;
     faelle().forEach(function (f) { f.erklaeren.forEach(function (e) { if (e.id === id) gefunden = { erkl: e, fall: f }; }); });
     if (!gefunden && W.pruefung && W.pruefung.erklNachId) {
-      var e = W.pruefung.erklNachId(id);
+      var e = W.pruefung.erklNachId(id, (W.state.data.erkl[id] || {}).frage);
       if (e) gefunden = { erkl: e, fall: null };
     }
     return gefunden;
@@ -73,19 +73,19 @@
   }
 
   /* ---------- Oberärztin ---------- */
-  function spruch() {
+  function spruch(heute) {
     var d = W.state.data;
     var alle = faelle();
     var entl = alle.filter(function (f) { return status(f).status === 'entlassen'; }).length;
     var wv = W.state.wvListe().length;
-    var plan = W.logic.planFuer(W.logic.heuteISO());
+    var plan = W.logic.planFuer(heute || W.logic.heuteISO());
     if (!plan) return 'Die Arbeit ist geschrieben. Die Fälle bleiben offen, falls du etwas nachschlagen willst.';
     if (plan.tage === 0) return 'Heute ist die Arbeit. Kitteltasche lesen, ruhig bleiben, sauber schreiben.';
-    if (plan.tage === 1 && entl < alle.length) return 'Morgen ist die Arbeit. Heute Box 5 bis 9, danach eine Facharztprüfung.';
+    if (plan.tage === 1 && entl < alle.length) return 'Morgen ist die Arbeit. Heute Box 6, 9 und 8, dann die Schwerpunkt-Probearbeit.';
     if (!entl && !Object.keys(d.items).length) return 'Die Lehrerin hat ihre Liste geschickt: fünf Themen. Die stehen oben. Fang mit Box 2 an.';
     if (wv >= 8) return wv + ' Fälle in der Wiedervorlage. Die arbeiten wir ab, bevor neue reinkommen.';
     if (entl === alle.length) return 'Alle Patienten entlassen. Jetzt die Facharztprüfung unter Zeitdruck.';
-    if (entl >= 6) return 'Gute Schicht bisher. Bleib dran, die letzten Boxen sind die mit den Punkten.';
+    if (entl >= 6) return 'Gute Schicht bisher. Bleib bei den Boxen unter „Kommt dran“, die bringen die Punkte.';
     return 'Weiter. Nächster Patient wartet.';
   }
 
@@ -99,6 +99,9 @@
     var best = W.state.data.pruefung.best || {};
 
     var laufend = W.state.pruefungLaufend();
+    var updateKarte = W.logic.updateHinweis(W.state.data) ? karte('pruef-hinweis',
+      h('p', null, h('strong', null, 'Neu: '), 'Die Lehrerin hat ihre Stoffliste geschickt. Box 2, 3, 6 und 9 haben neue Pflichtaufgaben, Box 10 ist neu. Deshalb sind manche Patienten wieder in Behandlung. Dein Fortschritt ist nicht weg.'),
+      h('div', { class: 'aktionen' }, h('button', { type: 'button', class: 'btn btn--klein', onclick: function () { W.state.set('stand', W.logic.STAND); W.app.zeige(); } }, 'Verstanden'))) : null;
     var pruefHinweis = laufend && !laufend.abgegeben ? h('a', { href: '#/pruefung', class: 'karte pruef-hinweis' }, h('strong', null, 'Prüfung läuft'), ' · weiter zur Facharztprüfung →') : null;
     var countdown = plan ? karte('countdown',
       h('div', { class: 'countdown__zahl mono' }, plan.tage === 0 ? 'HEUTE' : 'T−' + plan.tage),
@@ -111,6 +114,7 @@
     var stufen = rang.entlassen + ' von ' + alle.length + ' Patienten entlassen';
     host.appendChild(h('div', { class: 'seite' },
       h('p', { class: 'funk' }, h('span', { class: 'funk__wer' }, 'Dr. Brandt, Oberärztin'), spruch()),
+      updateKarte,
       pruefHinweis,
       countdown,
       karte('rang', h('div', { class: 'rang__kopf' }, h('span', { class: 'rang__titel' }, rang.titel), h('span', { class: 'mono hinweis-klein' }, stufen)),
@@ -410,7 +414,7 @@
       h('div', { class: 'dialog__box' },
         h('p', { class: 'mono hinweis-klein' }, 'NOTAUFNAHME · 22:00 UHR'),
         h('h1', { id: 'dlg-titel' }, 'Nachtschicht'),
-        h('p', null, 'Zehn Patienten, zehn Themen deiner Bioarbeit. Du verstehst, übst, erklärst und entlässt sie. Am Ende wartet die Facharztprüfung.'),
+        h('p', null, 'Elf Patienten, alle Themen deiner Bioarbeit. Was laut Lehrerin drankommt, steht oben. Du verstehst, übst, erklärst und entlässt die Patienten. Am Ende wartet die Facharztprüfung.'),
         h('label', { class: 'feld' }, h('span', null, 'Wie heißt du? Nur für dein Namensschild, bleibt auf diesem Gerät.'), name),
         h('div', { class: 'aktionen aktionen--zwei' },
           h('button', { type: 'button', class: 'btn', onclick: function () { fertig(false); } }, 'Ohne Namen'),
@@ -422,6 +426,6 @@
 
   W.ansichten = {
     board: board, fall: fall, wiedervorlage: wiedervorlage, plan: planAnsicht, einstellungen: einstellungen,
-    begruessung: begruessung, faelle: faelle, wvAnzahl: wvAnzahl, fallNachId: fallNachId, itemNachId: itemNachId, karte: karte, link: link, datumText: datumText
+    begruessung: begruessung, spruch: spruch, faelle: faelle, wvAnzahl: wvAnzahl, fallNachId: fallNachId, itemNachId: itemNachId, karte: karte, link: link, datumText: datumText
   };
 })();

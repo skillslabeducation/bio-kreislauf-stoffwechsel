@@ -7,7 +7,7 @@
 
   function fresh() {
     return {
-      v: 1, name: '', ton: false, begruesst: false,
+      v: 1, name: '', ton: false, begruesst: false, stand: 0,
       items: {}, erkl: {}, abschluss: {}, karten: {}, wv: {}, entwurf: {},
       pruefung: { laeufe: [], best: {}, laufend: null },
       triage: { best: 0 }
@@ -69,7 +69,7 @@
     erklSpeichern: function (id, r) {
       var prev = S.data.erkl[id] || { best: 0 };
       var p = Math.max(0, Math.min(1, +r.prozent || 0));
-      S.data.erkl[id] = { text: r.text || '', haken: (r.haken || []).slice(), prozent: p, best: Math.max(prev.best || 0, p) };
+      S.data.erkl[id] = { text: r.text || '', haken: (r.haken || []).slice(), prozent: p, best: Math.max(prev.best || 0, p), frage: r.frage || prev.frage || null };
       delete S.data.entwurf[id];
       var k = 'e:' + id;
       if (p < W.logic.ERKL_OK) S.data.wv[k] = 0;

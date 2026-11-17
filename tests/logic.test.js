@@ -203,4 +203,13 @@ test('Erklärung: Entwurf wird gespeichert, ohne die Bewertung zu ändern', () =
   eq(a.W.state.erklText('e9'), 'neuer Versuch');
 });
 
+test('Update-Hinweis nur für Bestandsnutzer, einmalig', () => {
+  const { W } = neu();
+  ok(W.logic.updateHinweis({ items: { a: { ok: true } }, stand: 0 }));
+  ok(!W.logic.updateHinweis({ items: { a: { ok: true } }, stand: 2 }));
+  ok(!W.logic.updateHinweis({ items: {}, stand: 0 }));
+  W.state.load();
+  eq(W.state.data.stand, 0);
+});
+
 fertig('logic');

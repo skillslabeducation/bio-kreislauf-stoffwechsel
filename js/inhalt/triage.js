@@ -17,7 +17,7 @@
     A('atemwege', true, 'Die Luftröhre wird durch Knorpelspangen offen gehalten.', 'So fällt sie beim Einatmen nicht zusammen.'),
     A('atemwege', false, 'Der Gasaustausch findet in den Bronchien statt.', 'Er findet in den Lungenbläschen statt.'),
     A('atemwege', true, 'Die Nasenhöhle erwärmt, befeuchtet und reinigt die eingeatmete Luft.', 'Schleimhaut, Härchen und gute Durchblutung machen das möglich.'),
-    A('atemwege', false, 'Die Lunge hat eigene Muskeln, mit denen sie sich ausdehnt.', 'Die Lunge hat keine Muskeln. Zwerchfell und Zwischenrippenmuskeln vergrößern den Brustraum.'),
+    A('atemwege', false, 'Die Lunge hat eigene Muskeln, mit denen sie sich ausdehnt.', 'Die Lunge hat keine Muskeln, mit denen sie sich ausdehnen könnte. Zwerchfell und Zwischenrippenmuskeln vergrößern den Brustraum, die Lunge dehnt sich mit.'),
     A('atemwege', false, 'Die Luft strömt vom Kehlkopf direkt in die Bronchien.', 'Dazwischen liegt die Luftröhre.'),
     A('gasaustausch', true, 'Der Fachbegriff für Lungenbläschen lautet Alveolen.', 'Alveolen = Lungenbläschen.'),
     A('gasaustausch', true, 'Bei der Diffusion bewegen sich Teilchen vom Ort hoher zum Ort niedriger Konzentration.', 'Das geschieht von selbst, bis die Konzentration ausgeglichen ist.'),
@@ -51,7 +51,7 @@
     A('zellatmung', true, 'Glucose + Sauerstoff → Kohlenstoffdioxid + Wasser (+ Energie) ist die Wortgleichung der Zellatmung.', 'Genau so.'),
     A('zellatmung', false, 'In der Reaktionsgleichung der Zellatmung steht vor O₂ eine 2.', 'C₆H₁₂O₆ + 6 O₂ → 6 CO₂ + 6 H₂O.'),
     A('zellatmung', true, 'Beim Sport steigt die Atemfrequenz, weil die Muskeln mehr Sauerstoff brauchen und mehr CO₂ entsteht.', 'Mehr Zellatmung heißt mehr Gasaustausch.'),
-    A('zellatmung', false, 'Die Zellatmung findet nur in der Lunge statt.', 'Sie findet in allen Körperzellen statt. In der Lunge findet der Gasaustausch statt.'),
+    A('zellatmung', false, 'Die Zellatmung findet nur in der Lunge statt.', 'Sie findet in fast allen Körperzellen statt (rote Blutkörperchen haben keine Mitochondrien). In der Lunge findet der Gasaustausch statt.'),
     A('zellatmung', true, 'Das Blut transportiert Glucose und Sauerstoff zu den Körperzellen.', 'Beides braucht die Zellatmung.'),
     A('enzyme', true, 'Enzyme sind Biokatalysatoren aus Eiweiß.', 'Sie beschleunigen Reaktionen im Körper.'),
     A('enzyme', false, 'Enzyme werden bei der Reaktion verbraucht.', 'Sie bleiben unverändert und arbeiten immer wieder.'),
@@ -81,7 +81,10 @@
     A('atmungsformen', true, 'Der Regenwurm atmet über seine feuchte Haut.', 'Unter der Haut liegen viele Kapillaren.'),
     A('atmungsformen', false, 'Hautatmung funktioniert auch mit trockener Haut.', 'Die Gase diffundieren nur durch eine feuchte, dünne Haut.'),
     A('atmungsformen', true, 'Äußere Atmung ist der Gasaustausch zwischen Lebewesen und Umgebung.', 'Innere Atmung ist die Zellatmung.'),
-    A('atmungsformen', false, 'Äußere und innere Atmung bedeuten dasselbe.', 'Innere Atmung ist die Zellatmung in den Mitochondrien, äußere der Gasaustausch mit der Umgebung.')
+    A('atmungsformen', false, 'Äußere und innere Atmung bedeuten dasselbe.', 'Innere Atmung ist die Zellatmung in den Mitochondrien, äußere der Gasaustausch mit der Umgebung.'),
+    // Neue Aussagen immer nur hier hinten anhängen: Die Wiedervorlage speichert sie über ihre Position (t-<n>).
+    A('zellatmung', false, 'Bei der Verdauung wird die Energie aus der Nahrung frei.', 'Die Verdauung zerlegt die Nährstoffe nur in Bausteine. Energie wird erst bei der Zellatmung in den Mitochondrien frei.'),
+    A('zellatmung', true, 'Im Dünndarm gelangt Glucose über die Darmzotten ins Blut.', 'Das Blut bringt sie zu den Zellen, dort wird sie bei der Zellatmung genutzt.')
   ];
 
   function itemNachId(id) {
@@ -91,5 +94,8 @@
     return { id: id, typ: 'wahl', fest: true, frage: 'Stimmt das? „' + a.s + '“', optionen: ['Stimmt', 'Stimmt nicht'], richtig: a.stimmt ? 0 : 1, erkl: a.erkl };
   }
 
-  W.triage = { pool: POOL, itemNachId: itemNachId, DAUER: 60 };
+  /** Punkte einer Runde: richtig minus falsch, nie unter 0. Blindes Tippen lohnt sich nicht. */
+  function punkte(richtig, falsch) { return Math.max(0, richtig - falsch); }
+
+  W.triage = { pool: POOL, itemNachId: itemNachId, punkte: punkte, DAUER: 60 };
 })();

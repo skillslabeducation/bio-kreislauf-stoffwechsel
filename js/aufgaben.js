@@ -586,7 +586,7 @@
       var erg = { richtig: richtigN, gesamt: folge.length, falsch: falsch.map(function (x) { return x.id; }) };
       host.appendChild(h('div', { class: 'spiel spiel--ende' },
         h('p', { class: 'ergebnis mono' }, richtigN + ' / ' + folge.length),
-        h('p', null, richtigN === folge.length ? 'Alles richtig.' : falsch.length + (falsch.length === 1 ? ' Aufgabe ist' : ' Aufgaben sind') + ' in der Wiedervorlage.'),
+        h('p', null, richtigN === folge.length ? 'Alles richtig.' : opts.melden === false ? falsch.length + (falsch.length === 1 ? ' Fehler.' : ' Fehler.') + ' Übung macht den Meister: gleich nochmal.' : falsch.length + (falsch.length === 1 ? ' Aufgabe ist' : ' Aufgaben sind') + ' in der Wiedervorlage.'),
         h('div', { class: 'aktionen' },
           falsch.length && opts.nochmal !== false ? h('button', { type: 'button', class: 'btn', onclick: function () { spiele(host, falsch, opts); } }, 'Fehler gleich wiederholen') : null,
           h('button', { type: 'button', class: 'btn btn--haupt', onclick: function () { if (opts.onFertig) opts.onFertig(erg); } }, opts.fertigText || 'Fertig'))));

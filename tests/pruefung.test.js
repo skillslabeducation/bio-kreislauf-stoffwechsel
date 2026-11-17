@@ -119,4 +119,10 @@ test('Schwerpunkt-Probearbeit (Teil 3): fünf Aufgaben zur Stoffliste der Lehrer
   ok(P.erklNachId('p3-1c').tipp, 'p3-1c hat Schreibgerüst');
 });
 
+test('Wiedervorlage: Erklär-Variante über die gespeicherte Frage wiederfinden', () => {
+  const fragen = new Set();
+  for (let s = 1; s <= 40; s++) fragen.add(teile(P.erzeugen(3, s)).find((t) => t.key === 'p3-1d').erkl.frage);
+  fragen.forEach((f) => eq(P.erklNachId('p3-1d', f).frage, f));
+});
+
 fertig('pruefung');

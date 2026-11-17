@@ -10,6 +10,7 @@
         var AC = window.AudioContext || window.webkitAudioContext;
         if (!AC) return;
         ctx = ctx || new AC();
+        if (ctx.state === 'suspended' && ctx.resume) ctx.resume();
         var o = ctx.createOscillator(), g = ctx.createGain();
         o.type = 'sine';
         o.frequency.value = 880;

@@ -18,7 +18,7 @@
       {
         titel: 'Blutgruppen im AB0-System',
         text: '<p>Auf der Oberfläche der roten Blutkörperchen sitzen bestimmte Merkmale, die <strong>Antigene</strong>. Im AB0-System gibt es zwei davon: Antigen A und Antigen B. Welche ein Mensch trägt, bestimmt seine <strong>Blutgruppe</strong>.</p><p>Im <strong>Blutplasma</strong> befinden sich <strong>Antikörper</strong>, und zwar genau gegen die Antigene, die der Mensch selbst nicht hat.</p><div class="tab-wrap"><table class="tab"><thead><tr><th>Blutgruppe</th><th>Antigene auf roten Blutkörperchen</th><th>Antikörper im Blutplasma</th></tr></thead><tbody><tr><th scope="row">A</th><td>A</td><td>Anti-B</td></tr><tr><th scope="row">B</th><td>B</td><td>Anti-A</td></tr><tr><th scope="row">AB</th><td>A und B</td><td>keine</td></tr><tr><th scope="row">0</th><td>keine</td><td>Anti-A und Anti-B</td></tr></tbody></table></div>',
-        merk: 'Im AB0-System hat jeder Mensch Antikörper gegen die Antigene A bzw. B, die ihm selbst fehlen. Anti-D gegen den Rhesusfaktor bildet ein Rh−-Mensch dagegen erst nach Kontakt mit Rh+-Blut.',
+        merk: 'Im AB0-System hat jeder Mensch Antikörper gegen die Antigene A bzw. B, die ihm selbst fehlen.',
         achtung: '<strong>Achtung, Falle</strong>Blutgruppe 0 hat keine Antigene, aber beide Antikörper. Bei AB ist es genau umgekehrt: beide Antigene, keine Antikörper.'
       },
       {

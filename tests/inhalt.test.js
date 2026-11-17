@@ -121,4 +121,23 @@ if (!process.env.NUR_FAELLE) {
   });
 }
 
+if (!process.env.NUR_FAELLE) {
+  test('Oberärztin am 18.11. nennt den Plan nach der Stoffliste (Box 6, 9, 8)', () => {
+    W.state.load();
+    W.state.itemErgebnis('herz-u1', true);
+    const s = W.ansichten.spruch('2026-11-18');
+    ok(/Box 6/.test(s) && !/Box 5/.test(s), s);
+  });
+  test('Triage: Punkte = richtig minus falsch, mindestens 0', () => {
+    eq(W.triage.punkte(5, 2), 3);
+    eq(W.triage.punkte(1, 4), 0);
+  });
+  test('Triage: IDs t-<n> bleiben stabil (neue Aussagen nur hinten anhängen)', () => {
+    ok(W.triage.pool.length >= 78, 'Länge ' + W.triage.pool.length);
+    eq(W.triage.pool[5].s, 'Reizbarkeit bedeutet, dass ein Lebewesen schnell gereizt reagiert.');
+    eq(W.triage.pool[40].s, 'Die Zellatmung findet zum größten Teil in den Mitochondrien statt.');
+    eq(W.triage.pool[75].s, 'Äußere und innere Atmung bedeuten dasselbe.');
+  });
+}
+
 fertig('inhalt');

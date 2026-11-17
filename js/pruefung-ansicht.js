@@ -18,6 +18,7 @@
   function mmss(s) { s = Math.max(0, s); return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); }
   function pText(p) { return String(p).replace('.', ','); }
   function karte() { return W.ansichten.karte.apply(null, arguments); }
+  function teilName(teil) { return teil === 3 ? 'Schwerpunkt' : teil === 'beide' ? 'Beide Teile' : 'Teil ' + teil; }
   /** Anzeige des Teils: „a)“, „b, c)“, „c) Rechenweg“. */
   function bLabel(t) { return t.buchst.replace(/\d$/, '').split('').join(', ') + ')' + (t.zusatz ? ' ' + t.zusatz : ''); }
 
@@ -44,11 +45,11 @@
         wahl(1, 'Teil 1 · Grundlagen, Atmung und Kreislauf', '45 Minuten · 50 Punkte · wie das Übungsblatt'),
         wahl(2, 'Teil 2 · Kreislauf, Ernährung und Stoffwechsel', '60 Minuten · 60 Punkte · wie das Übungsblatt'),
         wahl('beide', 'Beide Teile', '105 Minuten · 110 Punkte')),
-      karte('', h('p', { class: 'hinweis-klein' }, 'So läuft es: Aufgaben zum Antippen prüft die App selbst. Erklär-Aufgaben schreibst du am besten auf Papier (oder tippst sie) und bewertest sie nach der Abgabe mit dem Erwartungshorizont. Die Note ist ein Richtwert, deine Schule kann anders werten. Oberarzt wirst du mit mindestens 80 % in beiden Teilen.')),
+      karte('', h('p', { class: 'hinweis-klein' }, 'So läuft es: Aufgaben zum Antippen prüft die App selbst. Erklär-Aufgaben schreibst du am besten auf Papier (oder tippst sie) und bewertest sie nach der Abgabe mit dem Erwartungshorizont. Die Note ist ein Richtwert, deine Schule kann anders werten. Oberarzt wirst du mit mindestens 80 % in der Schwerpunkt-Probearbeit oder in beiden Teilen.')),
       laeufe.length ? h('div', null, h('h2', { class: 'zwischen' }, 'Letzte Prüfungen'),
         h('ul', { class: 'plan-ziele' }, laeufe.map(function (l) {
           var p = l.max ? Math.round(100 * l.punkte / l.max) : 0;
-          return h('li', { class: 'mono hinweis-klein' }, 'Teil ' + l.teil + ': ' + pText(l.punkte) + ' / ' + l.max + ' P. · ' + p + ' % · Note ' + W.logic.note(p));
+          return h('li', { class: 'mono hinweis-klein' }, teilName(l.teil) + ': ' + pText(l.punkte) + ' / ' + l.max + ' P. · ' + p + ' % · Note ' + W.logic.note(p));
         }))) : null));
   }
 
@@ -56,7 +57,7 @@
     var r = rest(l);
     host.appendChild(h('div', { class: 'seite' },
       h('h1', null, 'Prüfung läuft'),
-      karte('', h('p', null, (l.teil === 'beide' ? 'Beide Teile' : 'Teil ' + l.teil) + ' · Restzeit ', h('span', { class: 'mono' }, mmss(r))),
+      karte('', h('p', null, teilName(l.teil) + ' · Restzeit ', h('span', { class: 'mono' }, mmss(r))),
         h('p', { class: 'hinweis-klein' }, r > 0 ? 'Deine Antworten sind gespeichert.' : 'Die Zeit ist abgelaufen. Die Prüfung wird jetzt abgegeben.'),
         h('div', { class: 'aktionen aktionen--zwei' },
           h('button', { type: 'button', class: 'btn btn--gefahr', onclick: function () {
@@ -103,7 +104,8 @@
             ta.addEventListener('input', function () { W.state.pruefungAntwort(t.key, ta.value); });
             box.appendChild(h('div', { class: 'pruef-teilbox' }, kopf,
               h('div', { class: 'aufgabe' }, h('div', { class: 'frage', html: t.erkl.frage }),
-                t.erkl.abb ? h('figure', { class: 'abb' }, W.abb.zeichne(t.erkl.abb, t.erkl.abbOpts || {})) : null, ta)));
+                t.erkl.abb ? h('figure', { class: 'abb' }, W.abb.zeichne(t.erkl.abb, t.erkl.abbOpts || {})) : null,
+                t.erkl.tipp ? h('details', { class: 'tipp' }, h('summary', null, 'Schreibgerüst'), h('p', null, t.erkl.tipp)) : null, ta)));
           }
         });
         seite.appendChild(box);
@@ -155,7 +157,7 @@
           neu();
           var text = antworten[t.key];
           seite.appendChild(h('section', { class: 'erkl pruef-bewertung' },
-            h('p', { class: 'horizont__titel' }, 'Teil ' + b.teil + ' · Aufgabe ' + a.nr + ' ' + bLabel(t), anzeige),
+            h('p', { class: 'horizont__titel' }, teilName(b.teil) + ' · Aufgabe ' + a.nr + ' ' + bLabel(t), anzeige),
             h('div', { class: 'frage', html: t.erkl.frage }),
             text && String(text).trim() ? h('blockquote', { class: 'erkl__eigen' }, text) : h('p', { class: 'hinweis-klein' }, '(auf Papier geschrieben)'),
             liste,
@@ -183,7 +185,11 @@
     ergebnisse.forEach(function (e) {
       e.falsch.forEach(function (key) { W.state.itemErgebnis(key, false); });
       Object.keys(e.erklProzent).forEach(function (key) {
-        if (e.erklProzent[key] < W.logic.ERKL_OK) W.state.erklSpeichern(key, { text: antworten[key] || '', haken: bewertung[key] || [], prozent: e.erklProzent[key] });
+        if (e.erklProzent[key] < W.logic.ERKL_OK) {
+          var frage = null;
+          e.bloecke.forEach(function (a) { a.teile.forEach(function (t) { if (t.key === key && t.erkl) frage = t.erkl.frage; }); });
+          W.state.erklSpeichern(key, { text: antworten[key] || '', haken: bewertung[key] || [], prozent: e.erklProzent[key], frage: frage });
+        }
       });
     });
     W.state.pruefungBeenden(ergebnisse.map(function (e) { return { teil: e.teil, punkte: e.punkte, max: e.max }; }));
@@ -223,7 +229,7 @@
           r.zeige();
           var ok = W.aufgaben.richtig(t.item, antworten[t.key]);
           loes.appendChild(h('div', { class: 'pruef-teilbox' },
-            h('p', { class: 'pruef-teil' }, h('strong', null, 'Teil ' + e.teil + ' · ' + a.nr + ' ' + bLabel(t)), ' ', ok ? h('span', { class: 'ok-text' }, '✓') : h('span', { class: 'hinweis-klein' }, 'Richtig: ' + W.aufgaben.loesungText(t.item, t.item.nummern))),
+            h('p', { class: 'pruef-teil' }, h('strong', null, teilName(e.teil) + ' · ' + a.nr + ' ' + bLabel(t)), ' ', ok ? h('span', { class: 'ok-text' }, '✓') : h('span', { class: 'hinweis-klein' }, 'Richtig: ' + W.aufgaben.loesungText(t.item, t.item.nummern))),
             r.el));
         });
       });

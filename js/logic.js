@@ -30,6 +30,10 @@
   };
   function stufe(fallId) { return STUFE[fallId] || 'zusatz'; }
 
+  /** Einmaliger Hinweis für alle, die schon vor dem Update (Stoffliste der Lehrerin) gelernt haben. */
+  var STAND = 2;
+  function updateHinweis(data) { return Object.keys((data && data.items) || {}).length > 0 && ((data && data.stand) || 0) < STAND; }
+
   var TEIL1 = ['box:1', 'box:2', 'box:10', 'box:3', 'box:4'];
   var TEIL2 = ['box:6', 'box:9', 'box:8', 'pruefung', 'wv'];
   var LETZT = ['kitteltasche', 'triage'];
@@ -109,7 +113,7 @@
   }
 
   W.logic = {
-    ARBEIT: ARBEIT, stufe: stufe, tageBis: tageBis, heuteISO: heuteISO, planFuer: planFuer,
+    ARBEIT: ARBEIT, stufe: stufe, updateHinweis: updateHinweis, STAND: STAND, tageBis: tageBis, heuteISO: heuteISO, planFuer: planFuer,
     fallStatus: fallStatus, rang: rang, note: note, punkteRunden: punkteRunden, ERKL_OK: ERKL_OK
   };
 })();

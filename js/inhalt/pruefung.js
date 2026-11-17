@@ -399,16 +399,27 @@
     });
   }
 
-  function teilFinden(id) {
+  function teilFinden(id, seed) {
     var m = /^p([123])-(\d)([a-f]+\d?)$/.exec(id || '');
     if (!m) return null;
-    var a = erzeugen(+m[1], Math.floor(Math.random() * 1e9));
+    var a = erzeugen(+m[1], seed == null ? Math.floor(Math.random() * 1e9) : seed);
     var gef = null;
     a.forEach(function (x) { x.teile.forEach(function (t) { if (t.key === id) gef = t; }); });
     return gef;
   }
   function itemNachId(id) { var t = teilFinden(id); return t && t.item ? t.item : null; }
-  function erklNachId(id) { var t = teilFinden(id); return t && t.erkl ? t.erkl : null; }
+  /** Erklär-Aufgabe zur ID. Ist die Frage bekannt (gespeichert), wird genau diese Variante gesucht. */
+  function erklNachId(id, frage) {
+    if (frage) {
+      for (var s = 1; s <= 120; s++) {
+        var x = teilFinden(id, s);
+        if (!x || !x.erkl) return null;
+        if (x.erkl.frage === frage) return x.erkl;
+      }
+    }
+    var t = teilFinden(id);
+    return t && t.erkl ? t.erkl : null;
+  }
 
   /** Auswertung: Aufgaben prüft die App (auf halbe Punkte abgerundet), Erklärungen nach angehakten Punkten. */
   function auswerten(aufgaben, antworten, bewertung) {
