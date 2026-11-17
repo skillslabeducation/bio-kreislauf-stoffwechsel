@@ -22,12 +22,20 @@
     return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
   }
 
-  var TEIL1 = ['box:0', 'box:1', 'box:2', 'box:3', 'box:4'];
-  var TEIL2 = ['box:5', 'box:6', 'box:7', 'box:8', 'box:9', 'pruefung', 'wv'];
+  /* Stoffliste der Lehrerin (12.11.): Gasaustausch (Textaufgabe), Weg des Blutes, Vererbung der Blutgruppen,
+     Zusammenhang Atmung – Zellatmung – Verdauung, Formen äußerer Atmung. */
+  var STUFE = {
+    gasaustausch: 'kern', herz: 'kern', vererbung: 'kern', zellatmung: 'kern', atmungsformen: 'kern',
+    atemwege: 'grundlage', gefaesse: 'grundlage', blutgruppen: 'grundlage'
+  };
+  function stufe(fallId) { return STUFE[fallId] || 'zusatz'; }
+
+  var TEIL1 = ['box:1', 'box:2', 'box:10', 'box:3', 'box:4'];
+  var TEIL2 = ['box:6', 'box:9', 'box:8', 'pruefung', 'wv'];
   var LETZT = ['kitteltasche', 'triage'];
   var LISTE = [
-    { tag: 'Mo-Abend und Di', text: 'Fälle 0 bis 4: Atmung, Gasaustausch, Herz und Gefäße (Teil 1 des Blatts). Die Sport-Transferaufgabe aus Teil 1 steckt in Box 6.', ziele: TEIL1 },
-    { tag: 'Mi', text: 'Fälle 5 bis 9: Energie, Zellatmung, Enzyme, Blutgruppen, Vererbung (Teil 2). Danach eine Facharztprüfung und die Wiedervorlage.', ziele: TEIL2 },
+    { tag: 'Mo-Abend und Di', text: 'Atmung und Kreislauf: Gasaustausch als Text, Formen äußerer Atmung, Weg des Blutes. Box 1 und 4 sind die Grundlagen dazu.', ziele: TEIL1 },
+    { tag: 'Mi', text: 'Zusammenhang Atmung – Zellatmung – Verdauung und Vererbung der Blutgruppen (Box 8 als Grundlage). Danach die Schwerpunkt-Probearbeit und die Wiedervorlage.', ziele: TEIL2 },
     { tag: 'Do früh', text: 'Kitteltasche durchlesen, eine Runde Triage. Dann los.', ziele: LETZT }
   ];
 
@@ -78,9 +86,9 @@
   function rang(data, faelle) {
     var n = entlasseneAnzahl(data, faelle);
     var best = (data.pruefung && data.pruefung.best) || {};
-    var pruefOk = best['1'] >= 0.8 && best['2'] >= 0.8;
+    var pruefOk = (best['1'] >= 0.8 && best['2'] >= 0.8) || best['3'] >= 0.8;
     if (n >= 6 && pruefOk) return { titel: 'Oberarzt', naechster: null, entlassen: n };
-    if (n >= 6) return { titel: 'Facharzt', naechster: 'Oberarzt: beide Prüfungsteile mit mindestens 80 %', entlassen: n };
+    if (n >= 6) return { titel: 'Facharzt', naechster: 'Oberarzt: Schwerpunkt-Probearbeit oder beide Prüfungsteile mit mindestens 80 %', entlassen: n };
     if (n >= 2) return { titel: 'Assistenzarzt', naechster: 'Facharzt: 6 Patienten entlassen', entlassen: n };
     return { titel: 'Praktikant', naechster: 'Assistenzarzt: 2 Patienten entlassen', entlassen: n };
   }
@@ -101,7 +109,7 @@
   }
 
   W.logic = {
-    ARBEIT: ARBEIT, tageBis: tageBis, heuteISO: heuteISO, planFuer: planFuer,
+    ARBEIT: ARBEIT, stufe: stufe, tageBis: tageBis, heuteISO: heuteISO, planFuer: planFuer,
     fallStatus: fallStatus, rang: rang, note: note, punkteRunden: punkteRunden, ERKL_OK: ERKL_OK
   };
 })();

@@ -90,7 +90,23 @@
       },
       { id: 'gasaustausch-u18', typ: 'wahl', plus: true, frage: 'Bei der Atemspende bläst ein Helfer seine Ausatemluft in die Lunge eines anderen Menschen. Warum hilft das?', optionen: ['Ausatemluft enthält noch etwa 16–17 % Sauerstoff.', 'Ausatemluft enthält mehr Sauerstoff als Einatemluft.', 'Der Verletzte braucht vor allem Kohlenstoffdioxid.', 'Ausatemluft enthält kein Kohlenstoffdioxid mehr.'], richtig: 0 },
       { id: 'gasaustausch-u19', typ: 'wahl', plus: true, frage: 'Was bewirkt der Teer im Zigarettenrauch in den Atemwegen?', optionen: ['Er verklebt die Flimmerhärchen, sodass Schleim und Schadstoffe nicht mehr abtransportiert werden.', 'Er erweitert die Bronchien.', 'Er vergrößert die Oberfläche der Lungenbläschen.', 'Er transportiert zusätzlichen Sauerstoff ins Blut.'], richtig: 0 },
-      { id: 'gasaustausch-u20', typ: 'luecke', plus: true, frage: 'Lungenemphysem, vereinfacht:', text: 'Beim Lungenemphysem gehen die Wände zwischen den Lungenbläschen {zugrunde|wachsen nach}. Aus vielen kleinen Bläschen werden {wenige große Blasen|noch mehr kleine Bläschen}. Die Oberfläche für den Gasaustausch wird {kleiner|größer}, und es gelangt {weniger|mehr} Sauerstoff ins Blut.' }
+      { id: 'gasaustausch-u20', typ: 'luecke', plus: true, frage: 'Lungenemphysem, vereinfacht:', text: 'Beim Lungenemphysem gehen die Wände zwischen den Lungenbläschen {zugrunde|wachsen nach}. Aus vielen kleinen Bläschen werden {wenige große Blasen|noch mehr kleine Bläschen}. Die Oberfläche für den Gasaustausch wird {kleiner|größer}, und es gelangt {weniger|mehr} Sauerstoff ins Blut.' },
+      {
+        id: 'gasaustausch-u21', typ: 'reihenfolge',
+        frage: 'Satzpuzzle: Bring die Sätze eines guten Textes zum Gasaustausch in die logische Reihenfolge. Gerüst: Ort → Prinzip → Sauerstoff → Kohlenstoffdioxid → warum es so gut klappt.',
+        schritte: [
+          'Der Gasaustausch findet in den Lungenbläschen statt, die von einem dichten Netz aus Kapillaren umgeben sind.',
+          'Er beruht auf Diffusion: Teilchen bewegen sich selbstständig vom Ort hoher zum Ort niedriger Konzentration.',
+          'Für den Sauerstoff heißt das: Im Lungenbläschen ist seine Konzentration hoch, im ankommenden Blut niedrig.',
+          'Deshalb diffundiert Sauerstoff durch die dünne Wand ins Blut der Kapillare.',
+          'Beim Kohlenstoffdioxid ist es umgekehrt: Es diffundiert aus dem Blut, wo seine Konzentration hoch ist, ins Lungenbläschen und wird ausgeatmet.',
+          'Dass der Austausch so gut klappt, liegt am Bau: Die Wand ist sehr dünn, und alle Lungenbläschen zusammen haben eine riesige Oberfläche von rund 100 m².',
+          'Neben dem Bau ist entscheidend, dass das Konzentrationsgefälle erhalten bleibt. Dafür sorgen Atmung und Durchblutung.'
+        ],
+        erkl: 'Ein guter Text geht vom Ort über das Prinzip zu den beiden Gasen und endet mit der Begründung, warum der Austausch so effektiv ist.'
+      },
+      { id: 'gasaustausch-u22', typ: 'luecke', frage: 'Setze die Fachbegriffe in den Text ein.', text: 'Der Gasaustausch findet in den {Lungenbläschen|Bronchien|Herzkammern} statt. Sie sind von einem dichten Netz aus {Kapillaren|Knorpelspangen|Venenklappen} umgeben. Der Austausch beruht auf {Diffusion|Pumpen|Muskelkraft}: Teilchen bewegen sich selbstständig vom Ort {hoher|niedriger} zum Ort {niedriger|hoher} Konzentration. Solange ein {Konzentrationsgefälle|Konzentrationsausgleich} besteht, diffundiert Sauerstoff ins {Blut|Lungenbläschen} und Kohlenstoffdioxid ins {Lungenbläschen|Blut}.' },
+      { id: 'gasaustausch-u23', typ: 'wahl', frage: 'Ein Mitschüler hat in seinem Text zum Gasaustausch diese vier Sätze geschrieben. Welcher Satz ist fachlich falsch?', optionen: ['Die eingeatmete Luft strömt durch die Wand der Lungenbläschen ins Blut.', 'Die Lungenbläschen sind von einem dichten Netz aus Kapillaren umgeben.', 'Sauerstoff diffundiert vom Ort hoher Konzentration im Lungenbläschen zum Ort niedriger Konzentration im Blut.', 'Kohlenstoffdioxid diffundiert aus dem Blut ins Lungenbläschen und wird ausgeatmet.'], richtig: 0, erkl: 'Nicht die Luft strömt ins Blut. Nur einzelne Gasteilchen diffundieren durch die dünne Wand: Sauerstoff hinein, Kohlenstoffdioxid heraus.' }
     ],
     erklaeren: [
       {
@@ -159,6 +175,31 @@
           { text: 'Bei Belastung brauchen die Muskeln mehr Sauerstoff. Die kleine Fläche reicht dafür nicht aus, es kommt zu Luftnot.', p: 1 }
         ],
         muster: 'Durch das jahrelange Rauchen sind viele Wände zwischen den Lungenbläschen zerstört. Aus vielen kleinen Lungenbläschen sind wenige große Blasen geworden, das nennt man Lungenemphysem. Dadurch ist die Oberfläche für den Gasaustausch viel kleiner. Pro Minute kann weniger Sauerstoff aus den Lungenbläschen ins Blut diffundieren. In Ruhe reicht das knapp. Bei Belastung, etwa beim Treppensteigen, brauchen die Muskeln viel mehr Sauerstoff. Die verkleinerte Fläche schafft das nicht, der Sauerstoffgehalt im Blut sinkt, und es kommt zu Luftnot.'
+      },
+      {
+        id: 'gasaustausch-e5',
+        frage: 'Textaufgabe: Beschreibe in einem zusammenhängenden Text, wie in der Lunge Sauerstoff ins Blut und Kohlenstoffdioxid aus dem Blut gelangt. Verwende die Fachbegriffe Lungenbläschen, Kapillare, Diffusion und Konzentrationsgefälle.',
+        tipp: 'Schreibgerüst: Ort → Prinzip → Sauerstoff → Kohlenstoffdioxid → warum es so gut klappt. Jeder Teil bekommt mindestens einen eigenen Satz, verbunden mit „deshalb“, „dadurch“ oder „umgekehrt“.',
+        begriffe: [
+          { name: 'Lungenbläschen', muster: ['lungenblaeschen', 'alveole'] },
+          { name: 'Kapillare', muster: ['kapillar'] },
+          { name: 'Diffusion', muster: ['diffus', 'diffund'] },
+          { name: 'Konzentrationsgefälle', muster: ['gefaelle', 'konzentrationsunterschied'] },
+          { name: 'Sauerstoff', muster: ['sauerstoff', 'o2'] },
+          { name: 'Kohlenstoffdioxid', muster: ['kohlenstoffdioxid', 'kohlendioxid', 'co2'] },
+          { name: 'dünne Wand', muster: ['duenn'] },
+          { name: 'Oberfläche', muster: ['oberflaeche'] },
+          { name: 'Durchblutung', muster: ['durchblut', 'blut fliesst'] }
+        ],
+        punkte: [
+          { text: 'Ort: Der Gasaustausch findet in den Lungenbläschen statt, die von einem dichten Netz aus Kapillaren umgeben sind.', p: 1 },
+          { text: 'Diffusion: Teilchen bewegen sich selbstständig vom Ort hoher zum Ort niedriger Konzentration, bis die Konzentration ausgeglichen ist.', p: 1 },
+          { text: 'Sauerstoff: Im Lungenbläschen ist seine Konzentration hoch, im ankommenden Blut niedrig. Deshalb diffundiert er ins Blut der Kapillare.', p: 1 },
+          { text: 'Kohlenstoffdioxid: Im Blut ist seine Konzentration hoch, im Lungenbläschen niedrig. Deshalb diffundiert es ins Lungenbläschen und wird ausgeatmet.', p: 1 },
+          { text: 'Bau: sehr dünne Wand aus einer Zellschicht (kurzer Weg) bzw. sehr große Oberfläche (rund 100 m²)', p: 1 },
+          { text: 'Das Konzentrationsgefälle bleibt erhalten: Durch die Atmung kommt ständig frische Luft nach, durch die Durchblutung fließt das Blut weiter und neues sauerstoffarmes Blut kommt nach.', p: 1 }
+        ],
+        muster: 'Der Gasaustausch findet in den Lungenbläschen statt. Jedes Lungenbläschen ist von einem dichten Netz feiner Blutgefäße umgeben, den Kapillaren. Der Austausch beruht auf Diffusion: Teilchen bewegen sich selbstständig vom Ort hoher zum Ort niedriger Konzentration, bis die Konzentration ausgeglichen ist. In der eingeatmeten Luft im Lungenbläschen ist die Sauerstoffkonzentration hoch, im sauerstoffarmen Blut, das in der Kapillare ankommt, ist sie niedrig. Wegen dieses Konzentrationsgefälles diffundiert Sauerstoff durch die Wand ins Blut. Beim Kohlenstoffdioxid ist es umgekehrt: Im Blut ist seine Konzentration hoch, im Lungenbläschen niedrig. Deshalb diffundiert es ins Lungenbläschen und wird ausgeatmet. Dass der Austausch so gut klappt, liegt am Bau: Die Wand der Lungenbläschen ist sehr dünn, sie besteht nur aus einer Zellschicht. Der Weg für die Gase ist also kurz. Außerdem haben rund 300 Millionen Lungenbläschen zusammen eine Oberfläche von etwa 100 m². Wichtig ist auch, dass das Konzentrationsgefälle erhalten bleibt: Durch die Atmung kommt ständig frische, sauerstoffreiche Luft in die Lungenbläschen, und durch die Durchblutung fließt das Blut weiter, sodass immer neues sauerstoffarmes Blut nachkommt.'
       }
     ],
     abschluss: [

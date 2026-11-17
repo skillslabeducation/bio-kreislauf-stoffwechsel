@@ -46,8 +46,8 @@ function pruefeErkl(e) {
   ok(fehlend.length === 0, e.id + ': Musterantwort enthält Fachbegriffe nicht: ' + fehlend.join(', '));
 }
 
-if (!process.env.NUR_FAELLE) test('Fälle: zehn Stück, Boxen 0 bis 9', () => {
-  eq(faelle.map((f) => f.box), [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+if (!process.env.NUR_FAELLE) test('Fälle: elf Stück, Boxen 0 bis 10', () => {
+  eq(faelle.map((f) => f.box), [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 });
 
 faelle.forEach((f) => {
@@ -55,8 +55,8 @@ faelle.forEach((f) => {
     ['id', 'titel', 'patient', 'symptom', 'blatt', 'epikrise'].forEach((k) => ok(f[k], k + ' fehlt'));
     ok(f.teil === 1 || f.teil === 2, 'teil');
     ok(f.aufnahme && f.aufnahme.text && f.aufnahme.oberaerztin && f.aufnahme.leitfrage, 'aufnahme unvollständig');
-    ok(f.karten.length >= 3 && f.karten.length <= 8, 'Karten: ' + f.karten.length);
-    ok(f.ueben.length >= 12 && f.ueben.length <= 22, 'Üben: ' + f.ueben.length);
+    ok(f.karten.length >= 3 && f.karten.length <= 9, 'Karten: ' + f.karten.length);
+    ok(f.ueben.length >= 12 && f.ueben.length <= 28, 'Üben: ' + f.ueben.length);
     ok(f.erklaeren.length >= 2 && f.erklaeren.length <= 5, 'Erklären: ' + f.erklaeren.length);
     ok(f.abschluss.length >= 3 && f.abschluss.length <= 5, 'Abschluss: ' + f.abschluss.length);
     f.karten.forEach((k, i) => { ok(k.titel && k.text, 'Karte ' + i); if (k.abb) ok(W.abb.liste[k.abb], 'Karte ' + i + ': Abbildung ' + k.abb); });

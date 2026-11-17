@@ -449,3 +449,23 @@ table.tab--kreuzung .allel { font-family: var(--mono); font-size: 1.1rem; text-a
   .kittel__abschnitt table { font-size: 8.2pt; }
   .abb-label { stroke: #fff; }
 }
+
+/* ---------- Abbildung Atmungsformen ---------- */
+.abb-feld { fill: rgba(147, 163, 191, .05); stroke: var(--line); stroke-width: 1.5; }
+.abb-tier { fill: #2a3b5e; stroke: #8fa6d6; stroke-width: 2; }
+.abb-tier-linie { fill: none; stroke: #8fa6d6; stroke-width: 2; stroke-linecap: round; }
+.abb-kiemen { fill: none; stroke: var(--rot); stroke-width: 3; stroke-linecap: round; }
+.abb-kiemendeckel { fill: none; stroke: #c9d8f5; stroke-width: 2.5; }
+.abb-wasser { stroke: #7fd8ff; stroke-width: 2.5; }
+.abb-tracheen { fill: none; stroke: #e8eef8; stroke-width: 1.8; stroke-linecap: round; }
+.abb-stigma { fill: var(--amber); }
+.abb-wurm { fill: none; stroke: #d08aa0; stroke-width: 16; stroke-linecap: round; }
+.abb-hautkap { fill: none; stroke: var(--rot); stroke-width: 2; stroke-linecap: round; }
+.abb-gaspfeil--klein { stroke-width: 2; }
+
+/* ---------- Schwerpunkt der Lehrerin ---------- */
+.zwischen--kern { color: var(--amber); }
+.tag--kern { color: var(--amber); border: 1px solid rgba(255, 181, 71, .6); background: var(--amber-dim); }
+.tag--grundlage { color: var(--muted); border: 1px solid var(--line); }
+.tag--zusatz { color: var(--muted); border: 1px dashed var(--line); }
+.board--zusatz .box { opacity: .75; }

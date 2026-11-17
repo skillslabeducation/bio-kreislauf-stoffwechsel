@@ -73,7 +73,15 @@
     A('vererbung', true, 'Eltern mit den Genotypen A0 und B0 können Kinder aller vier Blutgruppen bekommen.', 'AB, A0, B0 und 00, je 25 %.'),
     A('vererbung', false, 'Der Genotyp ist das äußere Erscheinungsbild, zum Beispiel Blutgruppe A.', 'Das ist der Phänotyp. Der Genotyp ist die Kombination der Allele, zum Beispiel A0.'),
     A('vererbung', false, 'Ein Mensch mit Blutgruppe A hat immer den Genotyp AA.', 'Möglich sind AA oder A0.'),
-    A('vererbung', true, 'A und B sind untereinander kodominant: Beim Genotyp AB zeigen sich beide.', 'Daraus ergibt sich Blutgruppe AB.')
+    A('vererbung', true, 'A und B sind untereinander kodominant: Beim Genotyp AB zeigen sich beide.', 'Daraus ergibt sich Blutgruppe AB.'),
+    A('atmungsformen', true, 'Fische nehmen den Sauerstoff über die Kiemen aus dem Wasser auf.', 'Der im Wasser gelöste Sauerstoff diffundiert in die Kiemenblättchen.'),
+    A('atmungsformen', false, 'Fische atmen Wasser ein und spalten daraus den Sauerstoff ab.', 'Sie nutzen den Sauerstoff, der im Wasser gelöst ist. Das Wasser selbst wird nicht gespalten.'),
+    A('atmungsformen', true, 'Insekten atmen über Tracheen, die die Luft direkt bis zu den Zellen leiten.', 'Die Luft kommt durch Atemlöcher (Stigmen) hinein.'),
+    A('atmungsformen', false, 'Insekten atmen mit kleinen Lungen.', 'Insekten haben keine Lungen, sondern Tracheen.'),
+    A('atmungsformen', true, 'Der Regenwurm atmet über seine feuchte Haut.', 'Unter der Haut liegen viele Kapillaren.'),
+    A('atmungsformen', false, 'Hautatmung funktioniert auch mit trockener Haut.', 'Die Gase diffundieren nur durch eine feuchte, dünne Haut.'),
+    A('atmungsformen', true, 'Äußere Atmung ist der Gasaustausch zwischen Lebewesen und Umgebung.', 'Innere Atmung ist die Zellatmung.'),
+    A('atmungsformen', false, 'Äußere und innere Atmung bedeuten dasselbe.', 'Innere Atmung ist die Zellatmung in den Mitochondrien, äußere der Gasaustausch mit der Umgebung.')
   ];
 
   function itemNachId(id) {

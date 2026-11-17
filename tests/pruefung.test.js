@@ -10,18 +10,18 @@ function summe(aufgaben) { return teile(aufgaben).reduce((s, t) => s + t.punkte,
 test('Punktverteilung wie auf dem Blatt', () => {
   eq(P.erzeugen(1, 1).map((a) => a.teile.reduce((s, t) => s + t.punkte, 0)), [4, 8, 6, 8, 8, 10, 6]);
   eq(P.erzeugen(2, 1).map((a) => a.teile.reduce((s, t) => s + t.punkte, 0)), [10, 8, 8, 8, 8, 10, 8]);
-  eq(P.DAUER, { 1: 45, 2: 60 });
+  eq(P.DAUER, { 1: 45, 2: 60, 3: 45 });
 });
 
-test('200 Varianten je Teil: 50 bzw. 60 Punkte, alles lösbar, Schlüssel eindeutig', () => {
+test('200 Varianten je Teil: 50, 60 bzw. 50 Punkte, alles lösbar, Schlüssel eindeutig', () => {
   for (let s = 1; s <= 200; s++) {
-    [1, 2].forEach((teil) => {
+    [1, 2, 3].forEach((teil) => {
       const a = P.erzeugen(teil, s);
-      eq(summe(a), teil === 1 ? 50 : 60, 'Teil ' + teil + ' Seed ' + s);
+      eq(summe(a), teil === 2 ? 60 : 50, 'Teil ' + teil + ' Seed ' + s);
       const keys = teile(a).map((t) => t.key);
       eq(new Set(keys).size, keys.length, 'Schlüssel doppelt');
       teile(a).forEach((t) => {
-        ok(/^p[12]-\d[a-e]+\d?$/.test(t.key), 'Schlüssel ' + t.key);
+        ok(/^p[123]-\d[a-f]+\d?$/.test(t.key), 'Schlüssel ' + t.key);
         ok(!!t.item !== !!t.erkl, t.key + ': genau item oder erkl');
         if (t.item) {
           eq(t.item.id, t.key);
@@ -103,6 +103,17 @@ test('Wie im Blatt frei zu schreiben: Teilgebiete, Gleichungen, Rechenweg', () =
   ['p2-6c', 'p2-6d', 'p2-7d', 'p2-2c2'].forEach((k) => { const x = t2.find((t) => t.key === k); ok(x && x.erkl, k + ' soll Erklär-Aufgabe sein'); });
   eq(t2.find((t) => t.key === 'p2-2c').punkte, 1);
   ok(P.erklNachId('p2-2c2'), 'Rechenweg über ID auffindbar');
+});
+
+test('Schwerpunkt-Probearbeit (Teil 3): fünf Aufgaben zur Stoffliste der Lehrerin', () => {
+  const a = P.erzeugen(3, 4);
+  eq(a.map((x) => x.titel), ['Gasaustausch (Textaufgabe)', 'Weg des Blutes', 'Vererbung der Blutgruppen', 'Zusammenhang Atmung – Zellatmung – Verdauung', 'Formen äußerer Atmung']);
+  eq(a.map((x) => x.teile.reduce((s, t) => s + t.punkte, 0)), [12, 10, 10, 10, 8]);
+  ok(P.TITEL[3], 'Titel Teil 3');
+  const varianten = new Set();
+  for (let s = 1; s <= 40; s++) varianten.add(teile(P.erzeugen(3, s)).find((t) => t.key === 'p3-1d').erkl.frage);
+  eq(varianten.size, 2, 'Transfer Raucher/Bergsteiger');
+  ok(P.itemNachId('p3-5a'), 'p3-5a auffindbar');
 });
 
 fertig('pruefung');

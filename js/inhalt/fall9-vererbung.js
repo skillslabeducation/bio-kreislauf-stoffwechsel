@@ -85,7 +85,33 @@
       { id: 'vererbung-u18', typ: 'mehrfach', plus: true, frage: 'Welche Genotypen sind heterozygot (mischerbig)?', optionen: ['AA', 'A0', 'BB', 'B0', 'AB', '00'], richtig: [1, 3, 4] },
       { id: 'vererbung-u19', typ: 'wahl', plus: true, frage: 'In einem Buch steht der Genotyp I<sup>A</sup>i. Welcher Genotyp in der Schreibweise des Blatts ist gemeint?', optionen: ['A0', 'AA', 'AB', '00'], richtig: 0, erkl: 'I<sup>A</sup> steht für A, das kleine i für das rezessive Allel 0.' },
       { id: 'vererbung-u20', typ: 'wahl', plus: true, frage: 'Beide Eltern sind Rh+, ihr Kind ist Rh−. Wie ist das möglich?', optionen: ['Beide Eltern sind mischerbig (Dd) und haben das rezessive Allel d weitergegeben.', 'Rh− ist dominant und hat sich durchgesetzt.', 'Das Kind wird erst nach der Geburt Rh+.', 'Das ist unmöglich, das Kind muss vertauscht sein.'], richtig: 0 },
-      { id: 'vererbung-u21', typ: 'wahl', plus: true, frage: 'Beide Eltern sind Rh−. Welchen Rhesusfaktor können ihre Kinder haben?', optionen: ['nur Rh−', 'nur Rh+', 'Rh+ oder Rh−, je 50 %', 'Rh+ mit 25 %'], richtig: 0, erkl: 'Rh− ist rezessiv, beide Eltern sind dd. Sie können nur d weitergeben.' }
+      { id: 'vererbung-u21', typ: 'wahl', plus: true, frage: 'Beide Eltern sind Rh−. Welchen Rhesusfaktor können ihre Kinder haben?', optionen: ['nur Rh−', 'nur Rh+', 'Rh+ oder Rh−, je 50 %', 'Rh+ mit 25 %'], richtig: 0, erkl: 'Rh− ist rezessiv, beide Eltern sind dd. Sie können nur d weitergeben.' },
+      {
+        id: 'vererbung-u22', typ: 'tabelle', frage: 'Ein Kind hat Blutgruppe 0, seine Mutter Blutgruppe A, sein Vater Blutgruppe B. Bestimme die Genotypen aller drei.',
+        spalten: ['Person', 'Blutgruppe', 'Genotyp'],
+        zeilen: [
+          { kopf: 'Kind', zellen: [{ fix: '0' }, { optionen: ['AA', 'A0', 'BB', 'B0', 'AB', '00'], richtig: 5 }] },
+          { kopf: 'Mutter', zellen: [{ fix: 'A' }, { optionen: ['AA', 'A0', 'BB', 'B0', 'AB', '00'], richtig: 1 }] },
+          { kopf: 'Vater', zellen: [{ fix: 'B' }, { optionen: ['AA', 'A0', 'BB', 'B0', 'AB', '00'], richtig: 3 }] }
+        ],
+        erkl: 'Blutgruppe 0 gibt es nur als 00. Das Kind hat also von jedem Elternteil ein 0-Allel bekommen. Die Mutter muss deshalb A0 sein, der Vater B0.'
+      },
+      {
+        id: 'vererbung-u23', typ: 'tabelle', frage: 'Die Mutter hat Blutgruppe 0, der Vater Blutgruppe AB. Welche Blutgruppen sind bei ihren Kindern möglich, welche ausgeschlossen?',
+        spalten: ['Blutgruppe des Kindes', 'möglich oder ausgeschlossen?'],
+        zeilen: [
+          { kopf: 'A', zellen: [{ optionen: ['möglich', 'ausgeschlossen'], richtig: 0 }] },
+          { kopf: 'B', zellen: [{ optionen: ['möglich', 'ausgeschlossen'], richtig: 0 }] },
+          { kopf: 'AB', zellen: [{ optionen: ['möglich', 'ausgeschlossen'], richtig: 1 }] },
+          { kopf: '0', zellen: [{ optionen: ['möglich', 'ausgeschlossen'], richtig: 1 }] }
+        ],
+        erkl: 'Die Mutter (00) gibt immer ein 0-Allel weiter, der Vater (AB) entweder A oder B. Möglich sind nur A0 und B0, also Blutgruppe A oder B mit je 50 %. Kein Kind hat die Blutgruppe eines Elternteils.'
+      },
+      { id: 'vererbung-u24', typ: 'mehrfach', frage: 'Ein Kind hat Blutgruppe AB, seine Mutter Blutgruppe A. Welche Blutgruppen kann der Vater haben? Wähle alle möglichen.', optionen: ['B', 'AB', 'A', '0'], richtig: [0, 1], erkl: 'Die Mutter hat kein B-Allel, sie hat dem Kind das A gegeben. Das B muss vom Vater stammen. Infrage kommen also Blutgruppe B (BB oder B0) und AB.' },
+      { id: 'vererbung-u25', typ: 'kreuzung', frage: 'Mutter B0, Vater 00. Vervollständige das Kreuzungsschema und gib die Wahrscheinlichkeiten an.', mutter: 'B0', vater: '00', mitWahrscheinlichkeit: true, erkl: 'B0, B0, 00, 00: Blutgruppe B 50 %, Blutgruppe 0 50 %.' },
+      { id: 'vererbung-u26', typ: 'kreuzung', frage: 'Mutter AA, Vater BB. Vervollständige das Kreuzungsschema und gib die Wahrscheinlichkeiten an.', mutter: 'AA', vater: 'BB', mitWahrscheinlichkeit: true, erkl: 'Jedes Kind bekommt A von der Mutter und B vom Vater. Alle vier Felder ergeben AB, also Blutgruppe AB mit 100 %.' },
+      { id: 'vererbung-u27', typ: 'kreuzung', frage: 'Mutter A0, Vater AB. Vervollständige das Kreuzungsschema und gib die Wahrscheinlichkeiten an.', mutter: 'A0', vater: 'AB', mitWahrscheinlichkeit: true, erkl: 'AA, AB, A0, B0: Blutgruppe A 50 % (AA und A0), AB 25 %, B 25 %, 0 gar nicht.' },
+      { id: 'vererbung-u28', typ: 'behauptung', aussage: 'A ist dominant über B. Deshalb hat ein Mensch mit dem Genotyp AB die Blutgruppe A.', stimmt: false, gruende: ['Stimmt nicht: A und B sind untereinander kodominant. Beide zeigen sich, die Blutgruppe ist AB. Dominant sind A und B nur gegenüber 0.', 'Stimmt: Das Allel, das im Genotyp vorn steht, setzt sich immer durch.', 'Stimmt nicht: B ist dominant über A, deshalb hat der Mensch die Blutgruppe B.'], richtig: 0 }
     ],
     erklaeren: [
       {

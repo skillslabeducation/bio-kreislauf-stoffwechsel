@@ -286,9 +286,97 @@
     ] }
   ];
 
-  var TEILE = { 1: TEIL1, 2: TEIL2 };
-  var DAUER = { 1: 45, 2: 60 };
-  var TITEL = { 1: 'Teil 1 · Grundlagen, Atmung und Kreislauf', 2: 'Teil 2 · Kreislauf, Ernährung und Stoffwechsel' };
+  /* ---------- Teil 3: Schwerpunkt nach der Stoffliste der Lehrerin (45 Min., 50 P.) ---------- */
+  function nimm(teil, nr, b) {
+    var a = teil.filter(function (x) { return x.nr === nr; })[0];
+    return a.teile.filter(function (t) { return t.b === b; })[0];
+  }
+  var O2_STATIONEN = [['rechter Vorhof', 1], ['rechte Herzkammer', 1], ['Lungenarterie', 1], ['Lungenvene', 0], ['linker Vorhof', 0], ['linke Herzkammer', 0], ['Aorta', 0], ['Hohlvene', 1]];
+  var TIERE = [['Karpfen', 1], ['Heuschrecke', 3], ['Regenwurm', 2], ['Amsel', 0], ['Kaulquappe', 1], ['Honigbiene', 3], ['Maus', 0], ['Hai', 1], ['Eidechse', 0], ['Marienkäfer', 3]];
+  var ORGANE = ['Lunge', 'Kiemen', 'Haut', 'Tracheen'];
+
+  var TEIL3 = [
+    { nr: 1, titel: 'Gasaustausch (Textaufgabe)', fall: 'gasaustausch', teile: [
+      { b: 'a', p: 1, item: nimm(TEIL1, 4, 'a').item },
+      { b: 'b', p: 2, item: nimm(TEIL1, 4, 'b').item },
+      { b: 'c', p: 6, erkl: {
+        frage: 'Textaufgabe: Beschreibe in einem zusammenhängenden Text, wie in der Lunge Sauerstoff ins Blut und Kohlenstoffdioxid aus dem Blut gelangt. Verwende die Fachbegriffe Lungenbläschen, Kapillare, Diffusion und Konzentrationsgefälle.',
+        begriffe: [B('Lungenbläschen', ['lungenblaeschen', 'alveole']), B('Kapillare', ['kapillar']), B('Diffusion', ['diffus', 'diffund']), B('Konzentrationsgefälle', ['konzentration'])],
+        punkte: [P('Ort: Lungenbläschen, umgeben von einem dichten Netz aus Kapillaren', 1), P('Diffusion erklärt: Teilchen bewegen sich von selbst vom Ort hoher zum Ort niedriger Konzentration', 1),
+          P('Sauerstoff: im Lungenbläschen viel, im Blut wenig, deshalb diffundiert er ins Blut', 1), P('Kohlenstoffdioxid: im Blut viel, im Lungenbläschen wenig, deshalb diffundiert es ins Lungenbläschen und wird ausgeatmet', 1),
+          P('Bau: sehr dünne Wand (eine Zellschicht) und sehr große Oberfläche', 1), P('Das Konzentrationsgefälle bleibt durch Atmung und ständigen Blutfluss erhalten', 1)],
+        muster: 'Der Gasaustausch findet in den Lungenbläschen statt. Jedes Lungenbläschen ist von einem dichten Netz aus Kapillaren umgeben. Der Austausch beruht auf Diffusion: Teilchen bewegen sich von selbst vom Ort hoher zum Ort niedriger Konzentration. In der eingeatmeten Luft im Lungenbläschen ist viel Sauerstoff, im ankommenden Blut wenig. Wegen dieses Konzentrationsgefälles diffundiert Sauerstoff durch die dünne Wand ins Blut. Beim Kohlenstoffdioxid ist es umgekehrt: Im Blut ist viel davon, im Lungenbläschen wenig. Deshalb diffundiert es ins Lungenbläschen und wird ausgeatmet. Das klappt so gut, weil die Wand nur aus einer Zellschicht besteht und alle Lungenbläschen zusammen eine riesige Oberfläche haben. Durch das Atmen und den ständigen Blutfluss bleibt das Konzentrationsgefälle erhalten.' } },
+      { b: 'd', p: 3, erkl: function (rnd) { return waehle(rnd, [{
+        frage: 'Bei einem langjährigen Raucher sind viele Lungenbläschen zerstört und zu größeren Blasen verschmolzen. Erkläre, warum er schon beim Treppensteigen außer Atem kommt.',
+        begriffe: [B('Oberfläche', ['oberflaeche']), B('Sauerstoff', ['sauerstoff']), B('Diffusion', ['diffus', 'diffund'])],
+        punkte: [P('Die Oberfläche für den Gasaustausch ist kleiner geworden.', 1), P('Pro Atemzug diffundiert deshalb weniger Sauerstoff ins Blut.', 1), P('Bei Belastung brauchen die Muskeln mehr Sauerstoff, als ankommt: Er atmet schneller und bekommt Luftnot.', 1)],
+        muster: 'Wenn Lungenbläschen zerstört und zu großen Blasen verschmolzen sind, ist die Oberfläche für den Gasaustausch viel kleiner. Pro Atemzug diffundiert deshalb weniger Sauerstoff ins Blut. Beim Treppensteigen brauchen die Muskeln mehr Sauerstoff für die Zellatmung, als ankommt. Er atmet schneller und kommt trotzdem außer Atem.'
+      }, {
+        frage: 'In 5000 m Höhe enthält jeder Atemzug deutlich weniger Sauerstoff als am Meer. Erkläre, warum Bergsteiger dort schnell außer Atem kommen.',
+        begriffe: [B('Konzentration', ['konzentration']), B('Diffusion', ['diffus', 'diffund']), B('Sauerstoff', ['sauerstoff'])],
+        punkte: [P('In den Lungenbläschen ist weniger Sauerstoff.', 1), P('Das Konzentrationsgefälle zum Blut ist kleiner, deshalb diffundiert weniger Sauerstoff ins Blut.', 1), P('Die Muskeln bekommen zu wenig Sauerstoff: Atmung und Herzschlag werden schneller.', 1)],
+        muster: 'In großer Höhe kommt mit jedem Atemzug weniger Sauerstoff in die Lungenbläschen. Das Konzentrationsgefälle zwischen Lungenbläschen und Blut ist kleiner, deshalb diffundiert weniger Sauerstoff ins Blut. Die Muskeln bekommen zu wenig Sauerstoff. Der Körper reagiert mit schnellerer Atmung und schnellerem Herzschlag.'
+      }]); } }
+    ] },
+    { nr: 2, titel: 'Weg des Blutes', fall: 'herz', teile: [
+      { b: 'a', p: 4, item: nimm(TEIL1, 6, 'a').item },
+      { b: 'b', p: 4, erkl: function (rnd) { return waehle(rnd, [nimm(TEIL1, 6, 'b').erkl, {
+        frage: 'Beschreibe den Weg eines Sauerstoffteilchens von den Lungenbläschen bis in eine Muskelzelle im Bein.',
+        begriffe: [B('Lungenvene', ['lungenvene']), B('linke Kammer', ['linke kammer']), B('Aorta', ['aorta']), B('Kapillare', ['kapillar'])],
+        punkte: [P('Aus dem Lungenbläschen per Diffusion in eine Lungenkapillare, dann über die Lungenvene zum Herzen', 1), P('Linker Vorhof → linke Herzkammer', 1),
+          P('Aorta → Arterien → Kapillaren im Muskel', 1), P('Aus der Kapillare per Diffusion in die Muskelzelle, wo er bei der Zellatmung gebraucht wird', 1)],
+        muster: 'Das Sauerstoffteilchen diffundiert aus dem Lungenbläschen in eine Kapillare der Lunge. Mit dem Blut gelangt es über die Lungenvene in den linken Vorhof und weiter in die linke Herzkammer. Die linke Kammer pumpt das Blut in die Aorta. Über die Arterien kommt es bis in die Kapillaren im Beinmuskel. Dort diffundiert der Sauerstoff aus der Kapillare in die Muskelzelle und wird bei der Zellatmung gebraucht.'
+      }]); } },
+      { b: 'c', p: 2, item: function (rnd) {
+        var z = W.shuffle(O2_STATIONEN, rnd).slice(0, 4);
+        return { typ: 'tabelle', frage: 'Führt die Struktur sauerstoffreiches oder sauerstoffarmes Blut?', spalten: ['Struktur', 'Blut'],
+          zeilen: z.map(function (s) { return { kopf: s[0], zellen: [{ optionen: ['sauerstoffreich', 'sauerstoffarm'], richtig: s[1] }] }; }) }; } }
+    ] },
+    { nr: 3, titel: 'Vererbung der Blutgruppen', fall: 'vererbung',
+      text: 'Die Blutgruppen werden durch die drei Allele A, B und 0 bestimmt. A und B sind gegenüber 0 dominant und untereinander kodominant.', teile: [
+      { b: 'a', p: 2, item: nimm(TEIL2, 4, 'a').item },
+      { b: 'bc', p: 4, item: nimm(TEIL2, 4, 'bc').item },
+      { b: 'd', p: 2, erkl: function (rnd) { return waehle(rnd, [nimm(TEIL2, 4, 'd').erkl, {
+        frage: 'Ein Kind hat Blutgruppe 0, die Mutter Blutgruppe A, der Vater Blutgruppe B. Gib die Genotypen der Eltern an und begründe.',
+        begriffe: [B('Genotyp', ['genotyp']), B('Allel', ['allel']), B('00', ['00'])],
+        punkte: [P('Das Kind hat den Genotyp 00 und hat von jedem Elternteil ein 0-Allel bekommen.', 1), P('Also hat die Mutter den Genotyp A0 und der Vater den Genotyp B0.', 1)],
+        muster: 'Blutgruppe 0 hat immer den Genotyp 00. Das Kind hat also von der Mutter und vom Vater je ein 0-Allel bekommen. Die Mutter hat Blutgruppe A und trägt ein 0-Allel, also hat sie den Genotyp A0. Der Vater hat Blutgruppe B und trägt ebenfalls ein 0-Allel, also hat er den Genotyp B0.'
+      }]); } },
+      { b: 'e', p: 2, item: function () { return { typ: 'wahl', frage: 'Die Mutter hat Blutgruppe 0, der Vater Blutgruppe AB. Welche Blutgruppen können ihre Kinder haben?', optionen: ['nur A oder B', 'A, B oder AB', 'A, B, AB oder 0', 'nur AB'], richtig: 0, erkl: '00 × AB ergibt A0 oder B0, also Blutgruppe A oder B, je 50 %.' }; } }
+    ] },
+    { nr: 4, titel: 'Zusammenhang Atmung – Zellatmung – Verdauung', fall: 'zellatmung', teile: [
+      { b: 'a', p: 2, item: nimm(TEIL2, 6, 'a').item },
+      { b: 'b', p: 1, item: nimm(TEIL2, 6, 'b').item },
+      { b: 'c', p: 2, erkl: nimm(TEIL2, 6, 'c').erkl },
+      { b: 'd', p: 3, erkl: nimm(TEIL2, 6, 'e').erkl },
+      { b: 'e', p: 1, item: function () { return { typ: 'wahl', frage: 'Wo gelangt die Glucose aus der Nahrung ins Blut?', optionen: ['im Dünndarm über die Darmzotten', 'im Magen', 'in der Lunge', 'in der Mundhöhle'], richtig: 0 }; } },
+      { b: 'f', p: 1, item: function () { return { typ: 'wahl', frage: 'Welcher Stoff entsteht bei der Zellatmung und wird über die Lunge abgegeben?', optionen: ['Kohlenstoffdioxid', 'Sauerstoff', 'Glucose', 'Stickstoff'], richtig: 0 }; } }
+    ] },
+    { nr: 5, titel: 'Formen äußerer Atmung', fall: 'atmungsformen', teile: [
+      { b: 'a', p: 2, item: function (rnd) {
+        var s = ['kiemenatmung', 'tracheenatmung', 'hautatmung', 'lungenatmung'];
+        return { typ: 'beschriften', frage: 'Ordne jedem Tier seine Form der äußeren Atmung zu.', abb: 'atmungsformen', strukturen: s, nummern: nummern(rnd, s) }; } },
+      { b: 'b', p: 2, item: function (rnd) {
+        var z = W.shuffle(TIERE, rnd).slice(0, 4);
+        return { typ: 'tabelle', frage: 'Über welches Organ atmet das Tier?', spalten: ['Tier', 'Atmungsorgan'],
+          zeilen: z.map(function (t) { return { kopf: t[0], zellen: [{ optionen: ORGANE, richtig: t[1] }] }; }) }; } },
+      { b: 'c', p: 2, erkl: {
+        frage: 'Ein Fisch erstickt an Land, obwohl Luft viel mehr Sauerstoff enthält als Wasser. Erkläre.',
+        begriffe: [B('Kiemenblättchen', ['kiemenblaettchen', 'kiemen']), B('Oberfläche', ['oberflaeche']), B('Diffusion', ['diffund', 'diffus'])],
+        punkte: [P('An der Luft fallen die dünnen Kiemenblättchen zusammen und verkleben, das Wasser trägt sie nicht mehr.', 1), P('Die Austauschfläche wird viel kleiner, die Kiemen trocknen aus, und es diffundiert zu wenig Sauerstoff ins Blut.', 1)],
+        muster: 'Die Kiemen bestehen aus vielen dünnen Kiemenblättchen, die im Wasser frei schweben und so eine große Oberfläche bilden. An der Luft fallen die Kiemenblättchen zusammen und verkleben. Die Austauschfläche wird viel kleiner, und die Kiemen trocknen aus. Obwohl die Luft viel Sauerstoff enthält, diffundiert deshalb zu wenig Sauerstoff ins Blut, und der Fisch erstickt.' } },
+      { b: 'd', p: 2, erkl: {
+        frage: 'Erkläre den Unterschied zwischen äußerer und innerer Atmung.',
+        begriffe: [B('Gasaustausch', ['gase', 'gasaustausch']), B('Zellatmung', ['zellatmung']), B('Mitochondrien', ['mitochondri'])],
+        punkte: [P('Äußere Atmung: Gasaustausch zwischen Lebewesen und Umgebung (Sauerstoff aufnehmen, Kohlenstoffdioxid abgeben), z. B. über Lunge, Kiemen, Haut oder Tracheen.', 1),
+          P('Innere Atmung (Zellatmung): In den Mitochondrien wird Glucose mit Sauerstoff zu Kohlenstoffdioxid und Wasser umgesetzt, dabei wird Energie frei.', 1)],
+        muster: 'Bei der äußeren Atmung tauscht ein Lebewesen Gase mit seiner Umgebung aus: Es nimmt Sauerstoff auf und gibt Kohlenstoffdioxid ab, zum Beispiel über die Lunge, die Kiemen, die Haut oder die Tracheen. Die innere Atmung ist die Zellatmung. In den Mitochondrien der Zellen wird Glucose mit Sauerstoff zu Kohlenstoffdioxid und Wasser umgesetzt, dabei wird Energie frei.' } }
+    ] }
+  ];
+
+  var TEILE = { 1: TEIL1, 2: TEIL2, 3: TEIL3 };
+  var DAUER = { 1: 45, 2: 60, 3: 45 };
+  var TITEL = { 1: 'Teil 1 · Grundlagen, Atmung und Kreislauf', 2: 'Teil 2 · Kreislauf, Ernährung und Stoffwechsel', 3: 'Schwerpunkt · Stoffliste der Lehrerin' };
 
   /** Prüfung erzeugen: gleicher Seed, gleiche Prüfung. */
   function erzeugen(teil, seed) {
@@ -308,7 +396,7 @@
   }
 
   function teilFinden(id) {
-    var m = /^p([12])-(\d)([a-e]+\d?)$/.exec(id || '');
+    var m = /^p([123])-(\d)([a-f]+\d?)$/.exec(id || '');
     if (!m) return null;
     var a = erzeugen(+m[1], Math.floor(Math.random() * 1e9));
     var gef = null;

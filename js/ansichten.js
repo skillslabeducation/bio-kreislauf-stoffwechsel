@@ -4,7 +4,10 @@
   var W = (window.W = window.W || {});
   var h = function () { return W.h.apply(null, arguments); };
 
-  var REIHENFOLGE = [0, 1, 2, 3, 4, 6, 5, 7, 8, 9];
+  /* Empfohlene Reihenfolge: zuerst die Themen der Stoffliste der Lehrerin, dann die Grundlagen, dann Zusatz. */
+  var REIHENFOLGE = [2, 10, 3, 6, 9, 1, 4, 8, 0, 5, 7];
+  var STUFEN = [['kern', 'Kommt dran · Stoffliste der Lehrerin'], ['grundlage', 'Grundlagen dazu'], ['zusatz', 'Zusatz · nicht auf der Liste']];
+  var STUFE_TAG = { kern: 'Kommt dran', grundlage: 'Grundlage', zusatz: 'Zusatz' };
   var STATUS_TEXT = { wartet: 'wartet', behandlung: 'in Behandlung', entlassen: 'entlassen' };
   var STATUS_ZEICHEN = { wartet: '○', behandlung: '●', entlassen: '✓' };
   var TABS = [['aufnahme', 'Aufnahme'], ['verstehen', 'Verstehen'], ['ueben', 'Üben'], ['erklaeren', 'Erklären'], ['abschluss', 'Abschluss']];
@@ -76,7 +79,7 @@
     if (!plan) return 'Die Arbeit ist geschrieben. Die Fälle bleiben offen, falls du etwas nachschlagen willst.';
     if (plan.tage === 0) return 'Heute ist die Arbeit. Kitteltasche lesen, ruhig bleiben, sauber schreiben.';
     if (plan.tage === 1 && entl < alle.length) return 'Morgen ist die Arbeit. Heute Box 5 bis 9, danach eine Facharztprüfung.';
-    if (!entl && !Object.keys(d.items).length) return 'Zehn Boxen, eine Arbeit am Donnerstag. Fang bei Box 0 an, die ist kurz.';
+    if (!entl && !Object.keys(d.items).length) return 'Die Lehrerin hat ihre Liste geschickt: fünf Themen. Die stehen oben. Fang mit Box 2 an.';
     if (wv >= 8) return wv + ' Fälle in der Wiedervorlage. Die arbeiten wir ab, bevor neue reinkommen.';
     if (entl === alle.length) return 'Alle Patienten entlassen. Jetzt die Facharztprüfung unter Zeitdruck.';
     if (entl >= 6) return 'Gute Schicht bisher. Bleib dran, die letzten Boxen sind die mit den Punkten.';
@@ -110,21 +113,25 @@
       karte('rang', h('div', { class: 'rang__kopf' }, h('span', { class: 'rang__titel' }, rang.titel), h('span', { class: 'mono hinweis-klein' }, stufen)),
         h('div', { class: 'balken' }, h('span', { style: { width: Math.round(100 * rang.entlassen / Math.max(1, alle.length)) + '%' } })),
         rang.naechster ? h('p', { class: 'hinweis-klein' }, 'Nächster Rang: ' + rang.naechster) : null),
-      h('h2', { class: 'zwischen' }, 'Patientenboard'),
-      h('ol', { class: 'board' }, alle.map(function (f) {
-        var st = status(f);
-        var istNext = next && next.id === f.id;
-        return h('li', null, h('a', { href: '#/fall/' + f.id, class: 'box box--' + st.status + (istNext ? ' box--next' : '') },
-          h('span', { class: 'box__nr mono' }, String(f.box)),
-          h('span', { class: 'box__mitte' },
-            h('span', { class: 'box__patient' }, f.patient),
-            h('span', { class: 'box__symptom' }, f.symptom),
-            h('span', { class: 'box__thema' }, f.titel + (istNext ? ' · als Nächstes' : ''))),
-          pille(st.status)));
-      })),
+      STUFEN.map(function (s) {
+        var gruppe = REIHENFOLGE.map(fallNachBox).filter(function (f) { return f && W.logic.stufe(f.id) === s[0]; });
+        if (!gruppe.length) return null;
+        return [h('h2', { class: 'zwischen' + (s[0] === 'kern' ? ' zwischen--kern' : '') }, s[1]),
+          h('ol', { class: 'board' + (s[0] === 'zusatz' ? ' board--zusatz' : '') }, gruppe.map(function (f) {
+            var st = status(f);
+            var istNext = next && next.id === f.id;
+            return h('li', null, h('a', { href: '#/fall/' + f.id, class: 'box box--' + st.status + (istNext ? ' box--next' : '') },
+              h('span', { class: 'box__nr mono' }, String(f.box)),
+              h('span', { class: 'box__mitte' },
+                h('span', { class: 'box__patient' }, f.patient),
+                h('span', { class: 'box__symptom' }, f.symptom),
+                h('span', { class: 'box__thema' }, f.titel + (istNext ? ' · als Nächstes' : ''))),
+              pille(st.status)));
+          }))];
+      }),
       h('div', { class: 'kacheln' },
         h('a', { href: '#/wv', class: 'kachel' + (wv ? ' kachel--amber' : '') }, h('span', { class: 'kachel__zahl mono' }, String(wv)), h('span', null, 'Wiedervorlage')),
-        h('a', { href: '#/pruefung', class: 'kachel' }, h('span', { class: 'kachel__zahl mono' }, best['1'] || best['2'] ? Math.round(100 * Math.max(best['1'] || 0, best['2'] || 0)) + ' %' : '—'), h('span', null, 'Facharztprüfung')),
+        h('a', { href: '#/pruefung', class: 'kachel' }, h('span', { class: 'kachel__zahl mono' }, best['1'] || best['2'] || best['3'] ? Math.round(100 * Math.max(best['1'] || 0, best['2'] || 0, best['3'] || 0)) + ' %' : '—'), h('span', null, 'Facharztprüfung')),
         W.triage ? h('a', { href: '#/triage', class: 'kachel' }, h('span', { class: 'kachel__zahl mono' }, String(W.state.data.triage.best || 0)), h('span', null, 'Triage-Bestwert')) : null,
         W.kitteltasche ? h('a', { href: '#/kitteltasche', class: 'kachel' }, h('span', { class: 'kachel__zahl mono' }, 'A4'), h('span', null, 'Kitteltasche')) : null)));
   }
@@ -156,7 +163,7 @@
       h('div', { class: 'fall__kopf' },
         link('#/', '← Board', 'zurueck'),
         h('div', { class: 'fall__titelzeile' }, h('span', { class: 'mono box__nr box__nr--klein' }, String(f.box)), h('h1', null, f.patient), pille(st.status)),
-        h('p', { class: 'fall__thema' }, f.titel)),
+        h('p', { class: 'fall__thema' }, h('span', { class: 'tag tag--' + W.logic.stufe(f.id) }, STUFE_TAG[W.logic.stufe(f.id)]), ' ', f.titel)),
       h('nav', { class: 'tabs', 'aria-label': 'Abschnitte' }, TABS.map(function (t) {
         return h('a', { href: '#/fall/' + f.id + '/' + t[0], class: 'reiter' + (t[0] === tab ? ' reiter--an' : ''), 'aria-current': t[0] === tab ? 'page' : null }, t[1]);
       })),
@@ -204,11 +211,21 @@
     var pflicht = f.ueben.filter(function (u) { return !u.plus; });
     var offen = pflicht.filter(function (u) { return !(d[u.id] && d[u.id].ok); });
     var plus = f.ueben.length - pflicht.length;
-    function los(items, titel) {
+    function los(items, titel, melden) {
       host.innerHTML = '';
       var spielHost = h('div');
       host.appendChild(spielHost);
-      W.aufgaben.spiele(spielHost, items, { titel: titel, onFertig: function () { W.app.zeige(); } });
+      W.aufgaben.spiele(spielHost, items, { titel: titel, melden: melden !== false, mischen: melden !== false, onFertig: function () { W.app.zeige(); } });
+    }
+    /** Kreuzungstrainer: zehn zufällige Elternpaare, zählt nicht für den Fortschritt. */
+    function kreuzungen() {
+      var g = W.bio.GENOTYPEN, out = [];
+      for (var i = 0; i < 10; i++) {
+        var m = g[Math.floor(Math.random() * g.length)], v = g[Math.floor(Math.random() * g.length)];
+        out.push({ id: 'trainer-' + i, typ: 'kreuzung', mutter: m, vater: v, mitWahrscheinlichkeit: true,
+          frage: 'Mutter ' + m + ' (Blutgruppe ' + W.bio.phaenotyp(m) + '), Vater ' + v + ' (Blutgruppe ' + W.bio.phaenotyp(v) + '). Kreuzungsschema und Wahrscheinlichkeiten?' });
+      }
+      return out;
     }
     host.appendChild(h('div', null,
       karte('',
@@ -218,6 +235,7 @@
       h('div', { class: 'aktionen aktionen--stapel' },
         offen.length ? h('button', { type: 'button', class: 'btn btn--haupt', onclick: function () { los(offen, 'Offene Aufgaben'); } }, 'Offene üben (' + offen.length + ')') : null,
         h('button', { type: 'button', class: 'btn' + (offen.length ? '' : ' btn--haupt'), onclick: function () { los(pflicht, 'Pflicht'); } }, 'Alle Pflichtaufgaben (' + pflicht.length + ')'),
+        f.id === 'vererbung' ? h('button', { type: 'button', class: 'btn', onclick: function () { los(kreuzungen(), 'Kreuzungstrainer', false); } }, 'Kreuzungstrainer: 10 zufällige Elternpaare') : null,
         plus ? h('button', { type: 'button', class: 'btn', onclick: function () { los(f.ueben.filter(function (u) { return u.plus; }), 'Plus'); } }, 'Nur Plus (' + plus + ')') : null,
         link('#/fall/' + f.id + '/erklaeren', 'Weiter: Erklären →', 'btn'))));
   }

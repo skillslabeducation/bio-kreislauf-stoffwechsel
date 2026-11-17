@@ -71,7 +71,16 @@
         produkte: { label: 'Produkte', x: 362, y: 22, tx: 330, ty: 48, a: 'end' }
       }
     },
-    pulskurve: { viewBox: '0 0 360 230', titel: 'Puls vor, während und nach einem Lauf', strukturen: {} }
+    pulskurve: { viewBox: '0 0 360 230', titel: 'Puls vor, während und nach einem Lauf', strukturen: {} },
+    atmungsformen: {
+      viewBox: '0 0 360 320', titel: 'Formen der äußeren Atmung bei Tieren',
+      strukturen: {
+        kiemenatmung: { label: 'Kiemenatmung', x: 16, y: 26, tx: 72, ty: 84, a: 'start' },
+        tracheenatmung: { label: 'Tracheenatmung', x: 196, y: 26, tx: 270, ty: 92, a: 'start' },
+        hautatmung: { label: 'Hautatmung', x: 16, y: 186, tx: 96, ty: 244, a: 'start' },
+        lungenatmung: { label: 'Lungenatmung', x: 196, y: 186, tx: 246, ty: 256, a: 'start' }
+      }
+    }
   };
 
   /* ---------- Grundzeichnungen (Markup) ---------- */
@@ -193,6 +202,40 @@
         enzym(318) +
         (den ? '' : '<rect class="abb-substrat" x="296" y="34" width="13" height="26" rx="3" transform="rotate(-18 302 47)"/><rect class="abb-substrat" x="328" y="34" width="13" height="26" rx="3" transform="rotate(18 334 47)"/>') +
         '<text class="abb-klein" x="318" y="190" text-anchor="middle">Phase 3</text>';
+    },
+
+    atmungsformen: function (o, id) {
+      var t = function (x, y, s) { return '<text class="abb-klein" x="' + x + '" y="' + y + '" text-anchor="middle">' + s + '</text>'; };
+      var tracheen = 'M222 92 L320 92 M240 92 L234 72 M240 92 L234 112 M262 92 L258 70 M262 92 L258 114 M286 92 L282 72 M286 92 L282 112 M306 92 L304 76 M306 92 L304 108';
+      return '' +
+        '<rect class="abb-feld" x="4" y="4" width="172" height="152" rx="10"/><rect class="abb-feld" x="184" y="4" width="172" height="152" rx="10"/>' +
+        '<rect class="abb-feld" x="4" y="164" width="172" height="152" rx="10"/><rect class="abb-feld" x="184" y="164" width="172" height="152" rx="10"/>' +
+        // Fisch mit Kiemen, Wasserstrom durch das Maul hinein, hinter dem Kiemendeckel hinaus
+        '<path class="abb-tier" d="M30 92 C46 64 96 58 128 80 L158 62 L152 92 L158 122 L128 104 C96 126 46 120 30 92 Z"/>' +
+        '<circle cx="44" cy="86" r="3" fill="var(--text)"/>' +
+        '<path class="abb-kiemen" d="M66 74 L70 110 M72 72 L76 112 M78 72 L82 112"/>' +
+        '<path class="abb-kiemendeckel" d="M62 70 C82 80 82 104 62 114"/>' +
+        '<line class="abb-wasser" x1="6" y1="96" x2="28" y2="94" marker-end="url(#' + id + '-p)"/>' +
+        '<line class="abb-wasser" x1="88" y1="114" x2="100" y2="134" marker-end="url(#' + id + '-p)"/>' +
+        t(90, 148, 'Fisch') +
+        // Insekt mit Tracheen und Atemlöchern (Stigmen)
+        '<circle class="abb-tier" cx="204" cy="92" r="12"/><ellipse class="abb-tier" cx="232" cy="92" rx="16" ry="14"/><ellipse class="abb-tier" cx="290" cy="92" rx="44" ry="18"/>' +
+        '<path class="abb-tracheen" d="' + tracheen + '"/>' +
+        [258, 282, 306].map(function (x) { return '<circle class="abb-stigma" cx="' + x + '" cy="108" r="2.6"/>'; }).join('') +
+        '<path class="abb-tier-linie" d="M226 104 L214 132 M236 104 L240 134 M244 104 L268 136"/>' +
+        t(270, 148, 'Heuschrecke') +
+        // Regenwurm mit Hautkapillaren
+        '<path class="abb-wurm" d="M24 246 C54 220 84 272 114 246 C134 230 150 238 160 248"/>' +
+        '<path class="abb-hautkap" d="M40 238 l6 6 M60 244 l6 -6 M80 252 l6 -6 M100 250 l6 -6 M128 238 l6 6"/>' +
+        '<line class="abb-gaspfeil abb-gaspfeil--klein" x1="70" y1="204" x2="78" y2="230" marker-end="url(#' + id + '-p)"/>' +
+        '<text class="abb-klein" x="62" y="200">O₂</text>' +
+        t(90, 308, 'Regenwurm') +
+        // Säugetier: Luftröhre, Bronchien, Lungenflügel
+        '<rect class="abb-luftroehre" x="264" y="196" width="12" height="40" rx="3"/>' +
+        '<path class="abb-lunge" d="M262 236 C240 230 214 244 212 270 C210 290 220 298 232 296 L262 290 Z"/>' +
+        '<path class="abb-lunge" d="M278 236 C300 230 326 244 328 270 C330 290 320 298 308 296 L278 290 Z"/>' +
+        '<path class="abb-bronchus" d="M270 236 L248 256 M270 236 L292 256"/>' +
+        t(270, 308, 'Säugetier, Mensch');
     },
 
     pulskurve: function () {

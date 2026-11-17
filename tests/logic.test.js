@@ -12,21 +12,29 @@ const FALL = {
   abschluss: [{ id: 'f-a1' }]
 };
 
-test('planFuer: fester Plan bis zum 19.11., danach nichts', () => {
+test('planFuer: Plan nach der Stoffliste der Lehrerin bis zum 19.11., danach nichts', () => {
   const { W } = neu();
   const L = W.logic;
   eq(L.ARBEIT, '2026-11-19');
   const mo = L.planFuer('2026-11-16');
   eq(mo.tage, 3);
-  eq(mo.heute, ['box:0', 'box:1', 'box:2', 'box:3', 'box:4']);
+  eq(mo.heute, ['box:1', 'box:2', 'box:10', 'box:3', 'box:4']);
   eq(mo.liste.length, 3);
-  eq(L.planFuer('2026-11-17').heute, ['box:0', 'box:1', 'box:2', 'box:3', 'box:4']);
+  eq(L.planFuer('2026-11-17').heute, ['box:1', 'box:2', 'box:10', 'box:3', 'box:4']);
   eq(L.planFuer('2026-11-17').tage, 2);
-  eq(L.planFuer('2026-11-18').heute, ['box:5', 'box:6', 'box:7', 'box:8', 'box:9', 'pruefung', 'wv']);
+  eq(L.planFuer('2026-11-18').heute, ['box:6', 'box:9', 'box:8', 'pruefung', 'wv']);
   eq(L.planFuer('2026-11-19').heute, ['kitteltasche', 'triage']);
   eq(L.planFuer('2026-11-19').tage, 0);
   eq(L.planFuer('2026-11-20'), null);
-  eq(L.planFuer('2026-11-10').heute, ['box:0', 'box:1', 'box:2', 'box:3', 'box:4']);
+  eq(L.planFuer('2026-11-10').heute, ['box:1', 'box:2', 'box:10', 'box:3', 'box:4']);
+});
+
+test('stufe: Schwerpunkt laut Lehrerin, Grundlage, Zusatz', () => {
+  const { W } = neu();
+  const L = W.logic;
+  ['gasaustausch', 'herz', 'vererbung', 'zellatmung', 'atmungsformen'].forEach((id) => eq(L.stufe(id), 'kern', id));
+  ['atemwege', 'gefaesse', 'blutgruppen'].forEach((id) => eq(L.stufe(id), 'grundlage', id));
+  ['leben', 'energie', 'enzyme', 'unbekannt'].forEach((id) => eq(L.stufe(id), 'zusatz', id));
 });
 
 test('fallStatus: wartet, Behandlung, entlassen erst mit allen drei Bedingungen', () => {
@@ -72,6 +80,19 @@ test('rang: Praktikant, Assistenzarzt, Facharzt, Oberarzt', () => {
   S.pruefungBeenden([{ teil: 1, punkte: 40, max: 50 }, { teil: 2, punkte: 47, max: 60 }]);
   eq(L.rang(S.data, faelle).titel, 'Facharzt', '47/60 < 80 %');
   S.pruefungBeenden([{ teil: 2, punkte: 48, max: 60 }]);
+  eq(L.rang(S.data, faelle).titel, 'Oberarzt');
+});
+
+test('rang: Oberarzt auch mit der Schwerpunkt-Probearbeit (Teil 3) ab 80 %', () => {
+  const { W } = neu();
+  const L = W.logic, S = W.state;
+  S.load();
+  const faelle = [];
+  for (let i = 0; i < 10; i++) { faelle.push({ id: 'x' + i, ueben: [], erklaeren: [], abschluss: [] }); }
+  for (let i = 0; i < 6; i++) S.abschlussSetzen('x' + i);
+  S.pruefungBeenden([{ teil: 3, punkte: 39, max: 50 }]);
+  eq(L.rang(S.data, faelle).titel, 'Facharzt');
+  S.pruefungBeenden([{ teil: 3, punkte: 40, max: 50 }]);
   eq(L.rang(S.data, faelle).titel, 'Oberarzt');
 });
 

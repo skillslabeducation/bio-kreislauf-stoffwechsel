@@ -92,7 +92,25 @@
       { id: 'herz-u18', typ: 'wahl', plus: true, frage: 'Was passiert bei einem Herzinfarkt?', optionen: ['Ein Herzkranzgefäß verstopft, ein Teil des Herzmuskels bekommt keinen Sauerstoff mehr.', 'Eine Herzklappe schließt nicht mehr richtig.', 'Die Aorta reißt ein.', 'Das Herz schlägt dauerhaft zu langsam.'], richtig: 0 },
       { id: 'herz-u19', typ: 'mehrfach', plus: true, frage: 'Welche gehören zu den Risikofaktoren für Arteriosklerose und Herzinfarkt?', optionen: ['Rauchen', 'Bewegungsmangel', 'Bluthochdruck', 'Übergewicht und Fehlernährung', 'dauerhafter Stress', 'regelmäßiger Ausdauersport', 'viel Gemüse und Vollkorn'], richtig: [0, 1, 2, 3, 4] },
       { id: 'herz-u20', typ: 'wahl', plus: true, frage: 'Was versteht man unter Arteriosklerose?', optionen: ['Ablagerungen in der Wand der Arterien machen sie eng und starr.', 'Die Venenklappen schließen nicht mehr richtig.', 'Das Blut verklumpt bei einer falschen Blutgruppe.', 'Die Herzkammern werden immer größer.'], richtig: 0 },
-      { id: 'herz-u21', typ: 'eingabe', plus: true, frage: 'Wie heißen die Gefäße, die den Herzmuskel selbst mit Blut versorgen?', akzeptiert: ['Herzkranzgefäße', 'Herzkranzgefäß', 'Herzkranzarterien', 'Koronargefäße', 'Koronararterien'] }
+      { id: 'herz-u21', typ: 'eingabe', plus: true, frage: 'Wie heißen die Gefäße, die den Herzmuskel selbst mit Blut versorgen?', akzeptiert: ['Herzkranzgefäße', 'Herzkranzgefäß', 'Herzkranzarterien', 'Koronargefäße', 'Koronararterien'] },
+      { id: 'herz-u22', typ: 'reihenfolge', frage: 'Ein Sauerstoffteilchen ist gerade aus dem Lungenbläschen ins Blut diffundiert. Bring seinen Weg von der Lungenkapillare bis in eine Muskelzelle im Bein in die richtige Reihenfolge.', schritte: ['Lungenkapillare', 'Lungenvene', 'linker Vorhof', 'linke Herzkammer', 'Aorta', 'Arterie im Bein', 'Kapillare im Muskel', 'Muskelzelle'], erkl: 'Das sauerstoffreiche Blut fließt durch die linke Herzhälfte in den Körperkreislauf. Erst in der Kapillare verlässt der Sauerstoff das Blut und diffundiert in die Muskelzelle.' },
+      { id: 'herz-u23', typ: 'reihenfolge', frage: 'Bei der Zellatmung entsteht in der Muskelzelle Kohlenstoffdioxid. Bring den Rückweg eines Kohlenstoffdioxidteilchens bis in die Lungenbläschen in die richtige Reihenfolge.', schritte: ['Muskelzelle', 'Kapillare im Muskel', 'Vene im Bein', 'Hohlvene', 'rechter Vorhof', 'rechte Herzkammer', 'Lungenarterie', 'Lungenkapillare', 'Lungenbläschen'], erkl: 'Kohlenstoffdioxid diffundiert in die Kapillare und fließt mit dem sauerstoffarmen Blut durch die rechte Herzhälfte zur Lunge. Dort diffundiert es ins Lungenbläschen und wird ausgeatmet.' },
+      {
+        id: 'herz-u24', typ: 'tabelle', frage: 'Führt die Struktur sauerstoffreiches oder sauerstoffarmes Blut?',
+        spalten: ['Struktur', 'Blut'],
+        zeilen: [
+          { kopf: 'rechter Vorhof', zellen: [{ optionen: ['sauerstoffreich', 'sauerstoffarm'], richtig: 1 }] },
+          { kopf: 'rechte Herzkammer', zellen: [{ optionen: ['sauerstoffreich', 'sauerstoffarm'], richtig: 1 }] },
+          { kopf: 'Lungenarterie', zellen: [{ optionen: ['sauerstoffreich', 'sauerstoffarm'], richtig: 1 }] },
+          { kopf: 'Lungenvene', zellen: [{ optionen: ['sauerstoffreich', 'sauerstoffarm'], richtig: 0 }] },
+          { kopf: 'linker Vorhof', zellen: [{ optionen: ['sauerstoffreich', 'sauerstoffarm'], richtig: 0 }] },
+          { kopf: 'linke Herzkammer', zellen: [{ optionen: ['sauerstoffreich', 'sauerstoffarm'], richtig: 0 }] },
+          { kopf: 'Aorta', zellen: [{ optionen: ['sauerstoffreich', 'sauerstoffarm'], richtig: 0 }] },
+          { kopf: 'Hohlvene', zellen: [{ optionen: ['sauerstoffreich', 'sauerstoffarm'], richtig: 1 }] }
+        ],
+        erkl: 'Die Lungenarterie führt sauerstoffarmes, die Lungenvene sauerstoffreiches Blut. Arterie und Vene richten sich nach der Fließrichtung, nicht nach dem Sauerstoff.'
+      },
+      { id: 'herz-u25', typ: 'luecke', frage: 'Im Kreislaufschema ist sauerstoffarmes Blut blau und sauerstoffreiches rot gezeichnet. Wo wechselt die Farbe?', text: 'Sauerstoffreich wird das Blut in den {Kapillaren der Lunge|Lungenarterien|Herzkammern}, denn dort nimmt es Sauerstoff auf. Sauerstoffarm wird es in den {Kapillaren der Körperorgane|Venen|Herzkammern}, denn dort gibt es Sauerstoff an die Zellen ab. In Arterien, Venen und Herzkammern {bleibt der Sauerstoffgehalt gleich|wechselt das Blut die Farbe}.', erkl: 'Nur in den Kapillaren findet der Stoffaustausch statt. In der Lunge wird das Blut sauerstoffreich, in den Körperorganen sauerstoffarm.' }
     ],
     erklaeren: [
       {
@@ -155,6 +173,24 @@
           { text: 'Die rechte Kammer pumpt das Blut nur durch die nahe Lunge, dafür reicht ein niedriger Druck. Mehr Druck erfordert mehr Muskulatur.', p: 1 }
         ],
         muster: 'Die linke Herzkammer pumpt das Blut in den Körperkreislauf. Das Blut muss durch den ganzen Körper bis in die Zehen und in den Kopf gelangen. Dafür ist ein hoher Druck nötig, und diesen Druck erzeugt eine dicke Muskulatur. Die rechte Kammer pumpt das Blut nur durch die nahe Lunge. Dafür reicht ein geringer Druck, deshalb ist ihre Muskelwand dünner.'
+      },
+      {
+        id: 'herz-e5',
+        frage: 'Beschreibe den Weg eines Sauerstoffteilchens von den Lungenbläschen bis in eine Muskelzelle im Bein.',
+        tipp: 'Drei Abschnitte: hinein ins Blut, durch die linke Herzhälfte, durch den Körperkreislauf bis in die Zelle. Am Anfang und am Ende steht die Diffusion.',
+        begriffe: [
+          { name: 'Diffusion', muster: ['diffus', 'diffund'] }, { name: 'Lungenvene', muster: ['lungenvene'] },
+          { name: 'linker Vorhof', muster: ['linke vorhof'] }, { name: 'linke Herzkammer', muster: ['linke kammer'] },
+          { name: 'Aorta', muster: ['aorta'] }, { name: 'Kapillaren', muster: ['kapillar'] },
+          { name: 'Muskelzelle', muster: ['muskelzelle'] }
+        ],
+        punkte: [
+          { text: 'Der Sauerstoff diffundiert aus dem Lungenbläschen ins Blut der Lungenkapillare.', p: 1 },
+          { text: 'Über die Lungenvene gelangt das sauerstoffreiche Blut in den linken Vorhof und weiter in die linke Herzkammer.', p: 1 },
+          { text: 'Die linke Herzkammer pumpt es in die Aorta. Über Arterien erreicht es die Kapillaren im Beinmuskel.', p: 1 },
+          { text: 'Aus der Kapillare diffundiert der Sauerstoff in die Muskelzelle.', p: 1 }
+        ],
+        muster: 'Im Lungenbläschen ist die Sauerstoffkonzentration hoch, im Blut der Lungenkapillare niedrig. Deshalb diffundiert das Sauerstoffteilchen durch die dünne Wand ins Blut. Im Blut transportieren es die roten Blutkörperchen. Das nun sauerstoffreiche Blut fließt über die Lungenvene in den linken Vorhof und weiter in die linke Herzkammer. Die linke Kammer pumpt es mit hohem Druck in die Aorta. Über die Arterien gelangt es bis ins Bein und dort in die Kapillaren des Muskels. In der Muskelzelle ist die Sauerstoffkonzentration niedrig, weil sie Sauerstoff für die Zellatmung verbraucht. Deshalb diffundiert das Sauerstoffteilchen aus der Kapillare in die Muskelzelle.'
       }
     ],
     abschluss: [
