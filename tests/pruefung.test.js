@@ -113,7 +113,10 @@ test('Schwerpunkt-Probearbeit (Teil 3): fünf Aufgaben zur Stoffliste der Lehrer
   const varianten = new Set();
   for (let s = 1; s <= 40; s++) varianten.add(teile(P.erzeugen(3, s)).find((t) => t.key === 'p3-1d').erkl.frage);
   eq(varianten.size, 2, 'Transfer Raucher/Bergsteiger');
-  ok(P.itemNachId('p3-5a'), 'p3-5a auffindbar');
+  const e5a = P.erklNachId('p3-5a');
+  ok(e5a && /Bauchatmung/.test(e5a.frage), 'p3-5a fragt Brust- und Bauchatmung');
+  ok(/Material/.test(P.erklNachId('p3-1d').frage), 'p3-1d ist Textaufgabe mit Material');
+  ok(P.erklNachId('p3-1c').tipp, 'p3-1c hat Schreibgerüst');
 });
 
 fertig('pruefung');

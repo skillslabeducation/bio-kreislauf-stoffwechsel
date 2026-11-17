@@ -102,7 +102,7 @@
             ta.value = antworten[t.key] || '';
             ta.addEventListener('input', function () { W.state.pruefungAntwort(t.key, ta.value); });
             box.appendChild(h('div', { class: 'pruef-teilbox' }, kopf,
-              h('div', { class: 'aufgabe' }, h('p', { class: 'frage', html: t.erkl.frage }),
+              h('div', { class: 'aufgabe' }, h('div', { class: 'frage', html: t.erkl.frage }),
                 t.erkl.abb ? h('figure', { class: 'abb' }, W.abb.zeichne(t.erkl.abb, t.erkl.abbOpts || {})) : null, ta)));
           }
         });
@@ -156,7 +156,7 @@
           var text = antworten[t.key];
           seite.appendChild(h('section', { class: 'erkl pruef-bewertung' },
             h('p', { class: 'horizont__titel' }, 'Teil ' + b.teil + ' · Aufgabe ' + a.nr + ' ' + bLabel(t), anzeige),
-            h('p', { class: 'frage', html: t.erkl.frage }),
+            h('div', { class: 'frage', html: t.erkl.frage }),
             text && String(text).trim() ? h('blockquote', { class: 'erkl__eigen' }, text) : h('p', { class: 'hinweis-klein' }, '(auf Papier geschrieben)'),
             liste,
             h('details', { class: 'muster' }, h('summary', null, 'Musterantwort'), h('p', { html: t.erkl.muster }))));

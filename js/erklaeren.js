@@ -18,7 +18,7 @@
     function kopf() {
       return h('div', { class: 'erkl__kopf' },
         erkl.plus ? h('span', { class: 'tag tag--plus' }, 'Plus') : null,
-        h('p', { class: 'frage', html: erkl.frage }),
+        h('div', { class: 'frage', html: erkl.frage }),
         erkl.abb && W.abb ? h('figure', { class: 'abb' }, W.abb.zeichne(erkl.abb, erkl.abbOpts || {})) : null,
         h('p', { class: 'hinweis-klein' }, 'Erwartet: ' + pText(summe(erkl.punkte)) + '. Schreib in ganzen Sätzen und benutze Fachbegriffe.'));
     }

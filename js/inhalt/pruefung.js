@@ -300,19 +300,20 @@
       { b: 'a', p: 1, item: nimm(TEIL1, 4, 'a').item },
       { b: 'b', p: 2, item: nimm(TEIL1, 4, 'b').item },
       { b: 'c', p: 6, erkl: {
-        frage: 'Textaufgabe: Beschreibe in einem zusammenhängenden Text, wie in der Lunge Sauerstoff ins Blut und Kohlenstoffdioxid aus dem Blut gelangt. Verwende die Fachbegriffe Lungenbläschen, Kapillare, Diffusion und Konzentrationsgefälle.',
+        frage: 'Textaufgabe: Erkläre in einem zusammenhängenden Text, wie in der Lunge Sauerstoff ins Blut und Kohlenstoffdioxid aus dem Blut gelangt. Begründe außerdem, warum der Gasaustausch so wirksam ist und nicht zum Stillstand kommt. Verwende die Fachbegriffe Lungenbläschen, Kapillare, Diffusion und Konzentrationsgefälle.',
+        tipp: 'Gliederung: Ort → Prinzip (Diffusion) → Sauerstoff → Kohlenstoffdioxid → warum es so gut klappt.',
         begriffe: [B('Lungenbläschen', ['lungenblaeschen', 'alveole']), B('Kapillare', ['kapillar']), B('Diffusion', ['diffus', 'diffund']), B('Konzentrationsgefälle', ['konzentration'])],
         punkte: [P('Ort: Lungenbläschen, umgeben von einem dichten Netz aus Kapillaren', 1), P('Diffusion erklärt: Teilchen bewegen sich von selbst vom Ort hoher zum Ort niedriger Konzentration', 1),
           P('Sauerstoff: im Lungenbläschen viel, im Blut wenig, deshalb diffundiert er ins Blut', 1), P('Kohlenstoffdioxid: im Blut viel, im Lungenbläschen wenig, deshalb diffundiert es ins Lungenbläschen und wird ausgeatmet', 1),
           P('Bau: sehr dünne Wand (eine Zellschicht) und sehr große Oberfläche', 1), P('Das Konzentrationsgefälle bleibt durch Atmung und ständigen Blutfluss erhalten', 1)],
         muster: 'Der Gasaustausch findet in den Lungenbläschen statt. Jedes Lungenbläschen ist von einem dichten Netz aus Kapillaren umgeben. Der Austausch beruht auf Diffusion: Teilchen bewegen sich von selbst vom Ort hoher zum Ort niedriger Konzentration. In der eingeatmeten Luft im Lungenbläschen ist viel Sauerstoff, im ankommenden Blut wenig. Wegen dieses Konzentrationsgefälles diffundiert Sauerstoff durch die dünne Wand ins Blut. Beim Kohlenstoffdioxid ist es umgekehrt: Im Blut ist viel davon, im Lungenbläschen wenig. Deshalb diffundiert es ins Lungenbläschen und wird ausgeatmet. Das klappt so gut, weil die Wand nur aus einer Zellschicht besteht und alle Lungenbläschen zusammen eine riesige Oberfläche haben. Durch das Atmen und den ständigen Blutfluss bleibt das Konzentrationsgefälle erhalten.' } },
       { b: 'd', p: 3, erkl: function (rnd) { return waehle(rnd, [{
-        frage: 'Bei einem langjährigen Raucher sind viele Lungenbläschen zerstört und zu größeren Blasen verschmolzen. Erkläre, warum er schon beim Treppensteigen außer Atem kommt.',
+        frage: '<p class="material"><strong>Material:</strong> Herr K. hat 40 Jahre geraucht. Viele Wände zwischen seinen Lungenbläschen sind zerstört, aus vielen kleinen Bläschen sind wenige große Blasen geworden. In Ruhe ist der Sauerstoffgehalt seines Blutes fast normal, beim Treppensteigen sinkt er deutlich.</p>Erkläre mithilfe des Materials und des Begriffs Diffusion, warum Herr K. beim Treppensteigen Luftnot bekommt.',
         begriffe: [B('Oberfläche', ['oberflaeche']), B('Sauerstoff', ['sauerstoff']), B('Diffusion', ['diffus', 'diffund'])],
         punkte: [P('Die Oberfläche für den Gasaustausch ist kleiner geworden.', 1), P('Pro Atemzug diffundiert deshalb weniger Sauerstoff ins Blut.', 1), P('Bei Belastung brauchen die Muskeln mehr Sauerstoff, als ankommt: Er atmet schneller und bekommt Luftnot.', 1)],
         muster: 'Wenn Lungenbläschen zerstört und zu großen Blasen verschmolzen sind, ist die Oberfläche für den Gasaustausch viel kleiner. Pro Atemzug diffundiert deshalb weniger Sauerstoff ins Blut. Beim Treppensteigen brauchen die Muskeln mehr Sauerstoff für die Zellatmung, als ankommt. Er atmet schneller und kommt trotzdem außer Atem.'
       }, {
-        frage: 'In 5000 m Höhe enthält jeder Atemzug deutlich weniger Sauerstoff als am Meer. Erkläre, warum Bergsteiger dort schnell außer Atem kommen.',
+        frage: '<p class="material"><strong>Material:</strong> In 5000 m Höhe ist die Luft dünn: Ein Liter Luft enthält dort nur noch etwa halb so viel Sauerstoff wie am Meer. Bergsteiger atmen schon beim langsamen Gehen schneller, ihr Puls steigt.</p>Erkläre mithilfe des Materials und des Begriffs Diffusion, warum Bergsteiger dort schnell außer Atem kommen.',
         begriffe: [B('Konzentration', ['konzentration']), B('Diffusion', ['diffus', 'diffund']), B('Sauerstoff', ['sauerstoff'])],
         punkte: [P('In den Lungenbläschen ist weniger Sauerstoff.', 1), P('Das Konzentrationsgefälle zum Blut ist kleiner, deshalb diffundiert weniger Sauerstoff ins Blut.', 1), P('Die Muskeln bekommen zu wenig Sauerstoff: Atmung und Herzschlag werden schneller.', 1)],
         muster: 'In großer Höhe kommt mit jedem Atemzug weniger Sauerstoff in die Lungenbläschen. Das Konzentrationsgefälle zwischen Lungenbläschen und Blut ist kleiner, deshalb diffundiert weniger Sauerstoff ins Blut. Die Muskeln bekommen zu wenig Sauerstoff. Der Körper reagiert mit schnellerer Atmung und schnellerem Herzschlag.'
@@ -347,15 +348,18 @@
     { nr: 4, titel: 'Zusammenhang Atmung – Zellatmung – Verdauung', fall: 'zellatmung', teile: [
       { b: 'a', p: 2, item: nimm(TEIL2, 6, 'a').item },
       { b: 'b', p: 1, item: nimm(TEIL2, 6, 'b').item },
-      { b: 'c', p: 2, erkl: nimm(TEIL2, 6, 'c').erkl },
+      { b: 'c', p: 2, erkl: function (rnd) { return waehle(rnd, [nimm(TEIL2, 6, 'c').erkl, nimm(TEIL2, 6, 'd').erkl]); } },
       { b: 'd', p: 3, erkl: nimm(TEIL2, 6, 'e').erkl },
       { b: 'e', p: 1, item: function () { return { typ: 'wahl', frage: 'Wo gelangt die Glucose aus der Nahrung ins Blut?', optionen: ['im Dünndarm über die Darmzotten', 'im Magen', 'in der Lunge', 'in der Mundhöhle'], richtig: 0 }; } },
       { b: 'f', p: 1, item: function () { return { typ: 'wahl', frage: 'Welcher Stoff entsteht bei der Zellatmung und wird über die Lunge abgegeben?', optionen: ['Kohlenstoffdioxid', 'Sauerstoff', 'Glucose', 'Stickstoff'], richtig: 0 }; } }
     ] },
     { nr: 5, titel: 'Formen äußerer Atmung', fall: 'atmungsformen', teile: [
-      { b: 'a', p: 2, item: function (rnd) {
-        var s = ['kiemenatmung', 'tracheenatmung', 'hautatmung', 'lungenatmung'];
-        return { typ: 'beschriften', frage: 'Ordne jedem Tier seine Form der äußeren Atmung zu.', abb: 'atmungsformen', strukturen: s, nummern: nummern(rnd, s) }; } },
+      { b: 'a', p: 2, erkl: {
+        frage: 'Beschreibe die Brustatmung und die Bauchatmung beim Menschen und erkläre, was beide bewirken.',
+        begriffe: [B('Zwischenrippenmuskeln', ['zwischenrippen']), B('Zwerchfell', ['zwerchfell']), B('Brustraum', ['brustraum'])],
+        punkte: [P('Brustatmung: Die Zwischenrippenmuskeln ziehen sich zusammen und heben die Rippen an. Bauchatmung: Das Zwerchfell zieht sich zusammen und flacht ab, der Bauch wölbt sich vor.', 1),
+          P('Beide vergrößern den Brustraum, die Lunge dehnt sich mit, und Luft strömt ein.', 1)],
+        muster: 'Bei der Brustatmung ziehen sich die Zwischenrippenmuskeln zusammen und heben die Rippen an. Bei der Bauchatmung zieht sich das Zwerchfell zusammen und flacht ab, dabei schiebt es die Bauchorgane nach unten, und der Bauch wölbt sich vor. Beide Formen vergrößern den Brustraum. Die Lunge dehnt sich mit, der Druck in ihr sinkt, und Luft strömt ein.' } },
       { b: 'b', p: 2, item: function (rnd) {
         var z = W.shuffle(TIERE, rnd).slice(0, 4);
         return { typ: 'tabelle', frage: 'Über welches Organ atmet das Tier?', spalten: ['Tier', 'Atmungsorgan'],

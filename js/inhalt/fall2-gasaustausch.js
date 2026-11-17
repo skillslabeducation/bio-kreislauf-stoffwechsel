@@ -106,7 +106,8 @@
         erkl: 'Ein guter Text geht vom Ort über das Prinzip zu den beiden Gasen und endet mit der Begründung, warum der Austausch so effektiv ist.'
       },
       { id: 'gasaustausch-u22', typ: 'luecke', frage: 'Setze die Fachbegriffe in den Text ein.', text: 'Der Gasaustausch findet in den {Lungenbläschen|Bronchien|Herzkammern} statt. Sie sind von einem dichten Netz aus {Kapillaren|Knorpelspangen|Venenklappen} umgeben. Der Austausch beruht auf {Diffusion|Pumpen|Muskelkraft}: Teilchen bewegen sich selbstständig vom Ort {hoher|niedriger} zum Ort {niedriger|hoher} Konzentration. Solange ein {Konzentrationsgefälle|Konzentrationsausgleich} besteht, diffundiert Sauerstoff ins {Blut|Lungenbläschen} und Kohlenstoffdioxid ins {Lungenbläschen|Blut}.' },
-      { id: 'gasaustausch-u23', typ: 'wahl', frage: 'Ein Mitschüler hat in seinem Text zum Gasaustausch diese vier Sätze geschrieben. Welcher Satz ist fachlich falsch?', optionen: ['Die eingeatmete Luft strömt durch die Wand der Lungenbläschen ins Blut.', 'Die Lungenbläschen sind von einem dichten Netz aus Kapillaren umgeben.', 'Sauerstoff diffundiert vom Ort hoher Konzentration im Lungenbläschen zum Ort niedriger Konzentration im Blut.', 'Kohlenstoffdioxid diffundiert aus dem Blut ins Lungenbläschen und wird ausgeatmet.'], richtig: 0, erkl: 'Nicht die Luft strömt ins Blut. Nur einzelne Gasteilchen diffundieren durch die dünne Wand: Sauerstoff hinein, Kohlenstoffdioxid heraus.' }
+      { id: 'gasaustausch-u23', typ: 'wahl', frage: 'Ein Mitschüler hat in seinem Text zum Gasaustausch diese vier Sätze geschrieben. Welcher Satz ist fachlich falsch?', optionen: ['Die eingeatmete Luft strömt durch die Wand der Lungenbläschen ins Blut.', 'Die Lungenbläschen sind von einem dichten Netz aus Kapillaren umgeben.', 'Sauerstoff diffundiert vom Ort hoher Konzentration im Lungenbläschen zum Ort niedriger Konzentration im Blut.', 'Kohlenstoffdioxid diffundiert aus dem Blut ins Lungenbläschen und wird ausgeatmet.'], richtig: 0, erkl: 'Nicht die Luft strömt ins Blut. Nur einzelne Gasteilchen diffundieren durch die dünne Wand: Sauerstoff hinein, Kohlenstoffdioxid heraus.' },
+      { id: 'gasaustausch-u24', typ: 'luecke', frage: 'Gasaustausch im Gewebe: Dort läuft es umgekehrt wie in der Lunge.', text: 'In der Körperzelle ist die Sauerstoffkonzentration {niedrig|hoch}, weil die Zellatmung Sauerstoff verbraucht. Sauerstoff diffundiert deshalb {aus der Kapillare in die Zelle|aus der Zelle in die Kapillare}. Kohlenstoffdioxid diffundiert {aus der Zelle ins Blut|aus dem Blut in die Zelle}.' },
     ],
     erklaeren: [
       {
@@ -161,7 +162,7 @@
       },
       {
         id: 'gasaustausch-e4', plus: true,
-        frage: 'Erkläre, warum ein langjähriger Raucher mit zerstörten Lungenbläschen besonders bei Belastung Luftnot bekommt.',
+        frage: '<p class="material"><strong>Material:</strong> Herr K. hat 40 Jahre geraucht. Viele Wände zwischen seinen Lungenbläschen sind zerstört, aus vielen kleinen Bläschen sind wenige große Blasen geworden. In Ruhe ist der Sauerstoffgehalt seines Blutes fast normal, beim Treppensteigen sinkt er deutlich.</p>Textaufgabe mit Material: Erkläre mithilfe des Materials und des Begriffs Diffusion, warum Herr K. beim Treppensteigen Luftnot bekommt.',
         begriffe: [
           { name: 'Lungenbläschen', muster: ['lungenblaeschen', 'alveole'] },
           { name: 'Oberfläche', muster: ['oberflaeche', 'flaeche'] },
@@ -178,7 +179,7 @@
       },
       {
         id: 'gasaustausch-e5',
-        frage: 'Textaufgabe: Beschreibe in einem zusammenhängenden Text, wie in der Lunge Sauerstoff ins Blut und Kohlenstoffdioxid aus dem Blut gelangt. Verwende die Fachbegriffe Lungenbläschen, Kapillare, Diffusion und Konzentrationsgefälle.',
+        frage: 'Textaufgabe: Erkläre in einem zusammenhängenden Text, wie in der Lunge Sauerstoff ins Blut und Kohlenstoffdioxid aus dem Blut gelangt. Begründe außerdem, warum der Gasaustausch so wirksam ist und nicht zum Stillstand kommt. Verwende die Fachbegriffe Lungenbläschen, Kapillare, Diffusion und Konzentrationsgefälle.',
         tipp: 'Schreibgerüst: Ort → Prinzip → Sauerstoff → Kohlenstoffdioxid → warum es so gut klappt. Jeder Teil bekommt mindestens einen eigenen Satz, verbunden mit „deshalb“, „dadurch“ oder „umgekehrt“.',
         begriffe: [
           { name: 'Lungenbläschen', muster: ['lungenblaeschen', 'alveole'] },

@@ -469,3 +469,4 @@ table.tab--kreuzung .allel { font-family: var(--mono); font-size: 1.1rem; text-a
 .tag--grundlage { color: var(--muted); border: 1px solid var(--line); }
 .tag--zusatz { color: var(--muted); border: 1px dashed var(--line); }
 .board--zusatz .box { opacity: .75; }
+.material { margin: 0 0 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel2); font-weight: 400; font-size: .95rem; }

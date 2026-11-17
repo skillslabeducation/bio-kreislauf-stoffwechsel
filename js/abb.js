@@ -213,7 +213,7 @@
         // Fisch mit Kiemen, Wasserstrom durch das Maul hinein, hinter dem Kiemendeckel hinaus
         '<path class="abb-tier" d="M30 92 C46 64 96 58 128 80 L158 62 L152 92 L158 122 L128 104 C96 126 46 120 30 92 Z"/>' +
         '<circle cx="44" cy="86" r="3" fill="var(--text)"/>' +
-        '<path class="abb-kiemen" d="M66 74 L70 110 M72 72 L76 112 M78 72 L82 112"/>' +
+        '<path class="abb-kiemen" d="M64 76 L66 108 M68 74 L70 110 M72 74 L74 110"/>' +
         '<path class="abb-kiemendeckel" d="M62 70 C82 80 82 104 62 114"/>' +
         '<line class="abb-wasser" x1="6" y1="96" x2="28" y2="94" marker-end="url(#' + id + '-p)"/>' +
         '<line class="abb-wasser" x1="88" y1="114" x2="100" y2="134" marker-end="url(#' + id + '-p)"/>' +

@@ -13,6 +13,9 @@
   var TABS = [['aufnahme', 'Aufnahme'], ['verstehen', 'Verstehen'], ['ueben', 'Üben'], ['erklaeren', 'Erklären'], ['abschluss', 'Abschluss']];
   var WOCHENTAG = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
 
+  /** Frage ohne Material-Block, für Listen. */
+  function kurz(frage) { return String(frage).replace(/<p class="material">[\s\S]*?<\/p>/, ''); }
+
   function faelle() { return (W.faelle || []).slice().sort(function (a, b) { return a.box - b.box; }); }
   function fallNachId(id) { return faelle().filter(function (f) { return f.id === id; })[0]; }
   function fallNachBox(n) { return faelle().filter(function (f) { return f.box === n; })[0]; }
@@ -251,7 +254,7 @@
           var p = r ? Math.round(100 * r.best) : null;
           return h('li', null, h('button', { type: 'button', class: 'erkl-zeile', onclick: function () { oeffnen(e); } },
             h('span', { class: 'mono erkl-zeile__nr' }, String(i + 1)),
-            h('span', { class: 'erkl-zeile__frage', html: e.frage }),
+            h('span', { class: 'erkl-zeile__frage', html: kurz(e.frage) }),
             e.plus ? h('span', { class: 'tag tag--plus' }, 'Plus') : null,
             h('span', { class: 'mono erkl-zeile__p ' + (p == null ? '' : p >= 60 ? 'gut' : 'schwach') }, p == null ? 'offen' : p + ' %')));
         })),
@@ -337,7 +340,7 @@
             var e2 = h('div');
             seite.appendChild(e2);
             W.erklaeren.render(e2, x.erkl, { onFertig: function () { W.app.zeige(); } });
-          } }, h('span', { class: 'erkl-zeile__frage', html: x.erkl.frage }), h('span', { class: 'mono erkl-zeile__p schwach' }, Math.round(100 * ((W.state.data.erkl[x.erkl.id] || {}).prozent || 0)) + ' %')));
+          } }, h('span', { class: 'erkl-zeile__frage', html: kurz(x.erkl.frage) }), h('span', { class: 'mono erkl-zeile__p schwach' }, Math.round(100 * ((W.state.data.erkl[x.erkl.id] || {}).prozent || 0)) + ' %')));
         })),
         h('p', { class: 'hinweis-klein' }, 'Erledigt, sobald du sie einmal mit mindestens 80 % neu bearbeitet hast.')) : null));
   }
